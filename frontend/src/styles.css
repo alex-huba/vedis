@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: nunito-regular;
+  src: url(assets/fonts/Nunito.ttf) format('trueType');
+}
+
+@font-face {
+  font-family: montserrat-medium;
+  src: url(assets/fonts/Montserrat-Medium.ttf) format(trueType);
+}
+
+@font-face {
+  font-family: montserrat-bold;
+  src: url(assets/fonts/Montserrat-Bold.ttf) format(trueType);
+}
+
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: nunito-regular;
+}
+
+
+:root {
+  --dark-blue: #000d83;
+  --light-blue: #f1f8ff;
+}
