@@ -1,1 +1,756 @@
-<p>landing works!</p>
+<!-- Hero section -->
+<section class="section-wrapper">
+  <div id="hero-card">
+    <div class="d-lg-block" id="hero-text">
+      <h2>Освіта без кордонів</h2>
+      <h2>Кожен день - шанс здивувати себе</h2>
+
+      <div id="hero-pros">
+        <p>
+          <i class="bi bi-check2"></i>
+          Онлайн заняття
+        </p>
+        <p>
+          <i class="bi bi-check2"></i>
+          Сертифікований викладач
+        </p>
+        <p>
+          <i class="bi bi-check2"></i>
+          Індивідуальний підхід
+        </p>
+        <p>
+          <i class="bi bi-check2"></i>
+          Підготовка до екзаменів
+        </p>
+      </div>
+      <div id="hero-btns">
+        <button (click)="scrollToSection()" class="cta" type="button">
+          Розпочати
+        </button>
+        <button
+          id="check-lvl-btn"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#testModal"
+        >
+          <span>Визначити рівень</span>
+          <i class="bi bi-arrow-right-short"></i>
+        </button>
+      </div>
+    </div>
+    <div id="hero-img">
+      <img
+        src="../../../assets/landing/showcase.png"
+        alt="Teenagers in library"
+      />
+    </div>
+  </div>
+</section>
+
+<!-- Carousel section -->
+<section id="carousel-wrapper">
+  <button #prevBtnCarousel (click)="prevSlide()" id="control-prev">
+    <fa-icon [icon]="leftIconCarousel"></fa-icon>
+  </button>
+  <swiper-container #swiper class="mySwiper" init="false">
+    <swiper-slide>
+      <img src="../../../assets/navigation/uk.png" alt="UK flag" />
+      <h3>Англійські сертифікати</h3>
+      <ul class="mt-3">
+        <li>IELTS</li>
+        <li>CAE / C1 Advanced exam</li>
+        <li>FCE / B2 First exam</li>
+        <li>PET / B1 Preliminary</li>
+        <li>KET / A2 Key</li>
+      </ul>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../../../assets/navigation/de.png" alt="German flag" />
+      <h3>Німецькі сертифікати</h3>
+      <ul class="mt-3">
+        <li>Goethe-Zertifikat</li>
+        <li>TELC Deutsch</li>
+        <li>TestDAF</li>
+      </ul>
+    </swiper-slide>
+    <swiper-slide>
+      <img src="../../../assets/landing/hand_emoji.png" alt="Hand emoji" />
+      <h3>НМТ</h3>
+      <ul class="mt-3">
+        <li>Англійська мова</li>
+        <li>Німецька мова</li>
+      </ul>
+    </swiper-slide>
+    <swiper-slide>
+      <span>new</span>
+      <img src="../../../assets/landing/book_emoji.png" alt="Book emoji" />
+      <h3>Загальна підготовка</h3>
+      <ul class="mt-3">
+        <li>Письмо</li>
+        <li>Лексика</li>
+        <li>Граматика</li>
+        <li>Говоріння</li>
+      </ul>
+    </swiper-slide>
+    <swiper-slide>
+      <span>new</span>
+      <img src="../../../assets/landing/speech_emoji.png" alt="Speech emoji" />
+      <h3>Розмовна практика</h3>
+      <ul class="mt-3">
+        <li>Подолання мовного бар'єру</li>
+        <li>Корегування вимови</li>
+        <li>Розвиток практичних навичок</li>
+        <li>Варіативні комунікатині ситуації</li>
+      </ul>
+    </swiper-slide>
+    <swiper-slide>
+      <span>new</span>
+      <img
+        src="../../../assets/landing/airplane_emoji.png"
+        alt="Airplane emoji"
+      />
+      <h3>Англійська для подорожей</h3>
+      <ul class="mt-3">
+        <li>Отримання візи</li>
+        <li>Розмова на кордоні</li>
+        <li>Заселення в готель</li>
+        <li>Замовлення в ресторані</li>
+      </ul>
+    </swiper-slide>
+  </swiper-container>
+  <button #nextBtnCarousel (click)="nextSlide()" id="control-next">
+    <fa-icon [icon]="rightIconCarousel"></fa-icon>
+  </button>
+</section>
+
+<!-- About school section -->
+<section class="section-wrapper">
+  <div id="about-card">
+    <div id="about-text">
+      <img
+        id="about-lines"
+        src="../../../assets/landing/vector-lines.png"
+        alt="Background lines"
+      />
+      <img
+        id="about-star"
+        class="about-background-img"
+        src="../../../assets/landing/star.png"
+        alt="Star image"
+      />
+      <img
+        id="about-laptop"
+        class="about-background-img"
+        src="../../../assets/landing/laptop.png"
+        alt="Laptop image"
+      />
+      <img
+        id="about-languages"
+        class="about-background-img d-none d-md-inline"
+        src="../../../assets/landing/languages.png"
+        alt="Languages bubbles image"
+      />
+      <h3 class="sub-heading">Про школу Vedis</h3>
+      <div id="about-pros">
+        <div>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Підвищуємо успішність в зручному для Вас форматі.
+          </p>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Власний словник та 500+ вправ.
+          </p>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Допоможемо підготуватися до міжнародних екзаменів.
+          </p>
+        </div>
+        <div>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Персоналізований навчальний план з урахуванням Ваших цілей.
+          </p>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Надамо всі необхідні матеріали для навчання.
+          </p>
+          <p class="about-paragraph">
+            <i class="bi bi-stars"></i>
+            Допоможемо побороти мовний бар'єр та почати говорити впевненно.
+          </p>
+        </div>
+      </div>
+    </div>
+    <img
+      id="about-img"
+      src="../../../assets/landing/about-vedis.png"
+      alt="Girl with headphones"
+    />
+  </div>
+</section>
+
+<!-- About teacher section -->
+<section class="section-wrapper">
+  <div id="teacher-card">
+    <div id="teacher-content">
+      <h3 class="sub-heading text-center">Про викладача</h3>
+      <img
+        id="teacher-img"
+        src="../../../assets/landing/teacher.png"
+        alt="Teacher emoji"
+      />
+    </div>
+    <div id="teacher-text">
+      <p>Привіт всім👋</p>
+      <br />
+      <p>
+        Я сертифікований викладач німецької та англійської мови з CELTA дипломом
+        та 5-річним досвідом викладання.
+      </p>
+      <p>
+        У свій час склала іспити IELTS та TestDAF, а також отримала європейський
+        диплом магістра з англістики та працювала у Баварії, тому знаю, як тяжко
+        буває у досягненні високих результатів 🏆
+      </p>
+      <br />
+      <p>
+        Моя мета - зробити процес вивчення мови цікавим та захоплюючим для
+        кожного 🎯
+      </p>
+      <p>
+        Я з радістю допомагаю моїм студентам вивчати мови з нуля в дружній та
+        підтримуючій атмосфері. Тож, якщо ти готовий до пригод у світі мов -
+        давай розпочнемо цю захоплюючу подорож разом! 🚀
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Language test section -->
+<section class="section-wrapper">
+  <div id="lang-wrapper">
+    <h3 class="sub-heading text-center">
+      Визначте свій рівень володіння мовою
+    </h3>
+    <div id="lang-card">
+      <img
+        id="lang-img"
+        src="../../../assets/landing/language-levels.png"
+        alt="Language levels"
+      />
+      <div id="lang-text">
+        <p id="lang-paragraph">
+          Перевірте, який рівень сертифікату вам необхідний для досягнення вашої
+          мрії! Та спершу пройдіть тест, щоб визначити ваш поточний рівень мови
+          та перевірити, на якому кроці ви знаходитесь у досягненні своєї мети!
+        </p>
+        <button class="cta" type="button">Пройти тест</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- School pros section -->
+<section class="section-wrapper">
+  <div id="pros-card">
+    <h3 class="sub-heading">Чому Вам варто обрати Vedis?</h3>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+      <!-- Card 1 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/woman-technologist.png"
+            class="mx-auto"
+            alt="woman-technologist emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Індивідуальні заняття</h4>
+            <p class="card-text">
+              Ми розуміємо, що кожен учень унікальний. Наші програми навчання
+              адаптуються під потреби та швидкість кожного учня.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/gift.png"
+            class="mx-auto"
+            alt="gift emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Навчальні матеріали</h4>
+            <p class="card-text">
+              Вам непотрібно витрачати час та гроші на пошук навчальних
+              матеріалів. Школа Vedis надасть Вам всі необхідні матеріали під
+              час навчання безкоштовно.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/book_emoji.png"
+            class="mx-auto"
+            alt="book emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Онлайн словник</h4>
+            <p class="card-text">
+              На нашій платформі ви отримаєте доступ до персонального словника.
+              Завдяки цьому інструменту Ви зможете ще швидше вивчити іноземну
+              мову.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/hand_emoji.png"
+            class="mx-auto"
+            alt="hand emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Підготовка до екзаменів</h4>
+            <p class="card-text">
+              Ми розробили програми, які за максимально короткий проміжок часу
+              якісно підготують Вас до типових завдань.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/speech_emoji.png"
+            class="mx-auto"
+            alt="speech emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Ви швидко заговорите</h4>
+            <p class="card-text">
+              На заняттях Ви будете багато говорити, що допоможе Вам зламати
+              мовний бар’єр та почати говорити впевненно.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="col">
+        <div class="pro-card card p-2">
+          <img
+            src="../../../assets/landing/rocket.png"
+            class="mx-auto"
+            alt="rocket emoji"
+          />
+          <div class="card-body">
+            <h4 class="card-title">Креативна подача</h4>
+            <p class="card-text">
+              Ми створюємо заняття на основі сучасних методик європейського
+              стандарту, що робить заняття більш цікавими.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ section -->
+<section class="section-wrapper">
+  <div id="faq-card">
+    <h3 class="sub-heading">Часті запитання й відповіді</h3>
+    <button class="accordion">
+      Де проводяться заняття?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>Уроки проводяться в зумі. За потреби іноді можуть бути в скайпі.</p>
+    </div>
+
+    <button class="accordion mt-3">
+      Чи можливе перенесення уроків та їх відпрацювання?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>
+        Так, здебільшого можливість відпрацювати урок є або в суботу, або о 21
+        годині в будні дні.
+      </p>
+    </div>
+
+    <button class="accordion mt-3">
+      Чи має оплата здійснюватися після кожного заняття?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>Оплачувати заняття можна у 3 способи:</p>
+      <p>після кожного уроку</p>
+      <p>за кожний тиждень</p>
+      <p>за 10 занять вперед</p>
+    </div>
+
+    <button class="accordion mt-3">
+      Якою мовою проводяться уроки?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>
+        Заняття проводять виключно англійською/німецькою та українською за
+        потреби пояснення чи перекладу.
+      </p>
+    </div>
+
+    <button class="accordion mt-3">
+      За скільки можливо скасувати заняття?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>
+        Заняття мусить бути скасоване не пізніше ніж за 2 години до його
+        початку.
+      </p>
+    </div>
+
+    <button class="accordion mt-3">
+      Чи проводяться заняття під час свят?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>Так, крім Різдва, Нового року та Великодня.</p>
+    </div>
+
+    <button class="accordion mt-3">
+      Чи потрібно купувати якісь підручники?
+      <i class="bi bi-caret-right-fill"></i>
+    </button>
+    <div class="faq-panel">
+      <p>Ні, усі матеріали будуть надані під час занять.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Contact section -->
+<section class="section-wrapper">
+  <div id="contact-form-section">
+    <div id="contact-card">
+      <div id="contact-background">
+        <div id="contact-heading">
+          <h3 class="contact-heading">Відкрийте двері в майбутнє:</h3>
+          <h3 class="contact-heading">Ваш шлях до C1 починається тут!</h3>
+        </div>
+
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+          <!-- Name control -->
+          <fieldset class="input-group has-validation">
+            <div
+              [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+              class="form-floating"
+            >
+              <input
+                [class.is-invalid]="
+                  contactForm.get('name')?.invalid &&
+                  (contactForm.get('name').dirty ||
+                    contactForm.get('name').touched)
+                "
+                formControlName="name"
+                type="text"
+                class="form-control"
+                placeholder="Ім'я учня*"
+              />
+              <label>Ім'я*</label>
+            </div>
+            <div class="invalid-feedback">
+              <span class="error-span" *ngIf="name.hasError('required')">
+                Це поле є обов'язковим
+              </span>
+              <span class="error-span" *ngIf="name.hasError('pattern')">
+                Дозволені лише букви
+              </span>
+            </div>
+          </fieldset>
+
+          <!-- Email control -->
+          <fieldset class="input-group has-validation">
+            <div
+              [class.is-invalid]="
+                email.invalid && (email.dirty || email.touched)
+              "
+              class="form-floating"
+            >
+              <input
+                [class.is-invalid]="
+                  email.invalid && (email.dirty || email.touched)
+                "
+                formControlName="email"
+                type="text"
+                class="form-control"
+                id="emailControl"
+                placeholder="Пошта*"
+              />
+              <label for="emailControl">Пошта*</label>
+            </div>
+            <div class="invalid-feedback">
+              <div *ngIf="email.hasError('required')">
+                <span class="error-span"> Це поле є обов'язковим</span>
+              </div>
+              <div *ngIf="email.hasError('email')">
+                <span class="error-span">Електронна адреса недійсна</span>
+              </div>
+              <div *ngIf="email.hasError('minlength')">
+                <span class="error-span"
+                  >Електронна адреса занадто коротка</span
+                >
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Language control -->
+          <fieldset class="">
+            <select
+              formControlName="language"
+              [class.is-invalid]="
+                language.value == 'default' &&
+                (language.dirty || language.touched)
+              "
+              class="form-select"
+            >
+              <option selected disabled value="default">Оберіть курс*</option>
+              <option value="EN">Англійська</option>
+              <option value="DE">Німецька</option>
+              <option value="EN & DE">Англійська та німецька</option>
+            </select>
+            <div id="validationServer04Feedback" class="invalid-feedback">
+              <span
+                class="error-span"
+                *ngIf="
+                  language.value == 'default' &&
+                  (language.dirty || language.touched)
+                "
+                >Це поле є обов'язковим</span
+              >
+            </div>
+          </fieldset>
+
+          <!-- Phone control -->
+          <fieldset class="input-group has-validation">
+            <div
+              [class.is-invalid]="
+                phone.invalid && (phone.dirty || phone.touched)
+              "
+              class="form-floating"
+            >
+              <ngx-intl-tel-input
+                [class.is-invalid]="
+                  phone.invalid && (phone.dirty || phone.touched)
+                "
+                [cssClass]="'form-control'"
+                [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true"
+                [customPlaceholder]="'Номер телефону*'"
+                [searchCountryFlag]="false"
+                [selectFirstCountry]="true"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                name="phone1"
+                formControlName="phone"
+              >
+              </ngx-intl-tel-input>
+            </div>
+            <div class="invalid-feedback">
+              <div *ngIf="phone.hasError('required') && phone.touched">
+                <span class="error-span">Це поле є обов'язковим </span>
+              </div>
+              <div *ngIf="phone.hasError('validatePhoneNumber')">
+                <span class="error-span">Номер телефону недійсний</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Contact option -->
+          <fieldset class="">
+            <select
+              formControlName="contactOption"
+              [class.is-invalid]="
+                contactOption.value == 'default' &&
+                (contactOption.dirty || contactOption.touched)
+              "
+              class="form-select"
+            >
+              <option selected disabled value="default">
+                Як з Вами зв'язатися?*
+              </option>
+              <option value="telegram">Telegram</option>
+              <option value="viber">Viber</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="email">Електронна пошта</option>
+            </select>
+            <div id="validationServer05Feedback" class="invalid-feedback">
+              <span
+                class="error-span"
+                *ngIf="
+                  contactOption.value == 'default' &&
+                  (contactOption.dirty || contactOption.touched)
+                "
+                >Це поле є обов'язковим</span
+              >
+            </div>
+          </fieldset>
+
+          <div class="w-100 d-flex justify-content-center">
+            <button type="submit" id="submit-btn">
+              Залишити заявку
+              <i class="bi bi-arrow-up-short"></i>
+            </button>
+          </div>
+        </form>
+
+        <img
+          id="contact-img"
+          src="../../../assets/landing/contact-img.png"
+          alt="Woman at the desk"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Blog section -->
+<section class="section-wrapper">
+  <div id="blog-wrapper">
+    <div id="blog-card">
+      <div id="blog-content">
+        <img
+          id="blog-background-img"
+          src="../../../assets/landing/blog-img.png"
+          alt="Tablet with opened school blog"
+        />
+
+        <a
+          id="blog-link"
+          href="https://www.instagram.com/deutschperfektlernen/"
+          target="_blank"
+        >
+          Підписуйся на наш блог
+          <fa-icon class="ml-1" [icon]="blogArrow"></fa-icon>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Socials section -->
+<div id="hotline-wrapper">
+  <div id="socials-card">
+    <h3 class="sub-heading">Зв'яжіться з нами</h3>
+    <div id="socials-content">
+      <img
+        class="socials-background-img"
+        src="../../../assets/landing/girl-hotline.png"
+        alt="Smiling girl"
+      />
+
+      <div class="d-flex flex-column gap-5 py-3">
+        <div class="contact">
+          <img class="contact-badge" src="../../../assets/landing/msg.png" />
+
+          <h4>Соціальні мережі</h4>
+
+          <div class="socials-icons">
+            <a
+              class="social-links"
+              target="_blank"
+              href="https://www.instagram.com/deutschperfektlernen/"
+            >
+              <fa-icon [icon]="instagram"></fa-icon>
+            </a>
+            <a class="social-links" target="_blank" href="#">
+              <fa-icon [icon]="telegram"></fa-icon>
+            </a>
+            <a class="social-links" target="_blank" href="#">
+              <fa-icon [icon]="viber"></fa-icon>
+            </a>
+            <a class="social-links" target="_blank" href="#">
+              <fa-icon [icon]="whatsapp"></fa-icon>
+            </a>
+          </div>
+        </div>
+
+        <div class="contact">
+          <img class="contact-badge" src="../../../assets/landing/email.png" />
+          <h4>Пошта</h4>
+          <div class="icons">
+            <a class="social-links" href="mailto:support@vedis.com.ua"
+              >support&#64;vedis.com.ua</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <img
+        class="socials-background-img"
+        src="../../../assets/landing/guy-hotline.png"
+        alt="Smiling guy"
+      />
+    </div>
+  </div>
+  <button id="scroll-up" (click)="scrollToTop()" type="button">
+    <i class="bi bi-caret-up-square-fill"></i>
+  </button>
+</div>
+
+<!-- Modal for language test -->
+<div class="modal fade" id="testModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content" style="position: relative">
+      <button
+        type="button"
+        class="btn-close border border-secondary"
+        data-bs-dismiss="modal"
+        style="position: absolute; top: 5px; right: 5px"
+      ></button>
+      <div class="modal-body mt-4">
+        <h4 class="text-center mb-3">Для якої мови Ви хочете пройти тест?</h4>
+        <div id="modal-content">
+          <a
+            routerLink="english-test"
+            data-bs-dismiss="modal"
+            class="modal-choice"
+            type="button"
+          >
+            <p>Англійська мова</p>
+            <img src="../../../assets/navigation/uk.png" alt="UK flag" />
+          </a>
+          <a
+            routerLink="german-test"
+            data-bs-dismiss="modal"
+            class="modal-choice"
+            type="button"
+          >
+            <p>Німецька мова</p>
+            <img src="../../../assets/navigation/de.png" alt="German flag" />
+          </a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Обрати пізніше
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+section{
+  height: 80vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border: 3px solid rgb(255, 4, 4);
+}
+
+form {
+  /* border: 3px solid red; */
+  width: 50%;
+}

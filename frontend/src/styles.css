@@ -25,3 +25,26 @@
   --dark-blue: #000d83;
   --light-blue: #f1f8ff;
 }
+
+.cta {
+  border-radius: 7px;
+  font-family: montserrat-bold;
+  font-size: 20px;
+  transition: 0.5s ease;
+  background-color: var(--dark-blue);
+  color: #fff;
+  padding: 13px;
+  text-decoration: none;
+}
+
+.cta:hover {
+  background-color: #3540A9;
+}
+
+.iti {
+  width: 100%;
+}
+
+.iti .dropdown-menu.country-dropdown {
+  font-size: 15px
+}

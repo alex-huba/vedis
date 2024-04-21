@@ -1,0 +1,1221 @@
+<div id="wrapper">
+  <h3>Тест на визначення рівня німецької</h3>
+  <div id="test-heading">
+    <div id="text">
+      <p>
+        📝 Хочете дізнатися свій рівень володіння німецькою мовою та почати
+        ефективно вдосконалювати свої навички?
+      </p>
+      <p>
+        🚀 Незалежно від того, чи ви початківець або вже досвідчений учень, наш
+        тест надасть вам чітку картину вашого поточного рівня мовленнєвої
+        компетенції.
+      </p>
+      <p>
+        🎯 Готові визначити свій рівень та розпочати захоплюючу подорож до
+        майстерності в німецькій мові? Пройдіть тест вже зараз та почніть свій
+        шлях до успіху разом з нами!
+      </p>
+      <div id="cards">
+        <div class="test-card">
+          <div class="icon"><i class="bi bi-watch"></i></div>
+          <p>
+            Тривалість тесту: <br />
+            <b>15 хвилин</b>
+          </p>
+        </div>
+        <div class="test-card">
+          <div class="icon"><i class="bi bi-check2-circle"></i></div>
+          <p>
+            Всього питань: <br />
+            <b>30</b>
+          </p>
+        </div>
+        <div class="test-card">
+          <div class="icon"><i class="bi bi-cash-coin"></i></div>
+          <p>
+            Вартість: <br />
+            <b>0 грн.</b>
+          </p>
+        </div>
+      </div>
+    </div>
+    <img
+      id="hero-img"
+      src="../../../assets/language-test/test-hero.png"
+      alt="Panda studies"
+    />
+  </div>
+  <div id="test">
+    <form [formGroup]="questions" (ngSubmit)="onSubmit()">
+      <ol>
+        <li class="mb-3">
+          <p class="m-0"><b>Peter _____ (gehen) jeden Tag zur Arbeit.</b></p>
+          <div>
+            <input
+              formControlName="q1"
+              id="q1a"
+              value="a"
+              name="q1"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q1a">geht</label>
+          </div>
+          <div>
+            <input
+              formControlName="q1"
+              id="q1b"
+              value="b"
+              name="q1"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q1b">ginge</label>
+          </div>
+          <div>
+            <input
+              formControlName="q1"
+              id="q1c"
+              value="c"
+              name="q1"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q1c">gegangen</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0"><b>Ich _____ (lernen) Deutsch seit zwei Jahren.</b></p>
+          <div>
+            <input
+              formControlName="q2"
+              id="q2a"
+              value="a"
+              name="q2"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q2a">lernte</label>
+          </div>
+          <div>
+            <input
+              formControlName="q2"
+              id="q2b"
+              value="b"
+              name="q2"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q2b">lernte</label>
+          </div>
+          <div>
+            <input
+              formControlName="q2"
+              id="q2c"
+              value="c"
+              name="q2"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q2c">habe gelernt</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Wir _____ (mögen) gerne Pizza.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q3"
+              id="q3a"
+              value="a"
+              name="q3"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q3a">mögen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q3"
+              id="q3b"
+              value="b"
+              name="q3"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q3b">möchten</label>
+          </div>
+          <div>
+            <input
+              formControlName="q3"
+              id="q3c"
+              value="c"
+              name="q3"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q3c">mochten</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0"><b>Lisa _____ (sprechen) fließend Englisch.</b></p>
+          <div>
+            <input
+              formControlName="q4"
+              id="q4a"
+              value="a"
+              name="q4"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q4a">sprechen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q4"
+              id="q4b"
+              value="b"
+              name="q4"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q4b">sprach</label>
+          </div>
+          <div>
+            <input
+              formControlName="q4"
+              id="q4c"
+              value="c"
+              name="q4"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q4c">spricht</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Wir gehen _____ dem Park spazieren.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q5"
+              id="q5a"
+              value="a"
+              name="q5"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q5a">durch</label>
+          </div>
+          <div>
+            <input
+              formControlName="q5"
+              id="q5b"
+              value="b"
+              name="q5"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q5b">hinter</label>
+          </div>
+          <div>
+            <input
+              formControlName="q5"
+              id="q5c"
+              value="c"
+              name="q5"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q5c">entlang</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was ist das Gegenteil von "kalt"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q6"
+              id="q6a"
+              value="a"
+              name="q6"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q6a">warm</label>
+          </div>
+          <div>
+            <input
+              formControlName="q6"
+              id="q6b"
+              value="b"
+              name="q6"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q6b">neblig</label>
+          </div>
+          <div>
+            <input
+              formControlName="q6"
+              id="q6c"
+              value="c"
+              name="q6"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q6c">kühl</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet die Redewendung "Daumen drücken"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q7"
+              id="q7a"
+              value="a"
+              name="q7"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q7a">winken</label>
+          </div>
+          <div>
+            <input
+              formControlName="q7"
+              id="q7b"
+              value="b"
+              name="q7"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q7b">Glück wünschen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q7"
+              id="q7c"
+              value="c"
+              name="q7"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q7c">weinen</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>"Die Katze aus dem Sack lassen" bedeutet _____.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q8"
+              id="q8a"
+              value="a"
+              name="q8"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q8a">eine Katze kaufen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q8"
+              id="q8b"
+              value="b"
+              name="q8"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q8b">ein Geheimnis verraten</label>
+          </div>
+          <div>
+            <input
+              formControlName="q8"
+              id="q8c"
+              value="c"
+              name="q8"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q8c">eine Katze füttern</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "Alles in Butter"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q9"
+              id="q9a"
+              value="a"
+              name="q9"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q9a">alles ist gut</label>
+          </div>
+          <div>
+            <input
+              formControlName="q9"
+              id="q9b"
+              value="b"
+              name="q9"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q9b">alles ist schlecht</label>
+          </div>
+          <div>
+            <input
+              formControlName="q9"
+              id="q9c"
+              value="c"
+              name="q9"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q9c">alles ist teuer</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Er _____ (singen) ein Lied, als ich ihn traf.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q10"
+              id="q10a"
+              value="a"
+              name="q10"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q10a">singen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q10"
+              id="q10b"
+              value="b"
+              name="q10"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q10b">hat gesungen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q10"
+              id="q10c"
+              value="c"
+              name="q10"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q10c">sang</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Ich wünschte, ich _____ (wissen) das schon früher.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q11"
+              id="q11a"
+              value="a"
+              name="q11"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q11a">wusste</label>
+          </div>
+          <div>
+            <input
+              formControlName="q11"
+              id="q11b"
+              value="b"
+              name="q11"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q11b">gewusst</label>
+          </div>
+          <div>
+            <input
+              formControlName="q11"
+              id="q11c"
+              value="c"
+              name="q11"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q11c">weiß</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b
+              >Sie sind schon seit Stunden nicht hier. Sie _____ (sich
+              verlaufen).</b
+            >
+          </p>
+          <div>
+            <input
+              formControlName="q12"
+              id="q12a"
+              value="a"
+              name="q12"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q12a">haben sich verlaufen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q12"
+              id="q12b"
+              value="b"
+              name="q12"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q12b">verlaufen sich</label>
+          </div>
+          <div>
+            <input
+              formControlName="q12"
+              id="q12c"
+              value="c"
+              name="q12"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q12c">verliefen sich</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0"><b>Der Kaffee ist noch heiß. Pass ___!</b></p>
+          <div>
+            <input
+              formControlName="q13"
+              id="q13a"
+              value="a"
+              name="q13"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q13a">auf</label>
+          </div>
+          <div>
+            <input
+              formControlName="q13"
+              id="q13b"
+              value="b"
+              name="q13"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q13b">in</label>
+          </div>
+          <div>
+            <input
+              formControlName="q13"
+              id="q13c"
+              value="c"
+              name="q13"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q13c">vor</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Die Katze _____ (trinken) die ganze Schale Milch.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q14"
+              id="q14a"
+              value="a"
+              name="q14"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q14a">trinkt</label>
+          </div>
+          <div>
+            <input
+              formControlName="q14"
+              id="q14b"
+              value="b"
+              name="q14"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q14b">trinkte</label>
+          </div>
+          <div>
+            <input
+              formControlName="q14"
+              id="q14c"
+              value="c"
+              name="q14"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q14c">getrunken</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "die Aussicht"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q15"
+              id="q15a"
+              value="a"
+              name="q15"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q15a">der Blick</label>
+          </div>
+          <div>
+            <input
+              formControlName="q15"
+              id="q15b"
+              value="b"
+              name="q15"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q15b">der Ausblick</label>
+          </div>
+          <div>
+            <input
+              formControlName="q15"
+              id="q15c"
+              value="c"
+              name="q15"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q15c">die Perspektive</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet die Redewendung "jemandem auf den Zahn fühlen"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q16"
+              id="q16a"
+              value="a"
+              name="q16"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q16a">jemanden fragen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q16"
+              id="q16b"
+              value="b"
+              name="q16"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q16b">jemanden befragen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q16"
+              id="q16c"
+              value="c"
+              name="q16"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q16c">jemanden genau untersuchen</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "die Nase voll haben"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q17"
+              id="q17a"
+              value="a"
+              name="q17"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q17a">satt sein</label>
+          </div>
+          <div>
+            <input
+              formControlName="q17"
+              id="q17b"
+              value="b"
+              name="q17"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q17b">genug haben</label>
+          </div>
+          <div>
+            <input
+              formControlName="q17"
+              id="q17c"
+              value="c"
+              name="q17"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q17c">zufrieden sein</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "ins Schwarze treffen"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q18"
+              id="q18a"
+              value="a"
+              name="q18"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q18a">das Ziel treffen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q18"
+              id="q18b"
+              value="b"
+              name="q18"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q18b">das Ziel verfehlen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q18"
+              id="q18c"
+              value="c"
+              name="q18"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q18c">das Ziel erraten</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet das Wort "pleite"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q19"
+              id="q19a"
+              value="a"
+              name="q19"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q19a">reich</label>
+          </div>
+          <div>
+            <input
+              formControlName="q19"
+              id="q19b"
+              value="b"
+              name="q19"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q19b">arbeitslos</label>
+          </div>
+          <div>
+            <input
+              formControlName="q19"
+              id="q19c"
+              value="c"
+              name="q19"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q19c">bankrott</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Wie kann man das Wort "deftig" am besten beschreiben?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q20"
+              id="q20a"
+              value="a"
+              name="q20"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q20a">leise</label>
+          </div>
+          <div>
+            <input
+              formControlName="q20"
+              id="q20b"
+              value="b"
+              name="q20"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q20b">reichhaltig und würzig</label>
+          </div>
+          <div>
+            <input
+              formControlName="q20"
+              id="q20c"
+              value="c"
+              name="q20"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q20c">klein und zart</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "putzig"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q21"
+              id="q21a"
+              value="a"
+              name="q21"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q21a">unattraktiv</label>
+          </div>
+          <div>
+            <input
+              formControlName="q21"
+              id="q21b"
+              value="b"
+              name="q21"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q21b">niedlich oder süß</label>
+          </div>
+          <div>
+            <input
+              formControlName="q21"
+              id="q21c"
+              value="c"
+              name="q21"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q21c">groß und klobig</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "trutzig"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q22"
+              id="q22a"
+              value="a"
+              name="q22"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q22a">trotzig oder ungehorsam</label>
+          </div>
+          <div>
+            <input
+              formControlName="q22"
+              id="q22b"
+              value="b"
+              name="q22"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q22b">freundlich und offen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q22"
+              id="q22c"
+              value="c"
+              name="q22"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q22c">stark und widerstandsfähig</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Wie lautet die passive Form von "man muss das Buch lesen"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q23"
+              id="q23a"
+              value="a"
+              name="q23"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q23a">Das Buch muss gelesen werden.</label>
+          </div>
+          <div>
+            <input
+              formControlName="q23"
+              id="q23b"
+              value="b"
+              name="q23"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q23b">Das Buch liest sich.</label>
+          </div>
+          <div>
+            <input
+              formControlName="q23"
+              id="q23c"
+              value="c"
+              name="q23"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q23c">Das Buch wurde gelesen.</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b
+              >Wie bildet man das passive Partizip II von "man sollte das
+              Fenster schließen"?</b
+            >
+          </p>
+          <div>
+            <input
+              formControlName="q24"
+              id="q24a"
+              value="a"
+              name="q24"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q24a">das Fenster ist geschlossen worden</label>
+          </div>
+          <div>
+            <input
+              formControlName="q24"
+              id="q24b"
+              value="b"
+              name="q24"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q24b">das Fenster soll geschlossen werden</label>
+          </div>
+          <div>
+            <input
+              formControlName="q24"
+              id="q24c"
+              value="c"
+              name="q24"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q24c">das Fenster sollte geschlossen werden</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Das Problem sollte _____ sofort gelöst werden.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q25"
+              id="q25a"
+              value="a"
+              name="q25"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q25a">durch uns</label>
+          </div>
+          <div>
+            <input
+              formControlName="q25"
+              id="q25b"
+              value="b"
+              name="q25"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q25b">von uns</label>
+          </div>
+          <div>
+            <input
+              formControlName="q25"
+              id="q25c"
+              value="c"
+              name="q25"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q25c">für uns</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Wir haben weder Zeit _____ Lust, uns darum zu kümmern.</b>
+          </p>
+          <div>
+            <input
+              formControlName="q26"
+              id="q26a"
+              value="a"
+              name="q26"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q26a">als auch</label>
+          </div>
+          <div>
+            <input
+              formControlName="q26"
+              id="q26b"
+              value="b"
+              name="q26"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q26b">oder</label>
+          </div>
+          <div>
+            <input
+              formControlName="q26"
+              id="q26c"
+              value="c"
+              name="q26"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q26c">noch</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0"><b>Sie freut sich _____ das Geschenk.</b></p>
+          <div>
+            <input
+              formControlName="q27"
+              id="q27a"
+              value="a"
+              name="q27"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q27a">an</label>
+          </div>
+          <div>
+            <input
+              formControlName="q27"
+              id="q27b"
+              value="b"
+              name="q27"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q27b">über</label>
+          </div>
+          <div>
+            <input
+              formControlName="q27"
+              id="q27c"
+              value="c"
+              name="q27"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q27c">für</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0"><b>Rücksicht nehmen ___</b></p>
+          <div>
+            <input
+              formControlName="q28"
+              id="q28a"
+              value="a"
+              name="q28"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q28a">auf</label>
+          </div>
+          <div>
+            <input
+              formControlName="q28"
+              id="q28b"
+              value="b"
+              name="q28"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q28b">mit</label>
+          </div>
+          <div>
+            <input
+              formControlName="q28"
+              id="q28c"
+              value="c"
+              name="q28"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q28c">über</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Welche Wendung bedeutet "jdm./etw. den Vorzug geben"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q29"
+              id="q29a"
+              value="a"
+              name="q29"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q29a">jdn./etw. loben</label>
+          </div>
+          <div>
+            <input
+              formControlName="q29"
+              id="q29b"
+              value="b"
+              name="q29"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q29b">jdn./etw. favorisieren</label>
+          </div>
+          <div>
+            <input
+              formControlName="q29"
+              id="q29c"
+              value="c"
+              name="q29"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q29c">jdn./etw. kritisieren</label>
+          </div>
+        </li>
+
+        <li class="mb-3">
+          <p class="m-0">
+            <b>Was bedeutet "Vorkehrungen treffen"?</b>
+          </p>
+          <div>
+            <input
+              formControlName="q30"
+              id="q30a"
+              value="a"
+              name="q30"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q30a">die Vergangenheit analysieren</label>
+          </div>
+          <div>
+            <input
+              formControlName="q30"
+              id="q30b"
+              value="b"
+              name="q30"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q30b">sich vorbereiten, vorbeugen</label>
+          </div>
+          <div>
+            <input
+              formControlName="q30"
+              id="q30c"
+              value="c"
+              name="q30"
+              type="radio"
+              class="me-2"
+            />
+            <label for="q30c">einen Plan erstellen</label>
+          </div>
+        </li>
+      </ol>
+      <div class="w-100 text-center">
+        <button class="cta" type="submit">Визначити рівень</button>
+      </div>
+    </form>
+  </div>
+</div>

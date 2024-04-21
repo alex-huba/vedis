@@ -1,0 +1,59 @@
+<section id="wrapper">
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <!-- Login control -->
+    <fieldset class="input-group has-validation">
+      <div
+        [class.is-invalid]="login.invalid && (login.dirty || login.touched)"
+        class="form-floating"
+      >
+        <input
+          [class.is-invalid]="login.invalid && (login.dirty || login.touched)"
+          formControlName="login"
+          type="text"
+          class="form-control"
+          placeholder="Логін"
+        />
+        <label>Логін</label>
+      </div>
+      <div class="invalid-feedback">
+        <span class="error-span" *ngIf="login.hasError('required')">
+          Це поле є обов'язковим
+        </span>
+      </div>
+    </fieldset>
+
+    <!-- Email control -->
+    <fieldset class="input-group has-validation">
+      <div
+        [class.is-invalid]="
+          password.invalid && (password.dirty || password.touched)
+        "
+        class="form-floating"
+      >
+        <input
+          [class.is-invalid]="
+            password.invalid && (password.dirty || password.touched)
+          "
+          formControlName="password"
+          type="password"
+          class="form-control"
+          id="emailControl"
+          placeholder="Пароль"
+        />
+        <label for="emailControl">Пароль</label>
+      </div>
+      <div class="invalid-feedback">
+        <div *ngIf="password.hasError('required')">
+          <span class="error-span"> Це поле є обов'язковим</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="w-100 d-flex justify-content-center">
+      <button type="submit" id="submit-btn">
+        Увійти
+        <i class="bi bi-arrow-up-short"></i>
+      </button>
+    </div>
+  </form>
+</section>
