@@ -1,7 +1,12 @@
+:host {
+  width: 100%;
+  padding-top: 20px;
+  background-color: var(--light-blue);
+}
+
 .section-wrapper {
   display: flex;
   justify-content: center;
-  width: 100%;
 }
 
 /* Hero section */
@@ -124,7 +129,7 @@ swiper-slide {
   font-family: nunito-regular;
   font-size: 20px;
   height: 268px;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
   position: relative;
   margin-top: 20px;
   height: 83%;
@@ -278,7 +283,7 @@ swiper-slide h3 {
   padding: 20px;
   max-width: 730px;
   height: min-content;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
 }
 
 /* language-test section */
@@ -330,7 +335,7 @@ swiper-slide h3 {
   border-radius: 20px;
   text-align: center;
   color: #fff;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
 }
 
 .pro-card h4 {
@@ -439,7 +444,7 @@ form {
   padding: 40px;
   border-radius: 20px;
   position: relative;
-  box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow);
   background: linear-gradient(to left, #CFB8FE, #F6BFF7);
 }
 

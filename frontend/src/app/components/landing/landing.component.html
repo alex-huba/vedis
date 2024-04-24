@@ -109,7 +109,7 @@
         src="../../../assets/landing/airplane_emoji.png"
         alt="Airplane emoji"
       />
-      <h3>Англійська для подорожей</h3>
+      <h3 class="text-center">Англійська для подорожей</h3>
       <ul class="mt-3">
         <li>Отримання візи</li>
         <li>Розмова на кордоні</li>
@@ -124,7 +124,7 @@
 </section>
 
 <!-- About school section -->
-<section class="section-wrapper">
+<section style="background-color: #fff" class="section-wrapper py-3">
   <div id="about-card">
     <div id="about-text">
       <img
@@ -191,7 +191,7 @@
 </section>
 
 <!-- About teacher section -->
-<section class="section-wrapper">
+<section class="section-wrapper py-3">
   <div id="teacher-card">
     <div id="teacher-content">
       <h3 class="sub-heading text-center">Про викладача</h3>
@@ -228,7 +228,7 @@
 </section>
 
 <!-- Language test section -->
-<section class="section-wrapper">
+<section style="background-color: #fff" class="section-wrapper py-3">
   <div id="lang-wrapper">
     <h3 class="sub-heading text-center">
       Визначте свій рівень володіння мовою
@@ -245,20 +245,27 @@
           мрії! Та спершу пройдіть тест, щоб визначити ваш поточний рівень мови
           та перевірити, на якому кроці ви знаходитесь у досягненні своєї мети!
         </p>
-        <button class="cta" type="button">Пройти тест</button>
+        <button
+          class="cta"
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#testModal"
+        >
+          Пройти тест
+        </button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- School pros section -->
-<section class="section-wrapper">
+<section class="section-wrapper py-3">
   <div id="pros-card">
     <h3 class="sub-heading">Чому Вам варто обрати Vedis?</h3>
 
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-5">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
       <!-- Card 1 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/woman-technologist.png"
@@ -276,7 +283,7 @@
       </div>
 
       <!-- Card 2 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/gift.png"
@@ -295,7 +302,7 @@
       </div>
 
       <!-- Card 3 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/book_emoji.png"
@@ -314,7 +321,7 @@
       </div>
 
       <!-- Card 4 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/hand_emoji.png"
@@ -332,7 +339,7 @@
       </div>
 
       <!-- Card 5 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/speech_emoji.png"
@@ -350,7 +357,7 @@
       </div>
 
       <!-- Card 6 -->
-      <div class="col">
+      <div class="col mt-3">
         <div class="pro-card card p-2">
           <img
             src="../../../assets/landing/rocket.png"
@@ -371,9 +378,9 @@
 </section>
 
 <!-- FAQ section -->
-<section class="section-wrapper">
+<section style="background-color: #fff" class="section-wrapper py-3">
   <div id="faq-card">
-    <h3 class="sub-heading">Часті запитання й відповіді</h3>
+    <h3 class="sub-heading text-center">Часті запитання й відповіді</h3>
     <button class="accordion">
       Де проводяться заняття?
       <i class="bi bi-caret-right-fill"></i>
@@ -455,7 +462,7 @@
         </div>
 
         <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-          <!-- Name control -->
+          <!-- Name field -->
           <fieldset class="input-group has-validation">
             <div
               [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
@@ -476,15 +483,22 @@
             </div>
             <div class="invalid-feedback">
               <span class="error-span" *ngIf="name.hasError('required')">
-                Це поле є обов'язковим
+                Ім'я обов'язкове
               </span>
-              <span class="error-span" *ngIf="name.hasError('pattern')">
-                Дозволені лише букви
-              </span>
+              <div *ngIf="name.hasError('pattern')">
+                <span class="error-span">
+                  Ім'я може містити лише літери, апостроф та пробіл
+                </span>
+              </div>
+              <div *ngIf="name.hasError('minlength')">
+                <span class="error-span">
+                  Ім'я повинно містити принаймні 2 символи
+                </span>
+              </div>
             </div>
           </fieldset>
 
-          <!-- Email control -->
+          <!-- Email field -->
           <fieldset class="input-group has-validation">
             <div
               [class.is-invalid]="
@@ -506,20 +520,17 @@
             </div>
             <div class="invalid-feedback">
               <div *ngIf="email.hasError('required')">
-                <span class="error-span"> Це поле є обов'язковим</span>
+                <span class="error-span">Email обов'язковий</span>
               </div>
-              <div *ngIf="email.hasError('email')">
-                <span class="error-span">Електронна адреса недійсна</span>
-              </div>
-              <div *ngIf="email.hasError('minlength')">
-                <span class="error-span"
-                  >Електронна адреса занадто коротка</span
-                >
+              <div
+                *ngIf="email.hasError('email') || email.hasError('minlength')"
+              >
+                <span class="error-span">Email недійсний</span>
               </div>
             </div>
           </fieldset>
 
-          <!-- Language control -->
+          <!-- Language field -->
           <fieldset class="">
             <select
               formControlName="language"
@@ -546,7 +557,7 @@
             </div>
           </fieldset>
 
-          <!-- Phone control -->
+          <!-- Phone field -->
           <fieldset class="input-group has-validation">
             <div
               [class.is-invalid]="
@@ -555,9 +566,7 @@
               class="form-floating"
             >
               <ngx-intl-tel-input
-                [class.is-invalid]="
-                  phone.invalid && (phone.dirty || phone.touched)
-                "
+                [class.is-invalid]="phone.invalid && phone.touched"
                 [cssClass]="'form-control'"
                 [preferredCountries]="preferredCountries"
                 [enableAutoCountrySelect]="true"
@@ -573,7 +582,7 @@
             </div>
             <div class="invalid-feedback">
               <div *ngIf="phone.hasError('required') && phone.touched">
-                <span class="error-span">Це поле є обов'язковим </span>
+                <span class="error-span">Номер телефону обов'язковий</span>
               </div>
               <div *ngIf="phone.hasError('validatePhoneNumber')">
                 <span class="error-span">Номер телефону недійсний</span>
@@ -581,7 +590,7 @@
             </div>
           </fieldset>
 
-          <!-- Contact option -->
+          <!-- Contact field -->
           <fieldset class="">
             <select
               formControlName="contactOption"
@@ -630,7 +639,7 @@
 </section>
 
 <!-- Blog section -->
-<section class="section-wrapper">
+<section style="background-color: #fff" class="section-wrapper">
   <div id="blog-wrapper">
     <div id="blog-card">
       <div id="blog-content">

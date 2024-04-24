@@ -1,8 +1,8 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
 
 // Swiper.js
 import { register } from 'swiper/element/bundle';
@@ -15,12 +15,17 @@ import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
 // Components
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NavigationComponent } from './components/navigation/navigation.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { HomeComponent } from './components/home/home.component';
+import { EnglishTestComponent } from './components/landing-tests/english-test/english-test.component';
+import { GermanTestComponent } from './components/landing-tests/german-test/german-test.component';
 import { LandingComponent } from './components/landing/landing.component';
-import { GermanTestComponent } from './components/german-test/german-test.component';
-import { EnglishTestComponent } from './components/english-test/english-test.component';
 import { LoginComponent } from './components/login/login.component';
+import { NavigationComponent } from './components/navigation/navigation.component';
+import { SignupComponent } from './components/signup/signup.component';
+
+// Services
+import { InterceptorService } from './services/interceptor.service';
 
 @NgModule({
   declarations: [
@@ -31,6 +36,8 @@ import { LoginComponent } from './components/login/login.component';
     GermanTestComponent,
     EnglishTestComponent,
     LoginComponent,
+    HomeComponent,
+    SignupComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,9 +47,15 @@ import { LoginComponent } from './components/login/login.component';
     NgxIntlTelInputModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

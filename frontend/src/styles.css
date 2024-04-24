@@ -24,6 +24,7 @@
 :root {
   --dark-blue: #000d83;
   --light-blue: #f1f8ff;
+  --shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.3);
 }
 
 .cta {
@@ -41,8 +42,22 @@
   background-color: #3540A9;
 }
 
+.cta:disabled {
+  background-color: #71748f;
+}
+
 .iti {
   width: 100%;
+}
+
+ngx-intl-tel-input.is-invalid>.iti {
+  border: 1px solid red;
+  border-radius: 7px;
+}
+
+ngx-intl-tel-input.is-invalid>.iti>input:focus {
+  border-color: var(--bs-form-invalid-border-color);
+  box-shadow: 0 0 0 0.25rem rgba(var(--bs-danger-rgb), 0.25);
 }
 
 .iti .dropdown-menu.country-dropdown {

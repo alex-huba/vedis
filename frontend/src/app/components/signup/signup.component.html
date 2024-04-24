@@ -1,0 +1,177 @@
+<section>
+    <!-- Error message -->
+    <div
+    *ngIf="showErrorMsg"
+    class="alert alert-danger alert-dismissible text-center"
+    role="alert"
+  >
+    <div><span>Профіль з такою поштою вже існує</span></div>
+    <button
+      (click)="showErrorMsg = !showErrorMsg"
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+
+  <div class="form-wrapper">
+    <form [formGroup]="signupForm" (submit)="onSubmit()">
+      <legend>Створити профіль</legend>
+
+      <!-- Name field -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+              formControlName="name"
+              type="text"
+              class="form-control"
+              placeholder="Ім'я"
+            />
+            <label>Ім'я</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="name.hasError('required')">
+              <span>Ім'я обов'язкове</span>
+            </div>
+            <div *ngIf="name.hasError('pattern')">
+              <span>Ім'я може містити лише літери, апостроф та пробіл</span>
+            </div>
+            <div *ngIf="name.hasError('minlength')">
+              <span>Ім'я повинно містити принаймні 2 символи</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Phone field -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="phone.invalid && (phone.dirty || phone.touched)"
+            class="form-floating"
+          >
+            <ngx-intl-tel-input
+              [class.is-invalid]="phone.invalid && phone.touched"
+              [cssClass]="'form-control'"
+              [preferredCountries]="preferredCountries"
+              [enableAutoCountrySelect]="true"
+              [customPlaceholder]="'Номер телефону'"
+              [searchCountryFlag]="false"
+              [selectFirstCountry]="true"
+              [phoneValidation]="true"
+              [separateDialCode]="true"
+              name="phone1"
+              formControlName="phone"
+            >
+            </ngx-intl-tel-input>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="phone.hasError('required') && phone.touched">
+              <span class="error-span">Номер телефону обов'язковий</span>
+            </div>
+            <div *ngIf="phone.hasError('validatePhoneNumber')">
+              <span class="error-span">Номер телефону недійсний</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Email field -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="
+                email.invalid && (email.dirty || email.touched)
+              "
+              formControlName="email"
+              type="text"
+              class="form-control"
+              placeholder="Пошта"
+            />
+            <label>Пошта</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="email.hasError('required')">
+              <span>Email обов'язковий</span>
+            </div>
+            <div *ngIf="email.hasError('email') || email.hasError('minlength')">
+              <span>Email недійсний</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Password field -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="
+              password.invalid && (password.dirty || password.touched)
+            "
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="
+                password.invalid && (password.dirty || password.touched)
+              "
+              formControlName="password"
+              type="password"
+              class="form-control"
+              id="emailControl"
+              placeholder="Пароль"
+              autocomplete="on"
+            />
+            <label for="emailControl">Пароль</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="password.hasError('required')">
+              <span>Пароль обов'язковий</span>
+            </div>
+            <div
+              *ngIf="
+                password.hasError('minlength') || password.hasError('pattern')
+              "
+            >
+              <span
+                >Пароль повинен містити щонайменше 7 літер та один символ
+                (!@#_$%^&*)</span
+              >
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Submit button -->
+      <div class="w-100 d-flex justify-content-center">
+        <button
+          *ngIf="!awaitingResponse; else loadingBtn"
+          type="submit"
+          class="cta"
+        >
+          Створити
+        </button>
+        <ng-template #loadingBtn>
+          <button class="cta" type="button" disabled>
+            <span
+              class="spinner-grow spinner-grow-sm"
+              aria-hidden="true"
+            ></span>
+            Зачекайте...
+          </button>
+        </ng-template>
+      </div>
+    </form>
+
+    <img src="../../../assets/signup/signup-img.jpg" alt="Person with laptop" />
+  </div>
+</section>

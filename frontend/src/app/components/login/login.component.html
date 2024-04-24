@@ -1,59 +1,106 @@
-<section id="wrapper">
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <!-- Login control -->
-    <fieldset class="input-group has-validation">
-      <div
-        [class.is-invalid]="login.invalid && (login.dirty || login.touched)"
-        class="form-floating"
-      >
-        <input
-          [class.is-invalid]="login.invalid && (login.dirty || login.touched)"
-          formControlName="login"
-          type="text"
-          class="form-control"
-          placeholder="Логін"
-        />
-        <label>Логін</label>
-      </div>
-      <div class="invalid-feedback">
-        <span class="error-span" *ngIf="login.hasError('required')">
-          Це поле є обов'язковим
-        </span>
-      </div>
-    </fieldset>
+<section>
+  <!-- Error message -->
+  <div
+    *ngIf="showErrorMsg"
+    class="alert alert-danger alert-dismissible text-center"
+    role="alert"
+  >
+    <div><span>Неправильний логін або пароль</span></div>
+    <button
+      (click)="showErrorMsg = !showErrorMsg"
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
 
-    <!-- Email control -->
-    <fieldset class="input-group has-validation">
-      <div
-        [class.is-invalid]="
-          password.invalid && (password.dirty || password.touched)
-        "
-        class="form-floating"
-      >
-        <input
-          [class.is-invalid]="
-            password.invalid && (password.dirty || password.touched)
-          "
-          formControlName="password"
-          type="password"
-          class="form-control"
-          id="emailControl"
-          placeholder="Пароль"
-        />
-        <label for="emailControl">Пароль</label>
-      </div>
-      <div class="invalid-feedback">
-        <div *ngIf="password.hasError('required')">
-          <span class="error-span"> Це поле є обов'язковим</span>
+  <div class="form-wrapper">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <legend>Увійти в особистий кабінет</legend>
+
+      <!-- Email control -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="
+                email.invalid && (email.dirty || email.touched)
+              "
+              formControlName="email"
+              type="text"
+              class="form-control"
+              placeholder="Пошта"
+            />
+            <label>Пошта</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="email.hasError('required')">
+              <span>Email обов'язковий</span>
+            </div>
+            <div *ngIf="email.hasError('email') || email.hasError('minlength')">
+              <span>Email недійсний</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </fieldset>
+      </fieldset>
 
-    <div class="w-100 d-flex justify-content-center">
-      <button type="submit" id="submit-btn">
-        Увійти
-        <i class="bi bi-arrow-up-short"></i>
-      </button>
-    </div>
-  </form>
+      <!-- Password control -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="
+              password.invalid && (password.dirty || password.touched)
+            "
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="
+                password.invalid && (password.dirty || password.touched)
+              "
+              formControlName="password"
+              type="password"
+              class="form-control"
+              id="emailControl"
+              placeholder="Пароль"
+              autocomplete="on"
+            />
+            <label for="emailControl">Пароль</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="password.hasError('required')">
+              <span>Пароль обов'язковий</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="w-100 d-flex justify-content-center">
+        <button
+          *ngIf="!awaitingResponse; else loadingBtn"
+          [disabled]="
+            loginForm.invalid && (loginForm.dirty || loginForm.touched)
+          "
+          type="submit"
+          class="cta"
+        >
+          Увійти
+        </button>
+        <ng-template #loadingBtn>
+          <button class="cta" type="button" disabled>
+            <span
+              class="spinner-grow spinner-grow-sm"
+              aria-hidden="true"
+            ></span>
+            Зачекайте...
+          </button>
+        </ng-template>
+      </div>
+    </form>
+
+    <img src="../../../assets/login/login-img.png" alt="Person with laptop" />
+  </div>
 </section>

@@ -25,7 +25,8 @@
             </li>
             <li>
               <button
-                (click)="openModal()"
+                data-bs-toggle="modal"
+                data-bs-target="#testModal"
                 class="nav-link custom-link underscore-link"
                 type="button"
               >
@@ -74,15 +75,48 @@
                 </div>
               </div>
             </li>
-            <li>
+            <li *ngIf="!isLoggedIn">
               <a
                 routerLink="/login"
                 class="nav-link custom-link underscore-link"
                 >Увійти</a
               >
             </li>
-            <li>
-              <a id="cta-btn" class="nav-link" href="#">Зареєструватися</a>
+            <li *ngIf="!isLoggedIn">
+              <a id="cta-btn" class="nav-link" routerLink="signup"
+                >Зареєструватися</a
+              >
+            </li>
+            <li *ngIf="isLoggedIn" class="dropdown">
+              <img
+                src="../../../assets/landing/teacher.png"
+                data-bs-toggle="dropdown"
+                alt="Avatar"
+                class="avatar"
+              />
+              <ul class="dropdown-menu text-start dropdown-menu-end">
+                <li>
+                  <a class="dropdown-item" href="/home">
+                    Особистий кабінет&nbsp;
+                    <div class="icon-wrapper">
+                      <fa-icon [icon]="houseIcon"></fa-icon>
+                    </div>
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li>
+                  <button
+                    (click)="signOut()"
+                    type="button"
+                    class="dropdown-item text-start"
+                  >
+                    Вийти&nbsp;
+                    <div class="icon-wrapper">
+                      <fa-icon [icon]="doorIcon"></fa-icon>
+                    </div>
+                  </button>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -126,22 +160,53 @@
           </div>
         </li>
 
-        <li>
+        <li *ngIf="!isLoggedIn">
           <a routerLink="/login" class="nav-link custom-link underscore-link"
             >Увійти</a
           >
         </li>
-
-        <li>
-          <a id="cta-btn" class="nav-link" href="#">Зареєструватися</a>
+        <li *ngIf="!isLoggedIn">
+          <a id="cta-btn" class="nav-link" routerLink="/signup"
+            >Зареєструватися</a
+          >
+        </li>
+        <li *ngIf="isLoggedIn" class="dropdown">
+          <img
+            src="../../../assets/landing/teacher.png"
+            data-bs-toggle="dropdown"
+            alt="Avatar"
+            class="avatar"
+          />
+          <ul class="dropdown-menu dropdown-menu-end position-absolute">
+            <li>
+              <a class="dropdown-item" href="/home">
+                Особистий кабінет&nbsp;
+                <div class="icon-wrapper">
+                  <fa-icon [icon]="houseIcon"></fa-icon>
+                </div>
+              </a>
+            </li>
+            <li><hr class="dropdown-divider" /></li>
+            <li>
+              <button
+                (click)="signOut()"
+                type="button"
+                class="dropdown-item text-start"
+              >
+                Вийти&nbsp;
+                <div class="icon-wrapper">
+                  <fa-icon [icon]="doorIcon"></fa-icon>
+                </div>
+              </button>
+            </li>
+          </ul>
         </li>
       </ul>
 
       <button
+        (click)="disableAutoScroll($event)"
         class="hamburger-btn"
         type="button"
-        data-bs-toggle="offcanvas"
-        data-bs-target="#offcanvas-nav"
       >
         <div class="hamburger-figure">
           <span></span>
@@ -156,10 +221,9 @@
       <img id="nav-logo" src="../../../assets/navigation/logo.png" />
     </a>
     <button
+      (click)="disableAutoScroll($event)"
       class="d-sm-none hamburger-btn"
       type="button"
-      data-bs-toggle="offcanvas"
-      data-bs-target="#offcanvas-nav"
     >
       <div class="hamburger-figure">
         <span></span>
@@ -170,13 +234,19 @@
   </div>
 </nav>
 
-<div class="offcanvas offcanvas-end w-100" tabindex="-1" id="offcanvas-nav">
+<!-- Offcanvas for mobile viewport -->
+<div
+  class="offcanvas offcanvas-end w-100"
+  data-bs-scroll="true"
+  tabindex="-1"
+  id="offcanvas-nav"
+>
   <div
     style="background-color: #000d83"
     class="d-flex justify-content-between align-items-center w-100 p-3"
   >
     <span></span>
-    <a class="d-lg-none" href="#">
+    <a class="d-lg-none" routerLink="">
       <img id="nav-logo" src="../../../assets/navigation/logo.png" />
     </a>
     <button id="close-btn" type="button" data-bs-dismiss="offcanvas">
@@ -184,36 +254,84 @@
     </button>
   </div>
   <div
-    class="offcanvas-body d-flex flex-column align-items-center p-5 position-relative"
+    class="offcanvas-body d-flex flex-column align-items-center p-5 justify-content-between"
     style="background-color: #f1f8ff"
   >
     <ul class="navbar-nav">
       <li>
-        <a routerLink="" class="nav-link offcanvas-link mb-2">Головна</a>
+        <a
+          data-bs-dismiss="offcanvas"
+          routerLink=""
+          class="nav-link offcanvas-link mb-2"
+          >Головна</a
+        >
       </li>
       <li>
-        <a class="nav-link offcanvas-link mb-2" href="#">Види підготовки</a>
+        <button
+          data-bs-dismiss="offcanvas"
+          (click)="scrollToSection('carousel-wrapper')"
+          class="nav-link offcanvas-link mb-2 w-100"
+          type="button"
+        >
+          Види підготовки
+        </button>
       </li>
       <li>
-        <a class="nav-link offcanvas-link mb-2" href="#">Тест рівня</a>
+        <button
+          (click)="scrollToSection('lang-wrapper')"
+          data-bs-dismiss="offcanvas"
+          type="button"
+          class="nav-link offcanvas-link w-100 mb-2"
+        >
+          Тест рівня
+        </button>
       </li>
       <li>
-        <a class="nav-link offcanvas-link mb-2" href="#">Контакти</a>
+        <button
+          (click)="scrollToSection('hotline-wrapper')"
+          data-bs-dismiss="offcanvas"
+          class="nav-link offcanvas-link mb-2 w-100"
+          type="button"
+        >
+          Контакти
+        </button>
       </li>
-      <li>
-        <a routerLink="/login" class="nav-link offcanvas-link mb-2">Увійти</a>
+      <li *ngIf="!isLoggedIn">
+        <a
+          data-bs-dismiss="offcanvas"
+          routerLink="/login"
+          class="nav-link offcanvas-link mb-2"
+          >Увійти</a
+        >
       </li>
-      <li>
-        <a id="offcanvas-cta-btn" class="nav-link" href="#">Зареєструватися</a>
+      <li *ngIf="!isLoggedIn">
+        <a
+          data-bs-dismiss="offcanvas"
+          id="offcanvas-cta-btn"
+          class="nav-link"
+          routerLink="/signup"
+          >Зареєструватися</a
+        >
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a
+          data-bs-dismiss="offcanvas"
+          routerLink="/home"
+          class="nav-link offcanvas-link mb-2"
+          >Особистий кабінет</a
+        >
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a routerLink="/home" class="nav-link offcanvas-link mb-2">Вийти</a>
       </li>
     </ul>
 
     <div id="bottom-links">
-      <button type="button" class="dropdown-btn">UA</button>
+      <button type="button">UA</button>
       <span>|</span>
-      <button type="button" class="dropdown-btn">EN</button>
+      <button type="button">EN</button>
       <span>|</span>
-      <button type="button" class="dropdown-btn">DE</button>
+      <button type="button">DE</button>
     </div>
   </div>
 </div>

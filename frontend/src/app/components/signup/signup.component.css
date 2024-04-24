@@ -62,12 +62,16 @@ img {
 }
 
 @media screen and (max-width: 445px) {
-  img {
-    width: 150px;
+  .form-wrapper {
+    padding: 40px 30px;
   }
 
   .input-container {
-    width: auto;
+    width: 235px;
+  }
+
+  img {
+    width: 150px;
   }
 
   legend {
