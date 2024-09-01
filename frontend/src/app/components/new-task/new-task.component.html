@@ -1,0 +1,114 @@
+<div
+  *ngIf="showErrorMsg"
+  class="alert alert-danger d-flex align-items-center gap-3"
+  role="alert"
+>
+  <div>Помилка! Спробуйте ще раз</div>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+    (click)="showErrorMsg = !showErrorMsg"
+  ></button>
+</div>
+<div
+  *ngIf="showSuccessMsg"
+  class="alert alert-success d-flex align-items-center gap-3"
+  role="alert"
+>
+  <div>Домашнє завдання створено!</div>
+  <button
+    type="button"
+    class="btn-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+    (click)="showSuccessMsg = !showSuccessMsg"
+  ></button>
+</div>
+<div class="class-card">
+  <form [formGroup]="newTaskForm" (ngSubmit)="onSubmit()">
+    <legend>Нове домашнє завдання</legend>
+
+    <!-- Student name field -->
+    <fieldset>
+      <label for="student-select">Виберіть учня</label>
+      <select
+        formControlName="student"
+        [class.is-invalid]="
+          student.value == 'default' && (student.dirty || student.touched)
+        "
+        id="student-select"
+        class="form-select"
+      >
+        <option selected disabled value="default"></option>
+        <option
+          *ngFor="let s of students$ | async"
+          value="{{ s.id }} {{ s.name }}"
+        >
+          {{ s.name }}
+        </option>
+      </select>
+      <div id="validationServer05Feedback" class="invalid-feedback">
+        <span
+          class="error-span"
+          *ngIf="
+            student.value == 'default' && (student.dirty || student.touched)
+          "
+          >Це поле є обов'язковим</span
+        >
+      </div>
+    </fieldset>
+
+    <!-- Due date field -->
+    <fieldset>
+      <label for="class-time-start">Виконати до</label>
+      <input
+        id="class-time-start"
+        [class.is-invalid]="date.invalid && (date.dirty || date.touched)"
+        formControlName="date"
+        type="datetime-local"
+        class="form-control"
+      />
+    </fieldset>
+  </form>
+
+  <!-- Content field -->
+  <div class="content-field">
+    <p>Завдання</p>
+    <st-editor
+      #contentInput="ngModel"
+      required=""
+      [class.is-invalid]="
+        content === '' && (contentInput.dirty || contentInput.touched)
+      "
+      class="form-control"
+      [(ngModel)]="content"
+      [config]="config"
+    ></st-editor>
+    <div class="invalid-feedback">
+      <span
+        class="error-span"
+        *ngIf="content == '' && (contentInput.dirty || contentInput.touched)"
+        >Це поле є обов'язковим</span
+      >
+    </div>
+  </div>
+
+  <div class="w-100 d-flex justify-content-center">
+    <button
+      (click)="onSubmit()"
+      *ngIf="!awaitingResponse; else loadingBtn"
+      type="button"
+      class="cta"
+    >
+      Створити
+    </button>
+    <ng-template #loadingBtn>
+      <button class="cta" type="button" disabled>
+        <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+        Зачекайте...
+      </button>
+    </ng-template>
+  </div>
+</div>

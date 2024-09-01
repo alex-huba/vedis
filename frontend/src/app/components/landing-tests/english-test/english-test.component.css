@@ -66,8 +66,24 @@ p {
   background-color: #F1F8FF;
   padding: 15px;
   border-radius: 10px;
+  position: relative;
 }
 
+.invalid-radio {
+  color: red;
+}
+
+.testResult {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.trophy-img {
+  height: auto;
+  width: 130px;
+}
 
 @media screen and (max-width: 930px) {
   #wrapper {

@@ -1,172 +1,64 @@
-<nav class="navbar navbar-expand-lg" id="nav-layer">
-  <div class="container-fluid">
-    <!-- The largest navbar -->
-    <div class="collapse navbar-collapse">
-      <div class="d-flex justify-content-between w-100">
-        <a routerLink="">
-          <img id="nav-logo" src="../../../assets/navigation/logo.png" />
-        </a>
+<nav class="navbar navbar-expand-lg w-100" id="nav-layer">
+  <!-- The largest navbar -->
+  <div class="collapse navbar-collapse">
+    <div class="d-flex justify-content-around w-100">
+      <a routerLink="">
+        <img id="nav-logo" src="../../../assets/navigation/logo.png" />
+      </a>
 
-        <div class="d-flex align-items-center gap-5">
-          <ul class="navbar-nav gap-1">
-            <li>
-              <a routerLink="" class="nav-link custom-link underscore-link"
-                >Головна</a
-              >
-            </li>
-            <li>
-              <button
-                (click)="scrollToSection('carousel-wrapper')"
-                class="nav-link custom-link underscore-link"
-                type="button"
-              >
-                Види підготовки
-              </button>
-            </li>
-            <li>
-              <button
-                data-bs-toggle="modal"
-                data-bs-target="#testModal"
-                class="nav-link custom-link underscore-link"
-                type="button"
-              >
-                Тест рівня
-              </button>
-            </li>
-            <li>
-              <button
-                (click)="scrollToSection('hotline-wrapper')"
-                class="nav-link custom-link underscore-link"
-                type="button"
-              >
-                Контакти
-              </button>
-            </li>
-          </ul>
-
-          <ul class="navbar-nav gap-1">
-            <li class="d-flex align-items-center">
-              <div id="dropdown-container">
-                <button type="button" class="nav-link custom-link">
-                  UA <i id="arrow" class="bi bi-chevron-down"></i>
-                </button>
-                <div id="dropdown-menu">
-                  <button type="button" class="dropdown-btn gap-1">
-                    UA
-                    <img
-                      src="../../../assets/navigation/ua.png"
-                      style="width: 20px; height: 20px"
-                    />
-                  </button>
-                  <button type="button" class="dropdown-btn gap-1">
-                    EN
-                    <img
-                      src="../../../assets/navigation/uk.png"
-                      style="width: 20px; height: 20px"
-                    />
-                  </button>
-                  <button type="button" class="dropdown-btn gap-1">
-                    DE
-                    <img
-                      src="../../../assets/navigation/de.png"
-                      style="width: 20px; height: 20px"
-                    />
-                  </button>
-                </div>
-              </div>
-            </li>
-            <li *ngIf="!isLoggedIn">
-              <a
-                routerLink="/login"
-                class="nav-link custom-link underscore-link"
-                >Увійти</a
-              >
-            </li>
-            <li *ngIf="!isLoggedIn">
-              <a id="cta-btn" class="nav-link" routerLink="signup"
-                >Зареєструватися</a
-              >
-            </li>
-            <li *ngIf="isLoggedIn" class="dropdown">
-              <img
-                src="../../../assets/landing/teacher.png"
-                data-bs-toggle="dropdown"
-                alt="Avatar"
-                class="avatar"
-              />
-              <ul class="dropdown-menu text-start dropdown-menu-end">
-                <li>
-                  <a class="dropdown-item" href="/home">
-                    Особистий кабінет&nbsp;
-                    <div class="icon-wrapper">
-                      <fa-icon [icon]="houseIcon"></fa-icon>
-                    </div>
-                  </a>
-                </li>
-                <li><hr class="dropdown-divider" /></li>
-                <li>
-                  <button
-                    (click)="signOut()"
-                    type="button"
-                    class="dropdown-item text-start"
-                  >
-                    Вийти&nbsp;
-                    <div class="icon-wrapper">
-                      <fa-icon [icon]="doorIcon"></fa-icon>
-                    </div>
-                  </button>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- Medium navbar -->
-    <a routerLink="" class="d-none d-sm-flex d-lg-none">
-      <img id="nav-logo" src="../../../assets/navigation/logo.png" />
-    </a>
-    <div class="d-none d-sm-flex d-lg-none gap-4">
-      <ul class="navbar-nav d-flex flex-row gap-4">
-        <li class="d-flex align-items-center">
-          <div id="dropdown-container">
-            <button type="button" class="nav-link custom-link">
-              UA <i id="arrow" class="bi bi-chevron-down"></i>
-            </button>
-            <div id="dropdown-menu">
-              <button type="button" class="dropdown-btn gap-1">
-                UA
-                <img
-                  src="../../../assets/navigation/ua.png"
-                  style="width: 20px; height: 20px"
-                />
-              </button>
-              <button type="button" class="dropdown-btn gap-1">
-                EN
-                <img
-                  src="../../../assets/navigation/uk.png"
-                  style="width: 20px; height: 20px"
-                />
-              </button>
-              <button type="button" class="dropdown-btn gap-1">
-                DE
-                <img
-                  src="../../../assets/navigation/de.png"
-                  style="width: 20px; height: 20px"
-                />
-              </button>
-            </div>
-          </div>
+      <ul class="navbar-nav align-items-center gap-2">
+        <li>
+          <a routerLink="" class="nav-link custom-link underscore-link"
+            >Головна</a
+          >
         </li>
-
+        <li>
+          <button
+            (click)="scrollToSection('carousel-wrapper')"
+            class="nav-link custom-link underscore-link"
+            type="button"
+          >
+            Види підготовки
+          </button>
+        </li>
+        <li>
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#testModal"
+            class="nav-link custom-link underscore-link"
+            type="button"
+          >
+            Тест рівня
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="scrollToSection('hotline-wrapper')"
+            class="nav-link custom-link underscore-link"
+            type="button"
+          >
+            Контакти
+          </button>
+        </li>
+        <li>
+          <button
+            (click)="scrollToSection('contact-section')"
+            class="nav-link custom-link underscore-link"
+            type="button"
+          >
+            Залишити заявку
+          </button>
+        </li>
+        <li>
+          <span class="text-white">|</span>
+        </li>
         <li *ngIf="!isLoggedIn">
           <a routerLink="/login" class="nav-link custom-link underscore-link"
             >Увійти</a
           >
         </li>
         <li *ngIf="!isLoggedIn">
-          <a id="cta-btn" class="nav-link" routerLink="/signup"
+          <a id="cta-btn" class="nav-link" routerLink="signup"
             >Зареєструватися</a
           >
         </li>
@@ -177,13 +69,11 @@
             alt="Avatar"
             class="avatar"
           />
-          <ul class="dropdown-menu dropdown-menu-end position-absolute">
+          <ul class="dropdown-menu dropdown-menu-start">
             <li>
               <a class="dropdown-item" href="/home">
-                Особистий кабінет&nbsp;
-                <div class="icon-wrapper">
-                  <fa-icon [icon]="houseIcon"></fa-icon>
-                </div>
+                <fa-icon [icon]="houseIcon"></fa-icon>
+                &nbsp;&nbsp;Особистий кабінет
               </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
@@ -193,36 +83,65 @@
                 type="button"
                 class="dropdown-item text-start"
               >
-                Вийти&nbsp;
-                <div class="icon-wrapper">
-                  <fa-icon [icon]="doorIcon"></fa-icon>
-                </div>
+                <fa-icon [icon]="doorIcon"></fa-icon>
+                &nbsp;&nbsp;Вийти
               </button>
             </li>
           </ul>
         </li>
       </ul>
-
-      <button
-        (click)="disableAutoScroll($event)"
-        class="hamburger-btn"
-        type="button"
-      >
-        <div class="hamburger-figure">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </button>
     </div>
+  </div>
 
-    <!-- The smallest navbar -->
-    <a routerLink="" class="d-sm-none">
-      <img id="nav-logo" src="../../../assets/navigation/logo.png" />
-    </a>
+  <!-- Medium navbar -->
+  <a routerLink="" class="d-none d-sm-flex d-lg-none">
+    <img id="nav-logo" src="../../../assets/navigation/logo.png" />
+  </a>
+  <div class="d-none d-sm-flex d-lg-none gap-4">
+    <ul class="navbar-nav d-flex flex-row gap-4">
+      <li *ngIf="!isLoggedIn">
+        <a routerLink="/login" class="nav-link custom-link underscore-link"
+          >Увійти</a
+        >
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a id="cta-btn" class="nav-link" routerLink="/signup"
+          >Зареєструватися</a
+        >
+      </li>
+      <li *ngIf="isLoggedIn" class="dropdown">
+        <img
+          src="../../../assets/landing/teacher.png"
+          data-bs-toggle="dropdown"
+          alt="Avatar"
+          class="avatar"
+        />
+        <ul class="dropdown-menu dropdown-menu-end position-absolute">
+          <li>
+            <a class="dropdown-item" href="/home">
+              <fa-icon [icon]="houseIcon"></fa-icon>
+              &nbsp;&nbsp;Особистий кабінет
+            </a>
+          </li>
+          <li><hr class="dropdown-divider" /></li>
+          <li>
+            <button
+              (click)="signOut()"
+              type="button"
+              class="dropdown-item text-start"
+            >
+              <fa-icon [icon]="doorIcon"></fa-icon>
+
+              &nbsp;&nbsp;Вийти
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+
     <button
       (click)="disableAutoScroll($event)"
-      class="d-sm-none hamburger-btn"
+      class="hamburger-btn"
       type="button"
     >
       <div class="hamburger-figure">
@@ -232,20 +151,34 @@
       </div>
     </button>
   </div>
+
+  <!-- The smallest navbar -->
+  <a routerLink="" class="d-sm-none">
+    <img id="nav-logo" src="../../../assets/navigation/logo.png" />
+  </a>
+  <button
+    (click)="disableAutoScroll($event)"
+    class="d-sm-none hamburger-btn"
+    type="button"
+  >
+    <div class="hamburger-figure">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </button>
 </nav>
 
 <!-- Offcanvas for mobile viewport -->
 <div
   class="offcanvas offcanvas-end w-100"
-  data-bs-scroll="true"
-  tabindex="-1"
+  data-bs-backdrop="static"
   id="offcanvas-nav"
 >
   <div
     style="background-color: #000d83"
-    class="d-flex justify-content-between align-items-center w-100 p-3"
+    class="d-flex justify-content-center align-items-center w-100 p-3"
   >
-    <span></span>
     <a class="d-lg-none" routerLink="">
       <img id="nav-logo" src="../../../assets/navigation/logo.png" />
     </a>
@@ -255,7 +188,7 @@
   </div>
   <div
     class="offcanvas-body d-flex flex-column align-items-center p-5 justify-content-between"
-    style="background-color: #f1f8ff"
+    style="background-color: #ecefff"
   >
     <ul class="navbar-nav">
       <li>
@@ -296,21 +229,23 @@
           Контакти
         </button>
       </li>
+      <li>
+        <button
+          *ngIf="!isLoggedIn"
+          (click)="scrollToSection('contact-section')"
+          data-bs-dismiss="offcanvas"
+          class="nav-link offcanvas-link mb-2 w-100"
+          type="button"
+        >
+          Залишити заявку
+        </button>
+      </li>
       <li *ngIf="!isLoggedIn">
         <a
           data-bs-dismiss="offcanvas"
           routerLink="/login"
           class="nav-link offcanvas-link mb-2"
           >Увійти</a
-        >
-      </li>
-      <li *ngIf="!isLoggedIn">
-        <a
-          data-bs-dismiss="offcanvas"
-          id="offcanvas-cta-btn"
-          class="nav-link"
-          routerLink="/signup"
-          >Зареєструватися</a
         >
       </li>
       <li *ngIf="isLoggedIn">
@@ -322,16 +257,24 @@
         >
       </li>
       <li *ngIf="isLoggedIn">
-        <a routerLink="/home" class="nav-link offcanvas-link mb-2">Вийти</a>
+        <!-- <a routerLink="/home" class="nav-link offcanvas-link mb-2">Вийти</a> -->
+        <button
+          data-bs-dismiss="offcanvas"
+          (click)="signOut()"
+          type="button"
+          class="nav-link offcanvas-link mb-2 w-100"
+        >
+          Вийти
+        </button>
       </li>
     </ul>
-
-    <div id="bottom-links">
-      <button type="button">UA</button>
-      <span>|</span>
-      <button type="button">EN</button>
-      <span>|</span>
-      <button type="button">DE</button>
-    </div>
+    <a
+      *ngIf="!isLoggedIn"
+      data-bs-dismiss="offcanvas"
+      id="offcanvas-cta-btn"
+      class="nav-link"
+      routerLink="/signup"
+      >Зареєструватися</a
+    >
   </div>
 </div>

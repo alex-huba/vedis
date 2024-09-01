@@ -47,10 +47,23 @@
     />
   </div>
   <div id="test">
-    <form [formGroup]="questions" (ngSubmit)="onSubmit()">
+    <form
+      *ngIf="!isTestSolved; else resultSection"
+      [formGroup]="questions"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
       <ol>
         <li class="mb-3">
-          <p class="m-0"><b>Julie ____ (not drink) tea very often.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q1').invalid &&
+              this.questions.get('q1').touched
+            "
+            class="m-0"
+          >
+            <b>Julie ____ (not drink) tea very often.</b>
+          </p>
           <div>
             <input
               formControlName="q1"
@@ -87,7 +100,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>They ____ (catch) a taxi yesterday.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q2').invalid &&
+              this.questions.get('q2').touched
+            "
+            class="m-0"
+          >
+            <b>They ____ (catch) a taxi yesterday.</b>
+          </p>
           <div>
             <input
               formControlName="q2"
@@ -124,7 +145,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q3').invalid &&
+              this.questions.get('q3').touched
+            "
+            class="m-0"
+          >
             <b>By the time I arrived, they ____ (leave) already.</b>
           </p>
           <div>
@@ -163,7 +190,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>She ____ (study) English for five years.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q4').invalid &&
+              this.questions.get('q4').touched
+            "
+            class="m-0"
+          >
+            <b>She ____ (study) English for five years.</b>
+          </p>
           <div>
             <input
               formControlName="q4"
@@ -200,7 +235,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q5').invalid &&
+              this.questions.get('q5').touched
+            "
+            class="m-0"
+          >
             <b>Amy is writing emails. She ____ (write) emails all morning.</b>
           </p>
           <div>
@@ -239,7 +280,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q6').invalid &&
+              this.questions.get('q6').touched
+            "
+            class="m-0"
+          >
             <b>At last the bus came. I ____ (wait) for 20 minutes.</b>
           </p>
           <div>
@@ -278,7 +325,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q7').invalid &&
+              this.questions.get('q7').touched
+            "
+            class="m-0"
+          >
             <b>I wish I ____ (know) that my friend was in the hospital.</b>
           </p>
           <div>
@@ -317,7 +370,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q8').invalid &&
+              this.questions.get('q8').touched
+            "
+            class="m-0"
+          >
             <b
               >What's the correct term for "a person who travels to work on
               foot"?</b
@@ -359,7 +418,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q9').invalid &&
+              this.questions.get('q9').touched
+            "
+            class="m-0"
+          >
             <b
               >What's the correct term for "traveling for a short time, and come
               back again"?</b
@@ -401,7 +466,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q10').invalid &&
+              this.questions.get('q10').touched
+            "
+            class="m-0"
+          >
             <b>If you're feeling really tired, you might say you're____</b>
           </p>
           <div>
@@ -440,7 +511,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q11').invalid &&
+              this.questions.get('q11').touched
+            "
+            class="m-0"
+          >
             <b
               >What's the word for "a large body of water surrounded by
               land"?</b
@@ -482,7 +559,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>A person who repairs shoes is called a ____</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q12').invalid &&
+              this.questions.get('q12').touched
+            "
+            class="m-0"
+          >
+            <b>A person who repairs shoes is called a ____</b>
+          </p>
           <div>
             <input
               formControlName="q12"
@@ -519,7 +604,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>The opposite of "delighted" is</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q13').invalid &&
+              this.questions.get('q13').touched
+            "
+            class="m-0"
+          >
+            <b>The opposite of "delighted" is</b>
+          </p>
           <div>
             <input
               formControlName="q13"
@@ -556,7 +649,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Don't count your chickens before they</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q14').invalid &&
+              this.questions.get('q14').touched
+            "
+            class="m-0"
+          >
+            <b>Don't count your chickens before they</b>
+          </p>
           <div>
             <input
               formControlName="q14"
@@ -593,7 +694,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q15').invalid &&
+              this.questions.get('q15').touched
+            "
+            class="m-0"
+          >
             <b>Sarah is always late. She really needs to _____ her socks up</b>
           </p>
           <div>
@@ -632,7 +739,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q16').invalid &&
+              this.questions.get('q16').touched
+            "
+            class="m-0"
+          >
             <b
               >He's feeling under the weather, so he decided to _____ the
               party</b
@@ -674,7 +787,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q17').invalid &&
+              this.questions.get('q17').touched
+            "
+            class="m-0"
+          >
             <b
               >My friend is really good at sports. He's in a _____ of his own</b
             >
@@ -715,7 +834,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q18').invalid &&
+              this.questions.get('q18').touched
+            "
+            class="m-0"
+          >
             <b>I'm sorry, but I can't help you. I'm _____ heels right now</b>
           </p>
           <div>
@@ -754,7 +879,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q19').invalid &&
+              this.questions.get('q19').touched
+            "
+            class="m-0"
+          >
             <b>I accidentally _____ my coffee all over my shirt</b>
           </p>
           <div>
@@ -793,7 +924,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q20').invalid &&
+              this.questions.get('q20').touched
+            "
+            class="m-0"
+          >
             <b>We need to _____ this issue at the meeting tomorrow</b>
           </p>
           <div>
@@ -832,7 +969,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q21').invalid &&
+              this.questions.get('q21').touched
+            "
+            class="m-0"
+          >
             <b>The shop decided to _____ its prices due to increased demand.</b>
           </p>
           <div>
@@ -871,7 +1014,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q22').invalid &&
+              this.questions.get('q22').touched
+            "
+            class="m-0"
+          >
             <b>The chef wanted to ____ 5 members for summer season.</b>
           </p>
           <div>
@@ -910,7 +1059,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q23').invalid &&
+              this.questions.get('q23').touched
+            "
+            class="m-0"
+          >
             <b>Nowadays a great amount of people suffer ___ heart disease.</b>
           </p>
           <div>
@@ -949,7 +1104,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q24').invalid &&
+              this.questions.get('q24').touched
+            "
+            class="m-0"
+          >
             <b>I feel sorry ___ Jack. He's said a lot of rude words.</b>
           </p>
           <div>
@@ -988,7 +1149,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>"soon enough"</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q25').invalid &&
+              this.questions.get('q25').touched
+            "
+            class="m-0"
+          >
+            <b>"soon enough"</b>
+          </p>
           <div>
             <input
               formControlName="q25"
@@ -1025,7 +1194,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>____ Christmas Day</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q26').invalid &&
+              this.questions.get('q26').touched
+            "
+            class="m-0"
+          >
+            <b>____ Christmas Day</b>
+          </p>
           <div>
             <input
               formControlName="q26"
@@ -1062,7 +1239,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>What is the correct order of adjectives?</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q27').invalid &&
+              this.questions.get('q27').touched
+            "
+            class="m-0"
+          >
+            <b>What is the correct order of adjectives?</b>
+          </p>
           <div>
             <input
               formControlName="q27"
@@ -1099,7 +1284,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>What's the word for a period of two weeks?</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q28').invalid &&
+              this.questions.get('q28').touched
+            "
+            class="m-0"
+          >
+            <b>What's the word for a period of two weeks?</b>
+          </p>
           <div>
             <input
               formControlName="q28"
@@ -1136,7 +1329,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>What does the word "petrified" mean?</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q29').invalid &&
+              this.questions.get('q29').touched
+            "
+            class="m-0"
+          >
+            <b>What does the word "petrified" mean?</b>
+          </p>
           <div>
             <input
               formControlName="q29"
@@ -1173,7 +1374,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q30').invalid &&
+              this.questions.get('q30').touched
+            "
+            class="m-0"
+          >
             <b
               >The teacher asked the students to _____ their homework by
               Friday</b
@@ -1215,8 +1422,53 @@
         </li>
       </ol>
       <div class="w-100 text-center">
-        <button class="cta" type="submit">Визначити рівень</button>
+        <button
+          *ngIf="!awaitingResponse; else loadingBtn"
+          [disabled]="this.questions.invalid && this.questions.touched"
+          class="cta"
+          type="submit"
+        >
+          Визначити рівень
+        </button>
+        <ng-template #loadingBtn>
+          <button class="cta" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm"> </span>
+            Зачекайте...
+          </button>
+        </ng-template>
       </div>
     </form>
+    <ng-template #resultSection>
+      <div class="testResult">
+        <img
+          class="trophy-img"
+          src="../../../../assets/language-test/trophy.png"
+          alt="Trophy"
+        />
+        <h3>Вітаємо!</h3>
+        <p class="text-center">
+          Ваш рівень володіння англійською мовою: <b>{{ testResult.level }}</b>
+        </p>
+        <p class="text-center">
+          Всього правильних відповідей: <b>{{ testResult.score }}</b>
+        </p>
+        <button
+          (click)="registerForClasses()"
+          type="button"
+          class="cta"
+          style="z-index: 100"
+        >
+          Записатися на заняття
+        </button>
+        <button
+          (click)="questions.reset(); isTestSolved = !isTestSolved"
+          class="btn btn-secondary btn-sm mt-3"
+          type="button"
+          style="z-index: 100"
+        >
+          Спробувати ще раз <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+      </div>
+    </ng-template>
   </div>
 </div>

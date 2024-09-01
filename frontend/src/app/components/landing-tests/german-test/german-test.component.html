@@ -47,10 +47,23 @@
     />
   </div>
   <div id="test">
-    <form [formGroup]="questions" (ngSubmit)="onSubmit()">
+    <form
+      *ngIf="!isTestSolved; else resultSection"
+      [formGroup]="questions"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
       <ol>
         <li class="mb-3">
-          <p class="m-0"><b>Peter _____ (gehen) jeden Tag zur Arbeit.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q1').invalid &&
+              this.questions.get('q1').touched
+            "
+            class="m-0"
+          >
+            <b>Peter _____ (gehen) jeden Tag zur Arbeit.</b>
+          </p>
           <div>
             <input
               formControlName="q1"
@@ -87,7 +100,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Ich _____ (lernen) Deutsch seit zwei Jahren.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q2').invalid &&
+              this.questions.get('q2').touched
+            "
+            class="m-0"
+          >
+            <b>Ich _____ (lernen) Deutsch seit zwei Jahren.</b>
+          </p>
           <div>
             <input
               formControlName="q2"
@@ -124,7 +145,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q3').invalid &&
+              this.questions.get('q3').touched
+            "
+            class="m-0"
+          >
             <b>Wir _____ (mögen) gerne Pizza.</b>
           </p>
           <div>
@@ -163,7 +190,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Lisa _____ (sprechen) fließend Englisch.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q4').invalid &&
+              this.questions.get('q4').touched
+            "
+            class="m-0"
+          >
+            <b>Lisa _____ (sprechen) fließend Englisch.</b>
+          </p>
           <div>
             <input
               formControlName="q4"
@@ -200,7 +235,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q5').invalid &&
+              this.questions.get('q5').touched
+            "
+            class="m-0"
+          >
             <b>Wir gehen _____ dem Park spazieren.</b>
           </p>
           <div>
@@ -239,7 +280,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q6').invalid &&
+              this.questions.get('q6').touched
+            "
+            class="m-0"
+          >
             <b>Was ist das Gegenteil von "kalt"?</b>
           </p>
           <div>
@@ -278,7 +325,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q7').invalid &&
+              this.questions.get('q7').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet die Redewendung "Daumen drücken"?</b>
           </p>
           <div>
@@ -317,7 +370,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q8').invalid &&
+              this.questions.get('q8').touched
+            "
+            class="m-0"
+          >
             <b>"Die Katze aus dem Sack lassen" bedeutet _____.</b>
           </p>
           <div>
@@ -356,7 +415,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q9').invalid &&
+              this.questions.get('q9').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "Alles in Butter"?</b>
           </p>
           <div>
@@ -395,7 +460,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q10').invalid &&
+              this.questions.get('q10').touched
+            "
+            class="m-0"
+          >
             <b>Er _____ (singen) ein Lied, als ich ihn traf.</b>
           </p>
           <div>
@@ -434,7 +505,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q11').invalid &&
+              this.questions.get('q11').touched
+            "
+            class="m-0"
+          >
             <b>Ich wünschte, ich _____ (wissen) das schon früher.</b>
           </p>
           <div>
@@ -473,7 +550,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q12').invalid &&
+              this.questions.get('q12').touched
+            "
+            class="m-0"
+          >
             <b
               >Sie sind schon seit Stunden nicht hier. Sie _____ (sich
               verlaufen).</b
@@ -515,7 +598,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Der Kaffee ist noch heiß. Pass ___!</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q13').invalid &&
+              this.questions.get('q13').touched
+            "
+            class="m-0"
+          >
+            <b>Der Kaffee ist noch heiß. Pass ___!</b>
+          </p>
           <div>
             <input
               formControlName="q13"
@@ -552,7 +643,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q14').invalid &&
+              this.questions.get('q14').touched
+            "
+            class="m-0"
+          >
             <b>Die Katze _____ (trinken) die ganze Schale Milch.</b>
           </p>
           <div>
@@ -591,7 +688,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q15').invalid &&
+              this.questions.get('q15').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "die Aussicht"?</b>
           </p>
           <div>
@@ -630,7 +733,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q16').invalid &&
+              this.questions.get('q16').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet die Redewendung "jemandem auf den Zahn fühlen"?</b>
           </p>
           <div>
@@ -669,7 +778,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q17').invalid &&
+              this.questions.get('q17').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "die Nase voll haben"?</b>
           </p>
           <div>
@@ -708,7 +823,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q18').invalid &&
+              this.questions.get('q18').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "ins Schwarze treffen"?</b>
           </p>
           <div>
@@ -747,7 +868,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q19').invalid &&
+              this.questions.get('q19').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet das Wort "pleite"?</b>
           </p>
           <div>
@@ -786,7 +913,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q20').invalid &&
+              this.questions.get('q20').touched
+            "
+            class="m-0"
+          >
             <b>Wie kann man das Wort "deftig" am besten beschreiben?</b>
           </p>
           <div>
@@ -825,7 +958,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q21').invalid &&
+              this.questions.get('q21').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "putzig"?</b>
           </p>
           <div>
@@ -864,7 +1003,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q22').invalid &&
+              this.questions.get('q22').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "trutzig"?</b>
           </p>
           <div>
@@ -903,7 +1048,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q23').invalid &&
+              this.questions.get('q23').touched
+            "
+            class="m-0"
+          >
             <b>Wie lautet die passive Form von "man muss das Buch lesen"?</b>
           </p>
           <div>
@@ -942,7 +1093,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q24').invalid &&
+              this.questions.get('q24').touched
+            "
+            class="m-0"
+          >
             <b
               >Wie bildet man das passive Partizip II von "man sollte das
               Fenster schließen"?</b
@@ -984,7 +1141,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q25').invalid &&
+              this.questions.get('q25').touched
+            "
+            class="m-0"
+          >
             <b>Das Problem sollte _____ sofort gelöst werden.</b>
           </p>
           <div>
@@ -1023,7 +1186,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q26').invalid &&
+              this.questions.get('q26').touched
+            "
+            class="m-0"
+          >
             <b>Wir haben weder Zeit _____ Lust, uns darum zu kümmern.</b>
           </p>
           <div>
@@ -1062,7 +1231,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Sie freut sich _____ das Geschenk.</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q27').invalid &&
+              this.questions.get('q27').touched
+            "
+            class="m-0"
+          >
+            <b>Sie freut sich _____ das Geschenk.</b>
+          </p>
           <div>
             <input
               formControlName="q27"
@@ -1099,7 +1276,15 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0"><b>Rücksicht nehmen ___</b></p>
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q28').invalid &&
+              this.questions.get('q28').touched
+            "
+            class="m-0"
+          >
+            <b>Rücksicht nehmen ___</b>
+          </p>
           <div>
             <input
               formControlName="q28"
@@ -1136,7 +1321,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q29').invalid &&
+              this.questions.get('q29').touched
+            "
+            class="m-0"
+          >
             <b>Welche Wendung bedeutet "jdm./etw. den Vorzug geben"?</b>
           </p>
           <div>
@@ -1175,7 +1366,13 @@
         </li>
 
         <li class="mb-3">
-          <p class="m-0">
+          <p
+            [class.invalid-radio]="
+              this.questions.get('q30').invalid &&
+              this.questions.get('q30').touched
+            "
+            class="m-0"
+          >
             <b>Was bedeutet "Vorkehrungen treffen"?</b>
           </p>
           <div>
@@ -1214,8 +1411,53 @@
         </li>
       </ol>
       <div class="w-100 text-center">
-        <button class="cta" type="submit">Визначити рівень</button>
+        <button
+          *ngIf="!awaitingResponse; else loadingBtn"
+          [disabled]="this.questions.invalid && this.questions.touched"
+          class="cta"
+          type="submit"
+        >
+          Визначити рівень
+        </button>
+        <ng-template #loadingBtn>
+          <button class="cta" type="button" disabled>
+            <span class="spinner-grow spinner-grow-sm"> </span>
+            Зачекайте...
+          </button>
+        </ng-template>
       </div>
     </form>
+    <ng-template #resultSection>
+      <div class="testResult">
+        <img
+          class="trophy-img"
+          src="../../../../assets/language-test/trophy.png"
+          alt="Trophy"
+        />
+        <h3>Вітаємо!</h3>
+        <p class="text-center">
+          Ваш рівень володіння німецькою мовою: <b>{{ testResult.level }}</b>
+        </p>
+        <p class="text-center">
+          Всього правильних відповідей: <b>{{ testResult.score }}</b>
+        </p>
+        <button
+          (click)="registerForClasses()"
+          type="button"
+          class="cta"
+          style="z-index: 100"
+        >
+          Записатися на заняття
+        </button>
+        <button
+          (click)="questions.reset(); isTestSolved = !isTestSolved"
+          class="btn btn-secondary btn-sm mt-3"
+          type="button"
+          style="z-index: 100"
+        >
+          Спробувати ще раз <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+      </div>
+    </ng-template>
   </div>
 </div>

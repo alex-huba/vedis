@@ -1,0 +1,20 @@
+td.hidden-text::before {
+  content: "****";
+}
+td.hidden-text p{
+  display: none;
+}
+
+form {
+  display: inline-block;
+  border: 1px solid black;
+  max-width: fit-content; 
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: larger;
+}
+
+label {
+  font-weight: 600;
+}

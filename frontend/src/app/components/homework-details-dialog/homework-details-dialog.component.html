@@ -1,0 +1,43 @@
+<h2 mat-dialog-title>Деталі заняття</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div>
+    <h3>Ім'я учня:</h3>
+    <p>{{ data.studentName }}</p>
+  </div>
+  <div>
+    <h3>Email учня:</h3>
+    <p>{{ data.email }}</p>
+  </div>
+  <div>
+    <h3>Дата виконання:</h3>
+    <p>{{ parseTimestamp(data.dueDate) }}</p>
+  </div>
+  <div>
+    <h3>Статус:</h3>
+    <p>
+      <span *ngIf="data.status === 'not done'; else doneStatus">Не виконано ❌</span>
+      <ng-template #doneStatus>
+        <span>Виконано ✅</span>
+      </ng-template>
+    </p>
+  </div>
+  <h3>Завдання:</h3>
+  <div [innerHTML]="data.content"></div>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <!-- <button
+    (click)="changeEditState()"
+    mat-raised-button
+    style="background-color: var(--purple)"
+    type="button"
+  >
+    Редагувати
+  </button> -->
+</mat-dialog-actions>
+<button
+  mat-dialog-close
+  type="button"
+  class="btn-close closeBtnModal"
+  aria-label="Close"
+></button>

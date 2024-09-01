@@ -1,0 +1,16 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+full-calendar {
+  width: 100%;
+}
+
+#dialogBtn {
+  display: none;
+}
+

@@ -1,0 +1,20 @@
+:host {
+  font-family: nunito-regular;
+  position: relative;
+}
+
+mat-dialog-title {
+  margin-top: 15px;
+}
+
+h3 {
+  color: #000;
+  font-weight: 500;
+  margin: 0;
+}
+
+.closeBtnModal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

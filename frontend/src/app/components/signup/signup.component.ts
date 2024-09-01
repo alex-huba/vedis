@@ -102,10 +102,10 @@ export class SignupComponent {
           },
           error: (event) => {
             this.awaitingResponse = false;
-            if(event.status === 422) {
+            if (event.status === 422) {
               this.showErrorMsg = true;
             }
-          }
+          },
         });
     }
   }

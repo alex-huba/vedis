@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const uuid = require("uuid");
 
-const User = require("../models/user");
+const User = require("../models/user.model");
 
 exports.signup = async (req, res, next) => {
   // Check validation of request body
@@ -91,13 +91,23 @@ exports.login = async (req, res, next) => {
     // Generate jwt
     const token = jwt.sign(
       {
+        id: storedUser.id,
+        name: storedUser.name,
         email: storedUser.email,
-        userId: storedUser.id,
+        role: storedUser.role,
       },
       process.env.JWT_SECRET,
       { expiresIn: "30m" }
     );
-    res.status(200).json({ token: token, userId: storedUser.id });
+    res.status(200).json({
+      token: token,
+      user: {
+        id: storedUser.id,
+        name: storedUser.name,
+        email: storedUser.email,
+        role: storedUser.role,
+      },
+    });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -131,5 +141,35 @@ exports.verifyToken = async (req, res, next) => {
     return;
   }
 
-  res.status(200).end();
+  res.status(200).json({
+    user: {
+      id: decodedToken.id,
+      name: decodedToken.name,
+      email: decodedToken.email,
+      role: decodedToken.role,
+    },
+  });
+};
+
+// Check whether user has teacher rights
+exports.verifyTeacherRole = async (req, res, next) => {
+  const authHeader = req.get("Authorization");
+  const token = authHeader.split(" ")[1];
+  let decodedToken;
+  try {
+    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    err.statusCode = 401;
+    throw err;
+  }
+  if (!decodedToken) {
+    const error = new Error("Not authenticated");
+    error.statusCode = 401;
+    throw error;
+  }
+  if (decodedToken.role !== "teacher") {
+    const error = new Error("Not authenticated");
+    error.statusCode = 401;
+    throw error;
+  }
 };

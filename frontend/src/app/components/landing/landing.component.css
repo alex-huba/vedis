@@ -1,7 +1,6 @@
 :host {
   width: 100%;
-  padding-top: 20px;
-  background-color: var(--light-blue);
+  background-color: #ECEFFF;
 }
 
 .section-wrapper {
@@ -12,10 +11,9 @@
 /* Hero section */
 #hero-card {
   display: flex;
-  justify-content: space-between;
-  width: 90%;
+  justify-content: space-around;
+  width: 100%;
   background: linear-gradient(to right, #CFB8FE, #F6BFF7);
-  border-radius: 20px;
   align-items: center;
   padding: 20px;
   gap: 20px;
@@ -358,7 +356,7 @@ swiper-slide h3 {
 }
 
 .accordion {
-  background-color: #dbcafc;
+  background-color: var(--purple);
   color: #444;
   cursor: pointer;
   padding: 18px;

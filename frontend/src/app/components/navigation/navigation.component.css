@@ -1,25 +1,26 @@
 /* Navbar container */
 #nav-layer {
   background-color: var(--dark-blue);
+  padding: 5px 10px;
 }
 
 /* Navbar logo */
 #nav-logo {
-  width: 95px;
-  height: 95px;
+  width: 100px;
+  height: 100px;
 }
 
 /* Navbar links */
 .custom-link {
   color: white;
   text-decoration: none;
-  font-family: nunito-regular;
-  font-size: 18px;
+  font-family: montserrat-medium;
+  font-size: 16px;
   position: relative;
 }
 
 .custom-link:hover {
-  color: #E87481;
+  color: #e87481;
 }
 
 /* Underscore line for hovered links */
@@ -29,62 +30,14 @@
 
 .underscore-link:hover:after {
   position: absolute;
-  content: '';
+  content: "";
   height: 2px;
   bottom: 8px;
   margin: 0 auto;
   left: 0;
   right: 0;
-  width: 80%;
-  background: #E87481;
-}
-
-
-/* Language selection dropdown */
-#dropdown-container {
-  position: relative;
-}
-
-#dropdown-menu {
-  display: none;
-  position: absolute;
-  top: calc(100%);
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #fff;
-  border-radius: 7px;
-  border: 1px solid black;
-  gap: 5px;
-}
-
-#dropdown-container:hover #dropdown-menu {
-  display: flex;
-  flex-direction: column;
-}
-
-.dropdown-btn {
-  background: none;
-  border: none;
-  font-family: nunito-regular;
-  font-size: 18px;
-  color: #000;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-.dropdown-btn:hover {
-  background-color: #eee;
-}
-
-.nav-link #arrow::before {
-  transition: 0.7s;
-}
-
-#dropdown-container:hover .nav-link #arrow::before {
-  transform: rotate(-180deg);
+  width: 85%;
+  background: #e87481;
 }
 
 /* CTA button */
@@ -93,16 +46,16 @@
   font-family: montserrat-medium;
   font-size: 15px;
   transition: 0.5s ease;
-  background-color: #E87481;
+  background-color: #e87481;
   color: #fff;
-  border: 2px solid #E87481;
+  border: 2px solid #e87481;
   padding: 10px;
 }
 
 #cta-btn:hover {
   background-color: #fff;
-  border: 2px solid #E87481;
-  color: #E87481;
+  border: 2px solid #e87481;
+  color: #e87481;
 }
 
 /* Hamburger btns */
@@ -140,7 +93,7 @@
 }
 
 .hamburger-figure:hover span {
-  background: #E87481;
+  background: #e87481;
   border-radius: 10px;
   height: 4px;
   margin: 4px 0;
@@ -148,6 +101,9 @@
 
 /* Offcanvas close btn */
 #close-btn {
+  top: 15px;
+  right: 5px;
+  position: absolute;
   color: #fff;
   background: none;
   border: none;
@@ -158,7 +114,7 @@
 }
 
 #close-btn:hover i:before {
-  color: #E87481;
+  color: #e87481;
 }
 
 /* Offcanvas links */
@@ -170,7 +126,7 @@
 }
 
 .offcanvas-link:hover {
-  color: #E87481;
+  color: #e87481;
 }
 
 /* Offcanvas-cta-btn  */
@@ -179,54 +135,16 @@
   font-family: montserrat-medium;
   font-size: 30px;
   transition: 0.5s ease;
-  background-color: #E87481;
+  background-color: #e87481;
   color: #fff;
-  border: 2px solid #E87481;
+  border: 2px solid #e87481;
   padding: 10px;
 }
 
 #offcanvas-cta-btn:hover {
   background-color: #fff;
-  border: 2px solid #E87481;
-  color: #E87481;
-}
-
-
-#bottom-links {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-#bottom-links button {
-  background: none;
-  border: none;
-  font-family: nunito-regular;
-  font-size: 30px;
-  color: #000;
-  border-radius: 7px;
-  display: flex;
-  align-items: center;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#bottom-links button:hover {
-  color: #E87481;
-}
-
-#bottom-links span {
-  font-size: 20px;
-}
-
-.avatar {
-  vertical-align: middle;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: 3px solid #c0a5f6;
-  cursor: pointer;
+  border: 2px solid #e87481;
+  color: #e87481;
 }
 
 .icon-wrapper {
@@ -239,8 +157,18 @@
   height: 25px;
 }
 
+.dropdown-item {
+  font-family: montserrat-medium;
+}
+
 fa-icon {
   font-size: 15px;
+}
+
+@media screen and (max-width: 1027px) and (min-width: 993px) {
+  .custom-link {
+    font-size: 14px;
+  }
 }
 
 @media screen and (max-width: 437px) {
@@ -249,10 +177,6 @@ fa-icon {
   }
 
   #offcanvas-cta-btn {
-    font-size: 20px;
-  }
-
-  #bottom-links button {
     font-size: 20px;
   }
 }

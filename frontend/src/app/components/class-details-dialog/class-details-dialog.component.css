@@ -1,0 +1,14 @@
+:host {
+  font-family: nunito-regular;
+  position: relative;
+}
+
+mat-dialog-title {
+  margin-top: 15px;
+}
+
+.closeBtnModal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

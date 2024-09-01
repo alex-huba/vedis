@@ -3,6 +3,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppRoutingModule } from './app-routing.module';
+
+// Services
+import { InterceptorService } from './services/interceptor.service';
 
 // Swiper.js
 import { register } from 'swiper/element/bundle';
@@ -11,10 +15,21 @@ register();
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 // Phone number validator
 import { NgxIntlTelInputModule } from 'ngx-intl-tel-input';
+// Angular material components
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+// FullCalendar library
+import { FullCalendarModule } from '@fullcalendar/angular';
+// Ngx text editor library
+import { NgxSimpleTextEditorModule } from 'ngx-simple-text-editor';
 
 // Components
-import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NewTaskComponent } from './components/new-task/new-task.component';
+import { ClassDetailsDialogComponent } from './components/class-details-dialog/class-details-dialog.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { HomeComponent } from './components/home/home.component';
 import { EnglishTestComponent } from './components/landing-tests/english-test/english-test.component';
@@ -22,10 +37,14 @@ import { GermanTestComponent } from './components/landing-tests/german-test/germ
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { NewClassComponent } from './components/new-class/new-class.component';
+import { ScheduleComponent } from './components/schedule/schedule.component';
 import { SignupComponent } from './components/signup/signup.component';
-
-// Services
-import { InterceptorService } from './services/interceptor.service';
+import { StudentsComponent } from './components/students/students.component';
+import { TasksComponent } from './components/tasks/tasks.component';
+import { HomeworkDetailsDialogComponent } from './components/homework-details-dialog/homework-details-dialog.component';
+import { DictionaryComponent } from './components/dictionary/dictionary.component';
+import { NewWordComponent } from './components/new-word/new-word.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +57,15 @@ import { InterceptorService } from './services/interceptor.service';
     LoginComponent,
     HomeComponent,
     SignupComponent,
+    ScheduleComponent,
+    TasksComponent,
+    ClassDetailsDialogComponent,
+    NewClassComponent,
+    StudentsComponent,
+    NewTaskComponent,
+    HomeworkDetailsDialogComponent,
+    DictionaryComponent,
+    NewWordComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +76,13 @@ import { InterceptorService } from './services/interceptor.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatSidenavModule,
+    FullCalendarModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatSnackBarModule,
+    MatIconModule,
+    NgxSimpleTextEditorModule,
   ],
   providers: [
     {
