@@ -1,0 +1,176 @@
+#about-card {
+  width: 90%;
+  gap: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#about-text {
+  font-size: 16px;
+  background-color: #fff;
+  box-shadow: var(--shadow);
+  border-radius: 20px;
+  padding: 20px;
+  position: relative;
+  max-width: 800px;
+}
+
+#about-img {
+  width: 50vh;
+  height: auto;
+  border-radius: 0 20px 0 20px;
+  box-shadow: 6px 6px #000d83;
+}
+
+#about-lines {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: auto;
+  height: auto;
+}
+
+.about-background-img {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  opacity: 45%;
+}
+
+#about-star {
+  transform: rotate(20deg);
+  bottom: 3%;
+  right: 3%;
+}
+
+#about-laptop {
+  transform: rotate(20deg);
+  right: 33%;
+  top: 5%;
+}
+
+#about-languages {
+  transform: rotate(-15deg);
+  bottom: 0;
+  left: 7%;
+}
+
+#about-pros {
+  display: flex;
+  gap: 30px;
+}
+
+.about-paragraph {
+  margin-bottom: 30px;
+}
+
+.slide-in-right,
+.slide-in-left {
+  opacity: 0;
+  transform: translateX(100%);
+  /* Start from the right for right-sliding */
+  transition: transform 1s ease-out, opacity 1s ease-out;
+}
+
+.slide-in-left {
+  transform: translateX(-100%); /* Start from the left for left-sliding */
+}
+
+/* Active class that triggers the animation */
+.active {
+  opacity: 1;
+  transform: translateX(0); /* Slide to original position */
+}
+
+@media only screen and (max-width: 1200px) {
+  #about-card {
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+
+  #about-img {
+    width: 50%;
+    height: auto;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #about-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #about-laptop {
+    display: none;
+  }
+
+  #about-pros {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0;
+  }
+
+  .about-paragraph {
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 620px) {
+  #about-lines {
+    display: none;
+  }
+}
+
+/* ======================================= */
+/* about-teacher section */
+#teacher-card {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 60px;
+}
+
+#teacher-img {
+  width: 70%;
+  border-radius: 0 20px 0 20px;
+  box-shadow: 6px 6px #000d83;
+}
+
+#teacher-text {
+  background-color: #f1f6ff;
+  font-size: 16px;
+  border-radius: 20px;
+  padding: 20px;
+  max-width: 730px;
+  height: min-content;
+  box-shadow: var(--shadow);
+}
+
+/* Media queries for about-teacher-section */
+@media only screen and (max-width: 1100px) {
+  #teacher-card {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+  }
+
+  #teacher-content {
+    text-align: center;
+  }
+
+  #teacher-text {
+    text-align: center;
+    max-width: 500px;
+    font-size: 15px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  #teacher-img {
+    width: 55%;
+    height: auto;
+  }
+}

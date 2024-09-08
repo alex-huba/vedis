@@ -45,6 +45,15 @@ import { TasksComponent } from './components/tasks/tasks.component';
 import { HomeworkDetailsDialogComponent } from './components/homework-details-dialog/homework-details-dialog.component';
 import { DictionaryComponent } from './components/dictionary/dictionary.component';
 import { NewWordComponent } from './components/new-word/new-word.component';
+import { CarouselSectionComponent } from './components/landing/carousel-section/carousel-section.component';
+import { AboutSectionComponent } from './components/landing/about-section/about-section.component';
+import { TestSectionComponent } from './components/landing/test-section/test-section.component';
+import { SchoolProsSectionComponent } from './components/landing/school-pros-section/school-pros-section.component';
+import { FaqSectionComponent } from './components/landing/faq-section/faq-section.component';
+import { ContactSectionComponent } from './components/landing/contact-section/contact-section.component';
+import { BlogSectionComponent } from './components/landing/blog-section/blog-section.component';
+import { SocialsSectionComponent } from './components/landing/socials-section/socials-section.component';
+import { HeroSectionComponent } from './components/landing/hero-section/hero-section.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +75,15 @@ import { NewWordComponent } from './components/new-word/new-word.component';
     HomeworkDetailsDialogComponent,
     DictionaryComponent,
     NewWordComponent,
+    HeroSectionComponent,
+    CarouselSectionComponent,
+    AboutSectionComponent,
+    TestSectionComponent,
+    SchoolProsSectionComponent,
+    FaqSectionComponent,
+    ContactSectionComponent,
+    BlogSectionComponent,
+    SocialsSectionComponent,
   ],
   imports: [
     BrowserModule,
