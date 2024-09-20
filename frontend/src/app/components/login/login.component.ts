@@ -9,15 +9,15 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent {
   loginForm = this.fb.group({
-    email: [
-      '',
-      [Validators.required, Validators.email, Validators.minLength(5)],
-    ],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
   // True when response status is 401 (invalid pwd or email)
   showErrorMsg = false;
+
+  // Error msg after login attempt
+  errorMsg = '';
 
   // Used by submit btn
   awaitingResponse = false;
@@ -42,6 +42,7 @@ export class LoginComponent {
           this.awaitingResponse = false;
         },
         error: (event) => {
+          this.errorMsg = event.error.msg;
           this.awaitingResponse = false;
           this.showErrorMsg = true;
         },

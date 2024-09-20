@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth.routes");
 const testRoutes = require("./routes/test.routes");
 const studentRoutes = require("./routes/student.routes");
-const tutorialRoutes = require("./routes/tutorial.routes");
+const classRoutes = require("./routes/class.routes");
 const homeworkRoutes = require("./routes/homework.routes");
 const dictionaryRoutes = require("./routes/dictionary.routes");
 
@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 app.use("/auth", authRoutes);
 app.use("/api/test", testRoutes);
 app.use("/api/students", studentRoutes);
-app.use("/api/classes", tutorialRoutes);
+app.use("/api/classes", classRoutes);
 app.use("/api/homework", homeworkRoutes);
 app.use("/api/dictionary", dictionaryRoutes);
 app.use(errorController.get404);

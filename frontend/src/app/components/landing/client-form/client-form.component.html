@@ -1,0 +1,185 @@
+<section style="background-color: #fff" class="section-wrapper">
+  <div id="contact-form-section">
+    <div id="contact-card">
+      <div id="contact-background">
+        <h3 class="sub-heading" style="color: #fff">
+          Ваш шлях до C1 починається тут!
+        </h3>
+
+        <form
+          [formGroup]="contactForm"
+          (ngSubmit)="onSubmit()"
+        >
+          <!-- Name field -->
+          <fieldset class="input-group has-validation">
+            <div
+              class="w-100"
+              [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+            >
+              <input
+                [class.is-invalid]="
+                  contactForm.get('name')?.invalid &&
+                  (contactForm.get('name').dirty ||
+                    contactForm.get('name').touched)
+                "
+                formControlName="name"
+                type="text"
+                class="form-control"
+                placeholder="Ім'я*"
+              />
+            </div>
+            <div class="invalid-feedback">
+              <span class="error-span" *ngIf="name.hasError('required')">
+                Ім'я обов'язкове
+              </span>
+              <div *ngIf="name.hasError('pattern')">
+                <span class="error-span">
+                  Ім'я може містити лише літери, апостроф та пробіл
+                </span>
+              </div>
+              <div *ngIf="name.hasError('minlength')">
+                <span class="error-span">
+                  Ім'я повинно містити принаймні 2 символи
+                </span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Email field -->
+          <fieldset class="input-group has-validation">
+            <div
+              class="w-100"
+              [class.is-invalid]="
+                email.invalid && (email.dirty || email.touched)
+              "
+            >
+              <input
+                [class.is-invalid]="
+                  email.invalid && (email.dirty || email.touched)
+                "
+                formControlName="email"
+                type="text"
+                class="form-control"
+                id="emailControl"
+                placeholder="Пошта*"
+              />
+            </div>
+            <div class="invalid-feedback">
+              <div *ngIf="email.hasError('required')">
+                <span class="error-span">Email обов'язковий</span>
+              </div>
+              <div
+                *ngIf="email.hasError('email') || email.hasError('minlength')"
+              >
+                <span class="error-span">Email недійсний</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Language field -->
+          <fieldset class="">
+            <select
+              formControlName="language"
+              [class.is-invalid]="
+                language.value == 'default' &&
+                (language.dirty || language.touched)
+              "
+              class="form-select"
+            >
+              <option selected disabled value="default">Оберіть курс*</option>
+              <option value="EN">Англійська</option>
+              <option value="DE">Німецька</option>
+              <option value="EN & DE">Англійська та німецька</option>
+            </select>
+            <div id="validationServer04Feedback" class="invalid-feedback">
+              <span
+                class="error-span"
+                *ngIf="
+                  language.value == 'default' &&
+                  (language.dirty || language.touched)
+                "
+                >Це поле є обов'язковим</span
+              >
+            </div>
+          </fieldset>
+
+          <!-- Phone field -->
+          <fieldset class="input-group has-validation">
+            <div
+              [class.is-invalid]="
+                phone.invalid && (phone.dirty || phone.touched)
+              "
+              class="form-floating"
+            >
+              <ngx-intl-tel-input
+                [class.is-invalid]="phone.invalid && phone.touched"
+                [cssClass]="'form-control'"
+                [preferredCountries]="preferredCountries"
+                [enableAutoCountrySelect]="true"
+                [customPlaceholder]="'Номер телефону*'"
+                [searchCountryFlag]="false"
+                [selectFirstCountry]="true"
+                [phoneValidation]="true"
+                [separateDialCode]="true"
+                name="phone1"
+                formControlName="phone"
+              >
+              </ngx-intl-tel-input>
+            </div>
+            <div class="invalid-feedback">
+              <div *ngIf="phone.hasError('required') && phone.touched">
+                <span class="error-span">Номер телефону обов'язковий</span>
+              </div>
+              <div *ngIf="phone.hasError('validatePhoneNumber')">
+                <span class="error-span">Номер телефону недійсний</span>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Contact field -->
+          <fieldset>
+            <select
+              formControlName="contactOption"
+              [class.is-invalid]="
+                contactOption.value == 'default' &&
+                (contactOption.dirty || contactOption.touched)
+              "
+              class="form-select"
+            >
+              <option selected disabled value="default">
+                Як з Вами зв'язатися?*
+              </option>
+              <option value="telegram">Telegram</option>
+              <option value="viber">Viber</option>
+              <option value="whatsapp">WhatsApp</option>
+              <option value="email">Електронна пошта</option>
+            </select>
+            <div id="validationServer05Feedback" class="invalid-feedback">
+              <span
+                class="error-span"
+                *ngIf="
+                  contactOption.value == 'default' &&
+                  (contactOption.dirty || contactOption.touched)
+                "
+                >Це поле є обов'язковим</span
+              >
+            </div>
+          </fieldset>
+
+          <div class="w-100 d-flex justify-content-center">
+            <button type="submit" id="submit-btn">
+              Залишити заявку
+              <i class="bi bi-arrow-up-short"></i>
+            </button>
+          </div>
+        </form>
+
+        <img
+          id="contact-img"
+          src="../../../../assets/landing/client-form/contact.png"
+          alt="Woman at the desk"
+        />
+      </div>
+    </div>
+  </div>
+</section>

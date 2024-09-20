@@ -2,12 +2,11 @@ require("dotenv").config();
 const { validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const uuid = require("uuid");
 
 const User = require("../models/user.model");
 
 exports.signup = async (req, res, next) => {
-  // Check validation of request body
+  // Check validation of request body for errors
   const validationRes = validationResult(req);
   if (!validationRes.isEmpty()) {
     let resErrors = [];
@@ -18,39 +17,25 @@ exports.signup = async (req, res, next) => {
       });
     });
 
-    if (
-      validationRes.errors.some((e) => e.msg === "Email address already exist")
-    ) {
-      return res.status(422).json({ msg: "Email address already exists" });
-    }
-
     return res
       .status(400)
-      .json({ msg: "User not registered", errors: resErrors });
+      .json({ msg: "Користувача не зареєстровано", errors: resErrors });
   }
-
-  // Extract params from request body
-  const name = req.body.name;
-  const email = req.body.email;
-  const password = req.body.password;
-  const phone = req.body.phone;
 
   // Save a new user w/ hashed pwd to db
   try {
-    const hashedPassword = await bcrypt.hash(password, 12);
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
-    const userId = uuid.v4();
     const userDetails = {
-      id: userId,
-      name: name,
-      email: email,
+      name: req.body.name,
+      email: req.body.email,
       password: hashedPassword,
-      phone: phone,
+      phone: req.body.phone,
     };
 
     await User.save(userDetails);
 
-    res.status(201).json({ msg: "user created" });
+    res.status(201).json({ msg: "Користувача створено" });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -60,17 +45,32 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  // Extract params from request body
-  const email = req.body.email;
-  const password = req.body.password;
+  // Check validation of request body for errors
+  const validationRes = validationResult(req);
+  if (!validationRes.isEmpty()) {
+    let resErrors = [];
+    validationRes.errors.forEach((e) => {
+      resErrors.push({
+        field: e.param,
+        error: e.msg,
+      });
+    });
+
+    return res.status(400).json({
+      msg: "Некоректні дані для логіну",
+      errors: resErrors,
+    });
+  }
 
   // Find user by email in db
   try {
-    const user = await User.findByEmail(email);
+    const user = await User.findByEmail(req.body.email);
 
     // Check whether user is found. If not -> throw an error
     if (user[0].length !== 1) {
-      const error = new Error("User with this email not found");
+      const error = new Error(
+        "Користувача з цією електронною поштою не знайдено"
+      );
       error.statusCode = 401;
       throw error;
     }
@@ -79,11 +79,20 @@ exports.login = async (req, res, next) => {
     const storedUser = user[0][0];
 
     // Check whether stored and supplied pwds are equal
-    const isEqual = await bcrypt.compare(password, storedUser.password);
+    const isEqual = await bcrypt.compare(
+      req.body.password,
+      storedUser.password
+    );
 
     // Throw an error if pwds are not equal
     if (!isEqual) {
-      const error = new Error("Wrong password");
+      const error = new Error("Неправильний пароль");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    if (storedUser.role == "pending") {
+      const error = new Error("Вашу заявку ще не розглянули");
       error.statusCode = 401;
       throw error;
     }
@@ -99,6 +108,7 @@ exports.login = async (req, res, next) => {
       process.env.JWT_SECRET,
       { expiresIn: "30m" }
     );
+
     res.status(200).json({
       token: token,
       user: {
@@ -116,12 +126,10 @@ exports.login = async (req, res, next) => {
   }
 };
 
+// Check token on the start of the app in case user re-open tab
 exports.verifyToken = async (req, res, next) => {
-  // Extract jwt from request body
-  const token = req.body.token;
-
   // If jwt is not provided -> return 401 Unauthorized
-  if (!token) {
+  if (!req.body.token) {
     res.status(401).end();
     return;
   }
@@ -129,7 +137,7 @@ exports.verifyToken = async (req, res, next) => {
   // Verify jwt
   let decodedToken;
   try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    decodedToken = jwt.verify(req.body.token, process.env.JWT_SECRET);
   } catch (err) {
     res.status(401).end();
     return;
@@ -149,27 +157,4 @@ exports.verifyToken = async (req, res, next) => {
       role: decodedToken.role,
     },
   });
-};
-
-// Check whether user has teacher rights
-exports.verifyTeacherRole = async (req, res, next) => {
-  const authHeader = req.get("Authorization");
-  const token = authHeader.split(" ")[1];
-  let decodedToken;
-  try {
-    decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (err) {
-    err.statusCode = 401;
-    throw err;
-  }
-  if (!decodedToken) {
-    const error = new Error("Not authenticated");
-    error.statusCode = 401;
-    throw error;
-  }
-  if (decodedToken.role !== "teacher") {
-    const error = new Error("Not authenticated");
-    error.statusCode = 401;
-    throw error;
-  }
 };

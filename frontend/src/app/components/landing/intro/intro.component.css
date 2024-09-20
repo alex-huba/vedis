@@ -1,0 +1,133 @@
+h3 {
+  font-family: montserrat-bold;
+  color: var(--dark-blue);
+}
+
+#hero-card {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  background: linear-gradient(to right, #cfb8fe, #f6bff7);
+  padding: 20px;
+  gap: 20px;
+}
+
+#hero-pros p {
+  font-family: nunito;
+}
+
+#hero-btns {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  align-items: center;
+}
+
+#check-lvl-btn {
+  font-size: 18px;
+  text-decoration: none;
+  color: #000d83;
+  font-weight: 600;
+  display: flex;
+  align-items: flex-end;
+  transition: 0.7s;
+  background: none;
+  border: none;
+}
+
+#check-lvl-btn:hover i,
+#check-lvl-btn:active i {
+  transition: 0.7s;
+  transform: translateX(5px);
+}
+
+#hero-img-phone {
+  display: none;
+  position: relative;
+  width: 40vh;
+}
+
+#hero-img,
+#hero-img-phone {
+  text-align: center;
+}
+
+#hero-img img,
+#hero-img-phone img {
+  border-radius: 15px;
+  pointer-events: none;
+}
+
+#student-gif {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-object-fit: cover;
+  box-shadow: 5px 5px 5px rgb(129, 129, 129);
+  border: 4px solid var(--dark-blue);
+}
+
+#teacher-gif {
+  position: absolute;
+  left: -15%;
+  bottom: 25px;
+  height: 20vh;
+  width: 15vh;
+}
+
+/* Media queries for hero-section */
+@media screen and (max-width: 1010px) {
+  #hero-card {
+    width: 100%;
+    padding: 15px;
+  }
+
+  #hero-img {
+    display: none;
+  }
+
+  #hero-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #hero-btns {
+    justify-content: center;
+    gap: 15px;
+  }
+
+  #hero-img-phone {
+    display: block;
+    width: 30vh;
+  }
+
+  #teacher-gif {
+    left: -25%;
+    height: 15vh;
+  }
+
+  #hero-pros {
+    font-size: 11px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  #pros-left,
+  #pros-right {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 783px) {
+  #hero-card {
+    flex-direction: column;
+  }
+
+  #hero-btns {
+    margin-top: 10px;
+    flex-direction: column;
+  }
+}

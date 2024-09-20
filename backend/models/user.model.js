@@ -1,12 +1,6 @@
 const db = require("../util/db");
 
 module.exports = class User {
-  constructor(name, email, password) {
-    this.name = name;
-    this.email = email;
-    this.password = password;
-  }
-
   static findByEmail(email) {
     return db.execute("SELECT * FROM users WHERE email = ?", [email]);
   }
@@ -23,6 +17,10 @@ module.exports = class User {
     return db.execute(
       "SELECT * FROM users WHERE role = 'student' or role = 'pending'"
     );
+  }
+
+  static getPendingStudents() {
+    return db.execute("SELECT * FROM users WHERE role = 'pending'");
   }
 
   static getTitleById(id) {

@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as confetti from 'canvas-confetti';
 import { LangTestService } from 'src/app/services/lang-test.service';
@@ -10,7 +10,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
   templateUrl: './english-test.component.html',
   styleUrls: ['./english-test.component.css'],
 })
-export class EnglishTestComponent {
+export class EnglishTestComponent implements AfterViewInit {
   questions = this.fb.group({
     q1: ['', Validators.required],
     q2: ['', Validators.required],
@@ -61,6 +61,10 @@ export class EnglishTestComponent {
     private ls: LangTestService,
     private ss: ScrollService
   ) {}
+
+  ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
+  }
 
   onSubmit() {
     if (this.questions.invalid) {

@@ -19,10 +19,6 @@ export class ScrollService {
   }
 
   navigateAndScroll(link: string, elementId: string) {
-    //   this.router.navigate([link]);
-    //   setTimeout(() => {
-    //     this.scrollToElement(elementId);
-    //   }, 100);
     this.router.navigate([link]).then(() => {
       this.scrollToElement(elementId);
     });

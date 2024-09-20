@@ -5,7 +5,7 @@
     class="alert alert-danger alert-dismissible text-center"
     role="alert"
   >
-    <div><span>Неправильний логін або пароль</span></div>
+    <div><span>{{ errorMsg }}</span></div>
     <button
       (click)="showErrorMsg = !showErrorMsg"
       type="button"

@@ -14,6 +14,8 @@ router.get(
   studentController.getStudentsUnfiltered
 );
 
+router.get("/pending", authMiddleware, studentController.getPendingStudents);
+
 router.delete(
   "/",
   [authMiddleware, body("id").trim().not().isEmpty()],

@@ -1,40 +1,45 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 
 const homeworkController = require("../controllers/homework.controller");
 const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-// Create a new homework
 router.post(
   "/",
   [
     authMiddleware,
     body("studentId").trim().not().isEmpty(),
-    body("date").trim().not().isEmpty(),
-    body("status").trim().not().isEmpty(),
+    body("dueDate").trim().not().isEmpty(),
     body("content").trim().not().isEmpty(),
   ],
-  homeworkController.createHomework
+  homeworkController.create
 );
 
-// Get homework by studentId
-router.get("/:studentId", authMiddleware, homeworkController.getHomeworkById);
+router.get(
+  "/:studentId",
+  authMiddleware,
+  param("studentId").trim().not().isEmpty(),
+  homeworkController.fetchByStudentId
+);
 
-// Get all homework
-router.get("/", authMiddleware, homeworkController.getAllHomework);
+router.get("/", authMiddleware, homeworkController.fetchAll);
 
 router.delete(
   "/",
   [authMiddleware, body("id").trim().not().isEmpty()],
-  homeworkController.deleteHomework
+  homeworkController.delete
 );
 
 router.put(
   "/:id",
-  [authMiddleware, body("status").trim().not().isEmpty()],
-  homeworkController.updateHomeworkStatus
+  [
+    authMiddleware,
+    param("id").trim().not().isEmpty(),
+    body("done").isBoolean().toBoolean(),
+  ],
+  homeworkController.updateStatus
 );
 
 module.exports = router;

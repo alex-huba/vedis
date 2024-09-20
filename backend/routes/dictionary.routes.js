@@ -1,40 +1,36 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 
 const dictionaryController = require("../controllers/dictionary.controller");
 const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-// Add a new word to the dictionary
 router.post(
   "/",
   [
     authMiddleware,
     body("studentId").trim().not().isEmpty(),
-    body("date").trim().not().isEmpty(),
     body("word").trim().not().isEmpty(),
     body("transcription").trim().not().isEmpty(),
     body("translation").trim().not().isEmpty(),
   ],
-  dictionaryController.addNewWord
+  dictionaryController.create
 );
 
-// Get dictionary by studentId
 router.get(
   "/:studentId",
   authMiddleware,
-  dictionaryController.getDictionaryById
+  param("studentId").trim().not().isEmpty(),
+  dictionaryController.fetchByStudentId
 );
 
-// Get the whole dictionary
-router.get("/", authMiddleware, dictionaryController.getWholeDictionary);
+router.get("/", authMiddleware, dictionaryController.fetchAll);
 
-// Delete word from dictionary
 router.delete(
   "/",
   [authMiddleware, body("id").trim().not().isEmpty()],
-  dictionaryController.deleteWord
+  dictionaryController.delete
 );
 
 module.exports = router;

@@ -56,11 +56,11 @@ body {
 }
 
 body.modal-open section {
-  -webkit-filter: blur(4px);
-  -moz-filter: blur(4px);
-  -o-filter: blur(4px);
-  -ms-filter: blur(4px);
-  filter: blur(4px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);
+  -o-filter: blur(10px);
+  -ms-filter: blur(10px);
+  filter: blur(10px);
 }
 
 .sub-heading {
@@ -90,8 +90,8 @@ ngx-intl-tel-input.is-invalid>.iti>input:focus {
 
 .avatar {
   vertical-align: middle;
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   border: 3px solid #c0a5f6;
   cursor: pointer;

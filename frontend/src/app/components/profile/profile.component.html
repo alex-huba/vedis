@@ -1,0 +1,182 @@
+<mat-drawer-container autosize>
+  <mat-drawer #drawer mode="side">
+    <div class="sidenav-links">
+      <div style="display: flex; flex-direction: column">
+        <a
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          routerLink="/home/"
+        >
+          <fa-icon [icon]="houseIcon"></fa-icon>&nbsp; Головна
+        </a>
+        <a routerLink="/home/schedule" routerLinkActive="is-active">
+          <i class="bi bi-calendar4-week"></i>&nbsp; Розклад
+        </a>
+        <a
+          *ngIf="isTeacher"
+          routerLinkActive="is-active"
+          routerLink="/home/new-class"
+        >
+          <i class="bi bi-plus-circle"></i>&nbsp; Нове заняття
+        </a>
+        <a routerLinkActive="is-active" routerLink="/home/tasks">
+          <fa-icon [icon]="taskIcon"></fa-icon>&nbsp; Завдання
+        </a>
+        <a
+          *ngIf="isTeacher"
+          routerLinkActive="is-active"
+          routerLink="/home/new-task"
+        >
+          <fa-icon [icon]="folderIcon"></fa-icon>&nbsp; Нове завдання
+        </a>
+        <a routerLinkActive="is-active" routerLink="/home/dictionary">
+          <i class="bi bi-journal-bookmark-fill"></i>&nbsp; Словник
+        </a>
+        <a
+          *ngIf="isTeacher"
+          routerLinkActive="is-active"
+          routerLink="/home/new-word"
+        >
+          <fa-icon [icon]="penIcon"></fa-icon>&nbsp; Додати слово
+        </a>
+        <a
+          *ngIf="isTeacher"
+          routerLinkActive="is-active"
+          routerLink="/home/students"
+        >
+          <i class="bi bi-people-fill"></i>&nbsp; Учні
+        </a>
+      </div>
+      <button (click)="signOut()" type="button">
+        <fa-icon [icon]="turnOffIcon"></fa-icon>&nbsp; Вийти
+      </button>
+    </div>
+  </mat-drawer>
+
+  <div
+    style="
+      background: #fff;
+      padding: 5px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 0px 0px 15px 15px;
+    "
+  >
+    <button
+      class="toggler"
+      type="button"
+      (click)="drawer.toggle(); renderCalendar()"
+    >
+      <i class="bi bi-list"></i>
+    </button>
+
+    <input type="search" name="search" id="search-input" placeholder="Знайти" />
+  </div>
+
+  <div class="home-main-page">
+    <!-- Home page content -->
+    <div *ngIf="isHomePage">
+      <!-- Avatar and greeting -->
+      <div style="display: flex; align-items: start; gap: 10px">
+        <img
+          class="avatar"
+          src="../../../assets/profile/cb3d7a03b27e43429d8f330f7f97459f.jpeg"
+          alt=""
+        />
+        <div style="display: flex; flex-direction: column">
+          <h3 class="mb-0">Вітаємо, {{ username }}</h3>
+          <p
+            style="font-size: 15px; color: rgb(92, 92, 92); font-family: nunito"
+          >
+            Зареєстровані як вчитель
+          </p>
+        </div>
+      </div>
+
+      <!-- Info cards -->
+      <div
+        style="display: flex; justify-content: space-between; margin-top: 15px"
+      >
+        <div>
+          <div style="display: flex; gap: 20px">
+            <!-- Card 1 -->
+            <div
+              style="
+                background-image: url('../../../assets/profile/teacher/blue-waves.svg');
+              "
+              class="info-card"
+            >
+              <div>
+                <img
+                  style="width: 30px"
+                  src="../../../assets/profile/teacher/users.svg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <p class="mb-0">Нових заявок:</p>
+                <h5 style="font-family: montserrat-bold">10</h5>
+              </div>
+            </div>
+            <!-- Card 2 -->
+            <div
+              style="
+                background-image: url('../../../assets/profile/teacher/purple-waves.svg');
+              "
+              class="info-card"
+            >
+              <div>
+                <img
+                  style="width: 30px"
+                  src="../../../assets/profile/teacher/lesson.svg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <p class="mb-0">Занять на цьому тижні:</p>
+                <h5 style="font-family: montserrat-bold">10</h5>
+              </div>
+            </div>
+            <!-- Card 3 -->
+            <div
+              style="
+                background-image: url('../../../assets/profile/teacher/yellow-waves.svg');
+              "
+              class="info-card"
+            >
+              <div>
+                <img
+                  style="width: 30px"
+                  src="../../../assets/profile/teacher/todo.svg"
+                  alt=""
+                />
+              </div>
+              <div>
+                <p class="mb-0">Невиконане ДЗ:</p>
+                <h5 style="font-family: montserrat-bold">10</h5>
+              </div>
+            </div>
+          </div>
+          <div class="mt-4 chart-container">
+            <apx-chart
+              [series]="chartOptions.series"
+              [chart]="chartOptions.chart"
+              [xaxis]="chartOptions.xaxis"
+              [yaxis]="chartOptions.yaxis"
+              [title]="chartOptions.title"
+              [markers]="chartOptions.markers"
+              [zoom]="chartOptions.zoom"
+              [grid]="chartOptions.grid"
+            >
+            </apx-chart>
+          </div>
+        </div>
+
+        <full-calendar [options]="calendarOptions"></full-calendar>
+      </div>
+    </div>
+
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

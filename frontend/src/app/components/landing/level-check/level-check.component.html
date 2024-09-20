@@ -1,0 +1,88 @@
+<section class="section-wrapper py-3">
+  <div
+    id="smt"
+    style="display: flex; flex-direction: column; align-items: center"
+  >
+    <div id="lang-text">
+      <h3 class="sub-heading text-center">
+        Визначте свій рівень володіння мовою
+      </h3>
+      <p>
+        Пройдіть наш тест, щоб отримати точну оцінку ваших знань і зрозуміти, з
+        чого почати підготовку до сертифікату, який відкриє шлях до вашої мрії!
+      </p>
+      <img
+        id="levels"
+        src="../../../../assets/landing/level-check/levels.png"
+        alt="Language levels"
+      />
+      <button
+        id="test-button"
+        type="button"
+        data-bs-toggle="modal"
+        data-bs-target="#testModal"
+      >
+        Пройти тест
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Modal for language test -->
+<div class="modal fade" id="testModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div
+      class="modal-content"
+      style="position: relative; border-radius: 15px; padding: 10px"
+    >
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="modal"
+        style="position: absolute; top: 5px; right: 5px; z-index: 1000"
+      ></button>
+      <div class="modal-body">
+        <h3 class="sub-heading text-center" style="font-size: 20px !important">
+          Для якої мови Ви хочете пройти тест?
+        </h3>
+        <div id="modal-content">
+          <a
+            routerLink="english-test"
+            data-bs-dismiss="modal"
+            class="modal-choice"
+            type="button"
+          >
+            <p style="color: black; font-family: montserrat-bold !important">
+              Англійська
+            </p>
+            <img
+              src="../../../../assets/landing/level-check/big-ben.png"
+              alt="Big Ben"
+            />
+          </a>
+          <a
+            routerLink="german-test"
+            data-bs-dismiss="modal"
+            class="modal-choice"
+            type="button"
+          >
+            <p style="color: black; font-family: montserrat-bold">Німецька</p>
+            <img
+              src="../../../../assets/landing/level-check/brandenburger-tor.png"
+              alt="Brandenburger Tor"
+            />
+          </a>
+        </div>
+        <div class="mt-4 d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn btn-secondary btn-sm"
+            data-bs-dismiss="modal"
+          >
+            Обрати пізніше
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

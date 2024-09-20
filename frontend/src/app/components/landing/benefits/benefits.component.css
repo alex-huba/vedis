@@ -1,0 +1,35 @@
+#pros-card {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pro-card {
+  background: linear-gradient(to bottom, #8eb2d7, #4953a7);
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  box-shadow: var(--shadow);
+}
+
+.pro-card h4 {
+  font-family: montserrat-medium;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #fff;
+}
+
+.pro-card img {
+  width: 56px;
+  height: auto;
+}
+
+.card-title {
+  font-family: montserrat-bold;
+  font-size: 25px;
+}
+
+.card-text {
+  font-size: 15px;
+  font-family: nunito;
+}

@@ -1,0 +1,173 @@
+<section id="carousel-wrapper">
+  <button #prevBtnCarousel (click)="prevSlide()" id="control-prev">
+    <fa-icon [icon]="leftIconCarousel"></fa-icon>
+  </button>
+  <swiper-container #swiper class="mySwiper" init="false">
+    <!-- English -->
+    <swiper-slide>
+      <img
+        src="../../../../assets/landing/courses/card-en.png"
+        alt="EN Flag"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        5 курсів
+      </p>
+      <h4>Англійська</h4>
+      <div class="courses">
+        <span> 📌 IELTS</span>
+        <span> 📌 CAE / C1 Advanced</span>
+        <span> 📌 FCE / B2 First</span>
+        <span> 📌 PET / B1 Preliminary</span>
+        <span> 📌 KET / A2 Key</span>
+      </div>
+    </swiper-slide>
+
+    <!-- German -->
+    <swiper-slide>
+      <img
+        src="../../../../assets/landing/courses/card-de.png"
+        alt="DE Flag"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        3 курси
+      </p>
+      <h4>Німецька</h4>
+      <div class="courses">
+        <span> 📌 Goethe-Zertifikat </span>
+        <span> 📌 TELC </span>
+        <span> 📌 TestDAF </span>
+      </div>
+    </swiper-slide>
+
+    <!-- NMT -->
+    <swiper-slide>
+      <img
+        src="../../../../assets/landing/courses/card-ua.png"
+        alt="UA Flag"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        2 курси
+      </p>
+      <h4>НМТ</h4>
+      <div class="courses">
+        <span> 📌 Англійська </span>
+        <span> 📌 Німецька </span>
+      </div>
+    </swiper-slide>
+
+    <!-- Travel -->
+    <swiper-slide>
+      <img
+        src="../../../../assets/landing/courses/suitcase.png"
+        alt="Suitcase"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        1 курс
+      </p>
+      <h4 class="mb-0">Для</h4>
+      <h4>подорожей</h4>
+      <div class="courses">
+        <span> 📌 Отримання візи </span>
+        <span> 📌 Розмова на кордоні </span>
+        <span> 📌 Заселення в готель </span>
+        <span> 📌 Замовлення в ресторані </span>
+      </div>
+    </swiper-slide>
+
+    <!-- Speech practice -->
+    <swiper-slide>
+      <img
+        id="speech-img"
+        src="../../../../assets/landing/courses/speech-bubble.png"
+        alt="Speech Bubble"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        1 курс
+      </p>
+      <h4 class="mb-0">Розмовна</h4>
+      <h4>практика</h4>
+      <div class="courses">
+        <span> 📌 Подолання мовного бар'єру </span>
+        <span> 📌 Корегування вимови </span>
+        <span> 📌 Розвиток практичних навичок </span>
+        <span> 📌 Варіативні комунікатині ситуації </span>
+      </div>
+    </swiper-slide>
+
+    <!-- General preparation -->
+    <swiper-slide>
+      <img
+        src="../../../../assets/landing/courses/preparation.png"
+        alt="Speech Bubble"
+      />
+      <p
+        class="mt-3"
+        style="
+          background: #fff;
+          border-radius: 20px;
+          padding: 0 22px;
+          font-size: 11px;
+          margin-bottom: 5px;
+        "
+      >
+        1 курс
+      </p>
+      <h4 class="mb-0">Загальна</h4>
+      <h4>підготовка</h4>
+      <div class="courses">
+        <span> 📌 Письмо</span>
+        <span> 📌 Лексика</span>
+        <span> 📌 Граматика</span>
+        <span> 📌 Говоріння</span>
+      </div>
+    </swiper-slide>
+  </swiper-container>
+  <button #nextBtnCarousel (click)="nextSlide()" id="control-next">
+    <fa-icon [icon]="rightIconCarousel"></fa-icon>
+  </button>
+</section>

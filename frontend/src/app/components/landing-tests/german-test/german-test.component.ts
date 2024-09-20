@@ -1,5 +1,5 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import * as confetti from 'canvas-confetti';
 import { LangTestService } from 'src/app/services/lang-test.service';
@@ -10,7 +10,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
   templateUrl: './german-test.component.html',
   styleUrls: ['./german-test.component.css'],
 })
-export class GermanTestComponent {
+export class GermanTestComponent implements AfterViewInit {
   questions = this.fb.group({
     q1: ['', Validators.required],
     q2: ['', Validators.required],
@@ -62,11 +62,15 @@ export class GermanTestComponent {
     private ss: ScrollService
   ) {}
 
+  ngAfterViewInit(): void {
+    window.scrollTo(0, 0);
+  }
+
   onSubmit() {
     if (this.questions.invalid) {
       this.questions.markAllAsTouched();
     } else {
-      this.ls.checkLvl(this.questions.value, "deu").subscribe({
+      this.ls.checkLvl(this.questions.value, 'deu').subscribe({
         next: (event) => {
           switch (event.type) {
             case HttpEventType.Sent:

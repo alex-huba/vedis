@@ -1,20 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
 import { EnglishTestComponent } from './components/landing-tests/english-test/english-test.component';
 import { GermanTestComponent } from './components/landing-tests/german-test/german-test.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
-import { NewClassComponent } from './components/new-class/new-class.component';
-import { ScheduleComponent } from './components/schedule/schedule.component';
+import { DictionaryComponent } from './components/profile/dictionary/dictionary.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ScheduleComponent } from './components/profile/schedule/schedule.component';
+import { TasksComponent } from './components/profile/tasks/tasks.component';
+import { NewClassComponent } from './components/profile/teacher/new-class/new-class.component';
+import { NewTaskComponent } from './components/profile/teacher/new-task/new-task.component';
+import { NewWordComponent } from './components/profile/teacher/new-word/new-word.component';
+import { StudentsComponent } from './components/profile/teacher/students/students.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { StudentsComponent } from './components/students/students.component';
-import { TasksComponent } from './components/tasks/tasks.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
-import { NewTaskComponent } from './components/new-task/new-task.component';
-import { DictionaryComponent } from './components/dictionary/dictionary.component';
-import { NewWordComponent } from './components/new-word/new-word.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -25,7 +25,7 @@ const routes: Routes = [
   {
     path: 'home',
     canActivate: [AuthGuardService],
-    component: HomeComponent,
+    component: ProfileComponent,
     children: [
       {
         path: 'schedule',

@@ -1,19 +1,10 @@
 const db = require("../util/db");
 
 module.exports = class Dictionary {
-  constructor(id, studentId, date, word, transcription, translation) {
-    this.id = id;
-    this.studentId = studentId;
-    this.date = date;
-    this.word = word;
-    this.transcription = transcription;
-    this.translation = translation;
-  }
-
-  static save(studentId, date, word, transcription, translation) {
+  static save(studentId, createdAt, word, transcription, translation) {
     return db.execute(
-      "INSERT INTO dictionary (id, studentId, date, word, transcription, translation) VALUES (UUID(), ?,?,?,?,?)",
-      [studentId, date, word, transcription, translation]
+      "INSERT INTO dictionary (id, studentId, createdAt, word, transcription, translation) VALUES (UUID(), ?,?,?,?,?)",
+      [studentId, createdAt, word, transcription, translation]
     );
   }
 
