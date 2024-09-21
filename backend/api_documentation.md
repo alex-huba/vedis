@@ -177,3 +177,29 @@ Submit answers for the German test.
   - `answers` (array): Array of answers.
 - **Response**: Test result or validation errors.
 
+# Application Endpoints
+
+## GET /api/application
+Get all applications
+- **Response**: Applications or validation errors.
+
+## GET /api/application/unprocessed
+Get all unprocessed applications
+- **Response**: Applications or validation errors.
+
+## POST /api/application
+Submit a new application
+- **Request Body**:
+  - `name` (string)
+  - `email` (string)
+  - `course` (string)
+  - `phoneNumber` (string)
+  - `howToConnect` (boolean)
+- **Response**: status 201 or validation errors.
+
+## PUT /api/application/:id
+Update status of a certain application
+- **Request Body**:
+  - `processed` (boolean)
+- **Response**: status 200 or validation errors.
+
