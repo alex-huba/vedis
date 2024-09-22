@@ -15,20 +15,6 @@ exports.fetchAll = async (req, res, next) => {
   }
 };
 
-exports.fetchUnprocessed = async (req, res, next) => {
-  // Check whether user has sufficient rights
-  if (req.role != "teacher") return res.status(401).end();
-
-  // Get all unprocessed applications
-  try {
-    const [applications] = await Application.getUnprocessed();
-    return res.status(200).json(applications);
-  } catch (err) {
-    if (!err.statusCode) err.statusCode = 500;
-    next(err);
-  }
-};
-
 exports.create = async (req, res, next) => {
   // Check whether all application details are supplied
   const errors = validationResult(req);
@@ -46,22 +32,24 @@ exports.create = async (req, res, next) => {
     );
     res.status(201).end();
   } catch (err) {
+    if (err.code == "ER_DUP_ENTRY") {
+      err.statusCode = 400;
+      err.message = "Ми вже отримали заявку з такими контактними даними";
+    }
     if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
 };
 
-exports.update = async (req, res, next) => {
-  // Check whether application id and a new status were supplied
+exports.deleteById = async (req, res, next) => {
+  // Check whether all application details are supplied
   const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!errors.isEmpty())
+    return res.status(400).json({ message: "Неправильний формат id" });
 
-  // Check whether user has sufficient rights
-  if (req.role != "teacher") return res.status(401).end();
-
-  // Update application
+  // Delete application by id
   try {
-    await Application.update(req.params.id, req.body.processed);
+    await Application.delete(req.body.id);
     res.status(200).end();
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;

@@ -6,7 +6,7 @@ Create a new user account.
   - `name` (string): Minimum length 2, no spaces or special characters allowed.
   - `email` (string): Must be a valid email and not already registered.
   - `password` (string): Minimum 8 characters, with at least one letter, one number, and one special character.
-  - `phone` (string): Must be a valid phone number in international format.
+  - `phoneNumber` (string): Must be a valid phone number in international format.
 - **Response**: Success message or validation errors.
 
 ## POST /auth/login
@@ -30,6 +30,7 @@ Create a new class entry.
   - `studentId` (string): ID of the student.
   - `start` (string): Start time of the class.
   - `end` (string): End time of the class.
+  - `price` (int): Price for the class
 - **Response**: Success message or validation errors.
 
 ## GET /api/classes
@@ -75,6 +76,8 @@ Update a class entry.
   - `studentId` (string): ID of the student.
   - `start` (string): Start time of the class.
   - `end` (string): End time of the class.
+  - `price` (int): Price for the class.
+  - `isPaid` (boolean): Payment status.
 - **Response**: Success message or validation errors.
 
 
@@ -183,10 +186,6 @@ Submit answers for the German test.
 Get all applications
 - **Response**: Applications or validation errors.
 
-## GET /api/application/unprocessed
-Get all unprocessed applications
-- **Response**: Applications or validation errors.
-
 ## POST /api/application
 Submit a new application
 - **Request Body**:
@@ -197,9 +196,9 @@ Submit a new application
   - `howToConnect` (boolean)
 - **Response**: status 201 or validation errors.
 
-## PUT /api/application/:id
-Update status of a certain application
+## DELETE /api/application
+Delete application by id
 - **Request Body**:
-  - `processed` (boolean)
+  - `id` (string)
 - **Response**: status 200 or validation errors.
 

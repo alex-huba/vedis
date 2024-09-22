@@ -14,7 +14,7 @@ exports.create = async (req, res, next) => {
     let classStart = req.body.start + ":00";
     let classEnd = req.body.end + ":00";
 
-    await Class.save(req.body.studentId, classStart, classEnd);
+    await Class.save(req.body.studentId, classStart, classEnd, req.body.price);
     res.status(201).end();
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
@@ -166,7 +166,9 @@ exports.update = async (req, res, next) => {
       req.body.cancelled,
       req.body.studentId,
       req.body.start,
-      req.body.end
+      req.body.end,
+      req.body.price,
+      req.body.isPaid
     );
     res.status(200).end();
   } catch (err) {

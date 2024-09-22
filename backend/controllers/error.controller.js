@@ -6,5 +6,5 @@ exports.get404 = (req, res, next) => {
 
 exports.get500 = (error, req, res, next) => {
   res.status(error.statusCode || 500);
-  res.json({ msg: error.message });
+  res.json({ message: error.message });
 };

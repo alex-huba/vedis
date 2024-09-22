@@ -5,10 +5,6 @@ module.exports = class Application {
     return db.execute("select * from applications");
   }
 
-  static getUnprocessed() {
-    return db.execute("select * from applications where processed = false")
-  }
-
   static save(name, email, course, phoneNumber, howToConnect, createdAt) {
     return db.execute(
       `
@@ -20,10 +16,7 @@ module.exports = class Application {
     );
   }
 
-  static update(id, processed) {
-    return db.execute("update applications set processed = ? where id = ?", [
-      processed,
-      id,
-    ]);
+  static delete(id) {
+    return db.execute("delete from applications where id = ?", [id]);
   }
 };

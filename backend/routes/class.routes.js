@@ -13,6 +13,7 @@ router.post(
     body("studentId").trim().not().isEmpty(),
     body("start").trim().not().isEmpty(),
     body("end").trim().not().isEmpty(),
+    body("price").isInt(),
   ],
   classController.create
 );
@@ -72,6 +73,8 @@ router.put(
     body("studentId").trim().not().isEmpty(),
     body("start").trim().not().isEmpty(),
     body("end").trim().not().isEmpty(),
+    body("price").isInt(),
+    body("isPaid").isBoolean().toBoolean(),
   ],
   classController.update
 );

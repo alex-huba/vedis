@@ -1,10 +1,10 @@
 const db = require("../util/db");
 
 module.exports = class Class {
-  static save(studentId, start, end) {
+  static save(studentId, start, end, price) {
     return db.execute(
-      "INSERT INTO classes (id, studentId, `start`, `end`) VALUES (UUID(),?,?,?)",
-      [studentId, start, end]
+      "INSERT INTO classes (id, studentId, `start`, `end`, price) VALUES (UUID(),?,?,?,?)",
+      [studentId, start, end, price]
     );
   }
 
@@ -53,10 +53,10 @@ module.exports = class Class {
     ]);
   }
 
-  static update(id, cancelled, studentId, start, end) {
+  static update(id, cancelled, studentId, start, end, price, isPaid) {
     return db.execute(
-      "UPDATE classes SET cancelled = ?, studentId = ?, start = ?, end = ? WHERE id = ?",
-      [cancelled, studentId, start, end, id]
+      "UPDATE classes SET cancelled = ?, studentId = ?, start = ?, end = ?, price = ?, isPaid = ? WHERE id = ?",
+      [cancelled, studentId, start, end, price, isPaid, id]
     );
   }
 };

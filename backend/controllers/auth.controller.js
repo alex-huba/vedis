@@ -19,7 +19,7 @@ exports.signup = async (req, res, next) => {
 
     return res
       .status(400)
-      .json({ msg: "Користувача не зареєстровано", errors: resErrors });
+      .json({ message: "Користувача не зареєстровано", errors: resErrors });
   }
 
   // Save a new user w/ hashed pwd to db
@@ -30,16 +30,18 @@ exports.signup = async (req, res, next) => {
       name: req.body.name,
       email: req.body.email,
       password: hashedPassword,
-      phone: req.body.phone,
+      phoneNumber: req.body.phoneNumber,
     };
 
     await User.save(userDetails);
 
     res.status(201).json({ msg: "Користувача створено" });
   } catch (err) {
-    if (!err.statusCode) {
-      err.statusCode = 500;
+    if (err.code == "ER_DUP_ENTRY") {
+      err.statusCode = 400;
+      err.message = "Профіль з такими контактними даними вже існує";
     }
+    if (!err.statusCode) err.statusCode = 500;
     next(err);
   }
 };
