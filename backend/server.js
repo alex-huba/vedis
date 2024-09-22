@@ -10,6 +10,7 @@ const classRoutes = require("./routes/class.routes");
 const homeworkRoutes = require("./routes/homework.routes");
 const dictionaryRoutes = require("./routes/dictionary.routes");
 const applicationRoutes = require("./routes/application.routes");
+const analyticsRoutes = require("./routes/analytics.routes");
 
 // Middleware for errors
 const errorController = require("./controllers/error.controller");
@@ -43,6 +44,7 @@ app.use("/api/classes", classRoutes);
 app.use("/api/homework", homeworkRoutes);
 app.use("/api/dictionary", dictionaryRoutes);
 app.use("/api/application", applicationRoutes);
+app.use("/api/analytics", analyticsRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 

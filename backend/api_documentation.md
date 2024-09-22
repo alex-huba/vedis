@@ -202,3 +202,8 @@ Delete application by id
   - `id` (string)
 - **Response**: status 200 or validation errors.
 
+# Analytics Endpoints
+
+## GET /api/analytics
+Generate monthly revenue report
+- **Response**: status 200 or validation errors.
