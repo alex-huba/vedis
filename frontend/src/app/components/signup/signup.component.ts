@@ -20,7 +20,7 @@ export class SignupComponent {
         Validators.pattern(/^.*(?:(?!\s|')[a-zA-Zа-яА-ЯїЇіІєЄґҐ']).*/),
       ],
     ],
-    phone: [undefined, Validators.required],
+    phoneNumber: [undefined, Validators.required],
     email: [
       '',
       [Validators.required, Validators.email, Validators.minLength(5)],
@@ -53,8 +53,9 @@ export class SignupComponent {
   // Used by submit btn
   awaitingResponse = false;
 
-  // True when response status is 422 (email exists in DB already)
+  // True when response status is 400
   showErrorMsg = false;
+  errorMsg = '';
 
   constructor(
     private authService: AuthService,
@@ -66,8 +67,8 @@ export class SignupComponent {
     return this.signupForm.get('name');
   }
 
-  get phone() {
-    return this.signupForm.get('phone');
+  get phoneNumber() {
+    return this.signupForm.get('phoneNumber');
   }
 
   get email() {
@@ -87,7 +88,7 @@ export class SignupComponent {
           this.name.value,
           this.email.value,
           this.password.value,
-          this.phone.value
+          this.phoneNumber.value
         )
         .subscribe({
           next: (event) => {
@@ -101,10 +102,10 @@ export class SignupComponent {
             }
           },
           error: (event) => {
+            debugger;
             this.awaitingResponse = false;
-            if (event.status === 422) {
-              this.showErrorMsg = true;
-            }
+            this.errorMsg = event.error.message;
+            this.showErrorMsg = true;
           },
         });
     }

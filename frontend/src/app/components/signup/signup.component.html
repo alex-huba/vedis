@@ -1,11 +1,13 @@
 <section>
-    <!-- Error message -->
-    <div
+  <!-- Error message -->
+  <div
     *ngIf="showErrorMsg"
     class="alert alert-danger alert-dismissible text-center"
     role="alert"
   >
-    <div><span>Профіль з такою поштою вже існує</span></div>
+    <div>
+      <p>{{ errorMsg }}</p>
+    </div>
     <button
       (click)="showErrorMsg = !showErrorMsg"
       type="button"
@@ -53,11 +55,11 @@
       <fieldset class="input-group has-validation">
         <div class="input-container">
           <div
-            [class.is-invalid]="phone.invalid && (phone.dirty || phone.touched)"
+            [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
             class="form-floating"
           >
             <ngx-intl-tel-input
-              [class.is-invalid]="phone.invalid && phone.touched"
+              [class.is-invalid]="phoneNumber.invalid && phoneNumber.touched"
               [cssClass]="'form-control'"
               [preferredCountries]="preferredCountries"
               [enableAutoCountrySelect]="true"
@@ -67,15 +69,15 @@
               [phoneValidation]="true"
               [separateDialCode]="true"
               name="phone1"
-              formControlName="phone"
+              formControlName="phoneNumber"
             >
             </ngx-intl-tel-input>
           </div>
           <div class="invalid-feedback">
-            <div *ngIf="phone.hasError('required') && phone.touched">
+            <div *ngIf="phoneNumber.hasError('required') && phoneNumber.touched">
               <span class="error-span">Номер телефону обов'язковий</span>
             </div>
-            <div *ngIf="phone.hasError('validatePhoneNumber')">
+            <div *ngIf="phoneNumber.hasError('validatePhoneNumber')">
               <span class="error-span">Номер телефону недійсний</span>
             </div>
           </div>
@@ -144,7 +146,7 @@
             >
               <span
                 >Пароль повинен містити щонайменше 7 літер та один символ
-                (!@#_$%^&*)</span
+                (!&#64;#_$%^&*)</span
               >
             </div>
           </div>
@@ -172,6 +174,6 @@
       </div>
     </form>
 
-    <img src="../../../assets/signup/signup-img.jpg" alt="Person with laptop" />
+    <img src="../../../assets/signup/signup.png" alt="Person with laptop" />
   </div>
 </section>

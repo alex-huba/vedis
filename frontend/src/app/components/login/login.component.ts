@@ -42,7 +42,7 @@ export class LoginComponent {
           this.awaitingResponse = false;
         },
         error: (event) => {
-          this.errorMsg = event.error.msg;
+          this.errorMsg = event.error.message;
           this.awaitingResponse = false;
           this.showErrorMsg = true;
         },

@@ -6,6 +6,7 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SchoolService } from 'src/app/services/school.service';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-class-details-dialog',
@@ -30,6 +31,7 @@ export class ClassDetailsDialogComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private ss: SchoolService,
+    private studentService: StudentService,
     private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<ClassDetailsDialogComponent>,
     @Inject(MAT_DIALOG_DATA)

@@ -1,48 +1,64 @@
-<div class="pt-4 text-center">
-  <h2>Ваші учні</h2>
-</div>
-
-<div class="pt-4 table-responsive">
-  <table class="table table-striped table-bordered">
-    <thead>
-      <tr class="table-dark">
-        <th scope="col">#</th>
-        <th scope="col">Ім'я</th>
-        <th scope="col">Пошта</th>
-        <th scope="col">Телефон</th>
-        <th scope="col">Статус</th>
-        <th scope="col"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let s of students$ | async; let i = index;">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ s.name }}</td>
-        <td>{{ s.email }}</td>
-        <td>{{ s.phone }}</td>
-        <td>{{ s.role }}</td>
-        <td>
-          <button
-            data-bs-toggle="dropdown"
-            mat-icon-button
-            aria-label="Example icon button with a vertical three dot icon"
-          >
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <div class="dropdown">
-            <ul class="dropdown-menu">
-              <li>
-                <button (click)="delete(s.id)" type="button" class="dropdown-item">Видалити</button>
-              </li>
-              <li>
-                <button *ngIf="s.role !== 'student'" (click)="changeRole(s.id)" type="button" class="dropdown-item">
-                  Одобрити заявку
-                </button>
-              </li>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<table class="table table-bordered mt-5">
+  <thead>
+    <tr style="background-color: #ededed">
+      <th colspan="4" style="text-align: start; border: none">
+        <h3>Студенти 💫</h3>
+      </th>
+      <th colspan="4" style="text-align: end; border: none"></th>
+    </tr>
+  </thead>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ім'я</th>
+      <th scope="col">Пошта</th>
+      <th scope="col">Телефон</th>
+      <th scope="col">Статус</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="(students$ | async)?.length == 0">
+      <td colspan="8" class="text-center">Всі заявки оброблено 😎</td>
+    </tr>
+    <tr *ngFor="let s of students$ | async; let i = index">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ s.name }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.phoneNumber }}</td>
+      <td>{{ s.role }}</td>
+      <td>
+        <button
+          data-bs-toggle="dropdown"
+          mat-icon-button
+          aria-label="Example icon button with a vertical three dot icon"
+        >
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <div class="dropdown">
+          <ul class="dropdown-menu">
+            <li>
+              <button
+                (click)="delete(s.id)"
+                type="button"
+                class="dropdown-item"
+              >
+                Видалити
+              </button>
+            </li>
+            <li>
+              <button
+                *ngIf="s.role !== 'student'"
+                (click)="changeRole(s.id)"
+                type="button"
+                class="dropdown-item"
+              >
+                Одобрити заявку
+              </button>
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

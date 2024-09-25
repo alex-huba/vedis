@@ -22,13 +22,6 @@ export class SchoolService {
     });
   }
 
-  getStudentsUnfiltered(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/students/unfiltered`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
-  }
-
   deleteStudent(id) {
     return this.http.delete<any>(`${this.url}/students`, {
       ...this.httpOptions,

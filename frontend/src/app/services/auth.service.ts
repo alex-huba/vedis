@@ -65,7 +65,7 @@ export class AuthService {
       name: name,
       email: email,
       password: password,
-      phone: phone.internationalNumber,
+      phoneNumber: phone.e164Number,
     };
 
     const req = new HttpRequest(
