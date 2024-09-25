@@ -105,6 +105,7 @@ exports.login = async (req, res, next) => {
         id: storedUser.id,
         name: storedUser.name,
         email: storedUser.email,
+        phoneNumber: storedUser.phoneNumber,
         role: storedUser.role,
       },
       process.env.JWT_SECRET,
@@ -117,6 +118,7 @@ exports.login = async (req, res, next) => {
         id: storedUser.id,
         name: storedUser.name,
         email: storedUser.email,
+        phoneNumber: storedUser.phoneNumber,
         role: storedUser.role,
       },
     });
@@ -156,6 +158,7 @@ exports.verifyToken = async (req, res, next) => {
       id: decodedToken.id,
       name: decodedToken.name,
       email: decodedToken.email,
+      phoneNumber: decodedToken.phoneNumber,
       role: decodedToken.role,
     },
   });

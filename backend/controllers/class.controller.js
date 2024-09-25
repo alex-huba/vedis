@@ -54,6 +54,34 @@ exports.fetchByStudentId = async (req, res, next) => {
   } else return res.status(401).end();
 };
 
+exports.countForCurrentWeek = async (req, res, next) => {
+  // Check whether user has sufficient rights
+  if (req.role != "teacher") return res.status(401).end();
+
+  // Get total amount of classes planned for the current week
+  try {
+    const [row] = await Class.countClassesForCurrentWeek();
+    res.status(200).json(row[0].amount);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+exports.fetchForCurrentWeek = async (req, res, next) => {
+  // Check whether user has sufficient rights
+  if (req.role != "teacher") return res.status(401).end();
+
+  // Get all classes planned for the current week
+  try {
+    const [classes] = await Class.getClassesForCurrentWeek();
+    res.status(200).json(classes);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
 exports.delete = async (req, res, next) => {
   // Check whether class id was supplied
   const errors = validationResult(req);

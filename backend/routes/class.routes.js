@@ -21,6 +21,18 @@ router.post(
 router.get("/", authMiddleware, classController.fetchAll);
 
 router.get(
+  "/current-week/amount",
+  authMiddleware,
+  classController.countForCurrentWeek
+);
+
+router.get(
+  "/current-week",
+  authMiddleware,
+  classController.fetchForCurrentWeek
+);
+
+router.get(
   "/:studentId",
   authMiddleware,
   param("studentId").trim().not().isEmpty(),

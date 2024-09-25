@@ -41,6 +41,20 @@ exports.create = async (req, res, next) => {
   }
 };
 
+exports.fetchNumberOfApplications = async (req, res, next) => {
+  // Check whether user has sufficient rights
+  if (req.role != "teacher") return res.status(401).end();
+
+  // Get total amount of applications
+  try {
+    const [row] = await Application.countAll();
+    return res.status(200).json(row[0].amount);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
 exports.deleteById = async (req, res, next) => {
   // Check whether all application details are supplied
   const errors = validationResult(req);

@@ -60,6 +60,33 @@ exports.fetchAll = async (req, res, next) => {
   }
 };
 
+exports.fetchUnfinished = async (req, res, next) => {
+  // Check whether user has sufficient rights
+  if (req.role != "teacher") return res.status(401).end();
+
+  try {
+    const [homework] = await Homework.getUnfinished();
+    res.status(200).json(homework);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+exports.countUnfinished = async (req, res, next) => {
+    // Check whether user has sufficient rights
+    if (req.role != "teacher") return res.status(401).end();
+
+    // Get total amount of unfinished homework
+    try {
+      const [row] = await Homework.countUnfinished();
+      res.status(200).json(row[0].amount);
+    } catch (err) {
+      if(!err.statusCode) err.statusCode = 500;
+      next(err);
+    }
+}
+
 exports.delete = async (req, res, next) => {
   // Check for errors
   const errors = validationResult(req);

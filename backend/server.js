@@ -11,6 +11,7 @@ const homeworkRoutes = require("./routes/homework.routes");
 const dictionaryRoutes = require("./routes/dictionary.routes");
 const applicationRoutes = require("./routes/application.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
+const userRoutes = require("./routes/user.routes");
 
 // Middleware for errors
 const errorController = require("./controllers/error.controller");
@@ -38,13 +39,14 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/api/test", testRoutes);
+app.use("/api/tests", testRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/classes", classRoutes);
 app.use("/api/homework", homeworkRoutes);
 app.use("/api/dictionary", dictionaryRoutes);
-app.use("/api/application", applicationRoutes);
+app.use("/api/applications", applicationRoutes);
 app.use("/api/analytics", analyticsRoutes);
+app.use("/api/user", userRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 

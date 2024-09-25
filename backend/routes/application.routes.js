@@ -7,6 +7,8 @@ const router = express.Router();
 
 router.get("/", authMiddleware, applicationController.fetchAll);
 
+router.get("/amount", authMiddleware, applicationController.fetchNumberOfApplications);
+
 router.post(
   "/",
   [

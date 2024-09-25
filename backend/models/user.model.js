@@ -38,6 +38,13 @@ module.exports = class User {
     return db.execute("DELETE FROM users WHERE id = ?", [id]);
   }
 
+  static update(id, name, email, phoneNumber) {
+    return db.execute(
+      "UPDATE users SET name = ?, email = ?, phoneNumber = ? WHERE id = ?",
+      [name, email, phoneNumber, id]
+    );
+  }
+
   static changeRole(id, role) {
     return db.execute("UPDATE users SET role = ? WHERE id = ?", [role, id]);
   }

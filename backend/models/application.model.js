@@ -5,6 +5,10 @@ module.exports = class Application {
     return db.execute("select * from applications");
   }
 
+  static countAll() {
+    return db.execute("select count(id) as amount from applications;")
+  }
+
   static save(name, email, course, phoneNumber, howToConnect, createdAt) {
     return db.execute(
       `

@@ -18,6 +18,14 @@ router.post(
 );
 
 router.get(
+  "/unfinished/amount",
+  authMiddleware,
+  homeworkController.countUnfinished
+);
+
+router.get("/unfinished", authMiddleware, homeworkController.fetchUnfinished);
+
+router.get(
   "/:studentId",
   authMiddleware,
   param("studentId").trim().not().isEmpty(),

@@ -24,6 +24,32 @@ module.exports = class Class {
     `);
   }
 
+  static getClassesForCurrentWeek() {
+    return db.execute(
+      `
+        SELECT *
+        FROM vedis.classes
+        WHERE
+          cancelled = false
+          AND YEAR(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s')) = YEAR(CURDATE())
+          AND WEEK(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s'), 1) = WEEK(CURDATE(), 1);
+      `
+    );
+  }
+
+  static countClassesForCurrentWeek() {
+    return db.execute(
+      `
+        SELECT count(id) as amount
+        FROM vedis.classes
+        WHERE
+          cancelled = false
+          AND YEAR(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s')) = YEAR(CURDATE())
+          AND WEEK(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s'), 1) = WEEK(CURDATE(), 1);
+      `
+    );
+  }
+
   static getByStudentId(studentId) {
     return db.execute("SELECT * FROM classes WHERE studentId = ?", [studentId]);
   }
