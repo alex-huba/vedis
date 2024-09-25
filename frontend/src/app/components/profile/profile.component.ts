@@ -10,6 +10,7 @@ import {
   faFolderPlus,
   faGear,
   faHouse,
+  faInbox,
   faListCheck,
   faMagnifyingGlass,
   faPowerOff,
@@ -62,6 +63,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     search: faMagnifyingGlass,
     settings: faGear,
     students: faUsers,
+    applications: faInbox,
   };
 
   // Decides whether to show home page
@@ -179,7 +181,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           });
 
         this.amountOfApplications$ =
-          this.applicationService.countAllApplication();
+          this.applicationService.countAllApplications();
         this.amountOfClassesForCurrentWeek$ =
           this.classesService.countClassesForCurrentWeek();
         this.amountOfUnfinishedHomework$ =

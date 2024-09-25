@@ -1,0 +1,45 @@
+<table class="table table-bordered mt-5">
+  <thead>
+    <tr style="background-color: #ededed">
+      <th colspan="4" style="text-align: start; border: none">
+        <h3>
+          Нові заявки 📫
+        </h3>
+      </th>
+      <th colspan="4" style="text-align: end; border: none">
+      </th>
+    </tr>
+  </thead>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Ім'я</th>
+      <th scope="col">Пошта</th>
+      <th scope="col">Курс</th>
+      <th scope="col">Телефон</th>
+      <th scope="col">Як зв'язатися</th>
+      <th scope="col">Створено</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="(applications$ | async)?.length == 0">
+      <td colspan="8" class="text-center">Всі заявки оброблено 😎</td>
+    </tr>
+    <tr *ngFor="let s of applications$ | async; let i = index;">
+      <th scope="row">{{ i + 1 }}</th>
+      <td>{{ s.name }}</td>
+      <td>{{ s.email }}</td>
+      <td>{{ s.course }}</td>
+      <td>{{ s.phoneNumber }}</td>
+      <td>{{ s.howToConnect }}</td>
+      <td>{{ s.createdAt }}</td>
+      <td>
+        <button (click)="deleteApplication(s.email)" id="delete-btn">
+          <fa-icon [icon]="icons.delete"></fa-icon>
+          Видалити
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>

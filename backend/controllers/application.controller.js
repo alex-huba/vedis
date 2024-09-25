@@ -55,15 +55,17 @@ exports.fetchNumberOfApplications = async (req, res, next) => {
   }
 };
 
-exports.deleteById = async (req, res, next) => {
+exports.deleteByEmail = async (req, res, next) => {
   // Check whether all application details are supplied
   const errors = validationResult(req);
   if (!errors.isEmpty())
-    return res.status(400).json({ message: "Неправильний формат id" });
+    return res
+      .status(400)
+      .json({ message: "Неправильний формат електронної пошти" });
 
-  // Delete application by id
+  // Delete application by email
   try {
-    await Application.delete(req.body.id);
+    await Application.deleteByEmail(req.body.email);
     res.status(200).end();
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;

@@ -7,7 +7,11 @@ const router = express.Router();
 
 router.get("/", authMiddleware, applicationController.fetchAll);
 
-router.get("/amount", authMiddleware, applicationController.fetchNumberOfApplications);
+router.get(
+  "/amount",
+  authMiddleware,
+  applicationController.fetchNumberOfApplications
+);
 
 router.post(
   "/",
@@ -27,8 +31,8 @@ router.post(
 
 router.delete(
   "/",
-  [authMiddleware, body("id").trim().not().isEmpty()],
-  applicationController.deleteById
+  [authMiddleware, body("email").trim().not().isEmpty().isEmail()],
+  applicationController.deleteByEmail
 );
 
 module.exports = router;

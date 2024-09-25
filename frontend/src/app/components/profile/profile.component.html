@@ -46,6 +46,13 @@
         >
           <fa-icon [icon]="icons.students"></fa-icon> &nbsp; Учні
         </a>
+        <a
+          *ngIf="isTeacher"
+          routerLinkActive="is-active"
+          routerLink="/home/applications"
+        >
+          <fa-icon [icon]="icons.applications"></fa-icon> &nbsp; Заявки
+        </a>
       </div>
       <div style="display: flex; flex-direction: column">
         <a routerLink="/home/settings" routerLinkActive="is-active">

@@ -6,7 +6,7 @@ module.exports = class Application {
   }
 
   static countAll() {
-    return db.execute("select count(id) as amount from applications;")
+    return db.execute("select count(id) as amount from applications;");
   }
 
   static save(name, email, course, phoneNumber, howToConnect, createdAt) {
@@ -20,7 +20,7 @@ module.exports = class Application {
     );
   }
 
-  static delete(id) {
-    return db.execute("delete from applications where id = ?", [id]);
+  static deleteByEmail(email) {
+    return db.execute("delete from applications where email = ?", [email]);
   }
 };

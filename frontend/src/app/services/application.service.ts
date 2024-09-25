@@ -13,10 +13,27 @@ export class ApplicationService {
 
   constructor(private http: HttpClient) {}
 
-  countAllApplication() {
+  getAllApplications() {
+    return this.http.get(`${this.url}/applications`, {
+      ...this.httpOptions,
+      reportProgress: true,
+    });
+  }
+
+  countAllApplications() {
     return this.http.get<any>(`${this.url}/applications/amount`, {
       ...this.httpOptions,
       reportProgress: true,
+    });
+  }
+
+  deleteApplicationByEmail(email) {
+    return this.http.delete(`${this.url}/applications`, {
+      ...this.httpOptions,
+      reportProgress: true,
+      body: {
+        email: email,
+      },
     });
   }
 }

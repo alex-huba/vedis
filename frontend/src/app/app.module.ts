@@ -62,6 +62,7 @@ import { NewWordComponent } from './components/profile/teacher/new-word/new-word
 import { StudentsComponent } from './components/profile/teacher/students/students.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
+import { ApplicationsComponent } from './components/profile/applications/applications.component';
 
 @NgModule({
   declarations: [
@@ -93,6 +94,7 @@ import { UserSettingsComponent } from './components/profile/user-settings/user-s
     SocialMediaComponent,
     ProfileComponent,
     UserSettingsComponent,
+    ApplicationsComponent,
   ],
   imports: [
     BrowserModule,
