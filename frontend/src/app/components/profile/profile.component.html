@@ -7,7 +7,7 @@
           [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/home/"
         >
-          <fa-icon [icon]="houseIcon"></fa-icon>&nbsp; Головна
+          <fa-icon [icon]="icons.house"></fa-icon>&nbsp; Головна
         </a>
         <a routerLink="/home/schedule" routerLinkActive="is-active">
           <i class="bi bi-calendar4-week"></i>&nbsp; Розклад
@@ -20,14 +20,14 @@
           <i class="bi bi-plus-circle"></i>&nbsp; Нове заняття
         </a>
         <a routerLinkActive="is-active" routerLink="/home/tasks">
-          <fa-icon [icon]="taskIcon"></fa-icon>&nbsp; Завдання
+          <fa-icon [icon]="icons.task"></fa-icon>&nbsp; Завдання
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/new-task"
         >
-          <fa-icon [icon]="folderIcon"></fa-icon>&nbsp; Нове завдання
+          <fa-icon [icon]="icons.folder"></fa-icon>&nbsp; Нове завдання
         </a>
         <a routerLinkActive="is-active" routerLink="/home/dictionary">
           <i class="bi bi-journal-bookmark-fill"></i>&nbsp; Словник
@@ -37,19 +37,24 @@
           routerLinkActive="is-active"
           routerLink="/home/new-word"
         >
-          <fa-icon [icon]="penIcon"></fa-icon>&nbsp; Додати слово
+          <fa-icon [icon]="icons.pen"></fa-icon>&nbsp; Нове слово
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/students"
         >
-          <i class="bi bi-people-fill"></i>&nbsp; Учні
+          <fa-icon [icon]="icons.students"></fa-icon> &nbsp; Учні
         </a>
       </div>
-      <button (click)="signOut()" type="button">
-        <fa-icon [icon]="turnOffIcon"></fa-icon>&nbsp; Вийти
-      </button>
+      <div style="display: flex; flex-direction: column">
+        <a routerLink="/home/settings" routerLinkActive="is-active">
+          <fa-icon [icon]="icons.settings"></fa-icon> &nbsp; Налаштування
+        </a>
+        <button (click)="signOut()" type="button">
+          <fa-icon [icon]="icons.signOut"></fa-icon>&nbsp; Вийти
+        </button>
+      </div>
     </div>
   </mat-drawer>
 
@@ -71,21 +76,42 @@
       <i class="bi bi-list"></i>
     </button>
 
-    <input type="search" name="search" id="search-input" placeholder="Знайти" />
+    <form (ngSubmit)="changePage(searchValue)" id="search-form">
+      <input
+        list="pages"
+        name="search"
+        id="search-input"
+        placeholder="Знайти"
+        [(ngModel)]="searchValue"
+        required
+      />
+
+      <datalist id="pages">
+        <option value="Розклад"></option>
+        <option value="Додати заняття"></option>
+        <option value="Всі завдання"></option>
+        <option value="Додати завдання"></option>
+        <option value="Словник"></option>
+        <option value="Оновити словник"></option>
+        <option value="Учні"></option>
+        <option value="Заявки"></option>
+      </datalist>
+    </form>
   </div>
 
-  <div class="home-main-page">
+  <div #homeContent class="home-main-page">
     <!-- Home page content -->
     <div *ngIf="isHomePage">
       <!-- Avatar and greeting -->
-      <div style="display: flex; align-items: start; gap: 10px">
+      <div id="avatar-and-greeting">
         <img
+          style="width: 90px !important; height: 90px !important"
           class="avatar"
-          src="../../../assets/profile/cb3d7a03b27e43429d8f330f7f97459f.jpeg"
+          [src]="photoUrl"
           alt=""
         />
         <div style="display: flex; flex-direction: column">
-          <h3 class="mb-0">Вітаємо, {{ username }}</h3>
+          <h3 class="mb-0">Вітаємо, {{ username }} ✨</h3>
           <p
             style="font-size: 15px; color: rgb(92, 92, 92); font-family: nunito"
           >
@@ -94,18 +120,17 @@
         </div>
       </div>
 
-      <!-- Info cards -->
-      <div
-        style="display: flex; justify-content: space-between; margin-top: 15px"
-      >
-        <div>
-          <div style="display: flex; gap: 20px">
+      <!-- Info cards, Chart, Calendar -->
+      <div id="main-content">
+        <div id="wrapper">
+          <div id="card-container">
             <!-- Card 1 -->
             <div
               style="
                 background-image: url('../../../assets/profile/teacher/blue-waves.svg');
               "
               class="info-card"
+              (click)="changePage('Заявки')"
             >
               <div>
                 <img
@@ -115,8 +140,12 @@
                 />
               </div>
               <div>
-                <p class="mb-0">Нових заявок:</p>
-                <h5 style="font-family: montserrat-bold">10</h5>
+                <p>
+                  Нових заявок:
+                  <span style="font-family: montserrat-bold"
+                    >&nbsp;{{ amountOfApplications$ | async }}</span
+                  >
+                </p>
               </div>
             </div>
             <!-- Card 2 -->
@@ -125,6 +154,7 @@
                 background-image: url('../../../assets/profile/teacher/purple-waves.svg');
               "
               class="info-card"
+              (click)="changePage('Розклад')"
             >
               <div>
                 <img
@@ -134,8 +164,12 @@
                 />
               </div>
               <div>
-                <p class="mb-0">Занять на цьому тижні:</p>
-                <h5 style="font-family: montserrat-bold">10</h5>
+                <p>
+                  Занять на цьому тижні:
+                  <span style="font-family: montserrat-bold"
+                    >&nbsp;{{ amountOfClassesForCurrentWeek$ | async }}</span
+                  >
+                </p>
               </div>
             </div>
             <!-- Card 3 -->
@@ -144,6 +178,7 @@
                 background-image: url('../../../assets/profile/teacher/yellow-waves.svg');
               "
               class="info-card"
+              (click)="changePage('Всі завдання')"
             >
               <div>
                 <img
@@ -153,11 +188,16 @@
                 />
               </div>
               <div>
-                <p class="mb-0">Невиконане ДЗ:</p>
-                <h5 style="font-family: montserrat-bold">10</h5>
+                <p>
+                  Невиконане ДЗ:
+                  <span style="font-family: montserrat-bold"
+                    >&nbsp;{{ amountOfClassesForCurrentWeek$ | async }}</span
+                  >
+                </p>
               </div>
             </div>
           </div>
+
           <div class="mt-4 chart-container">
             <apx-chart
               [series]="chartOptions.series"

@@ -15,6 +15,7 @@ import { StudentsComponent } from './components/profile/teacher/students/student
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
+import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -58,6 +59,11 @@ const routes: Routes = [
         path: 'students',
         canActivate: [TeacherGuardService],
         component: StudentsComponent,
+      },
+      {
+        path: 'settings',
+        canActivate: [TeacherGuardService],
+        component: UserSettingsComponent,
       },
     ],
   },

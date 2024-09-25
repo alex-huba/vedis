@@ -61,6 +61,7 @@ import { NewTaskComponent } from './components/profile/teacher/new-task/new-task
 import { NewWordComponent } from './components/profile/teacher/new-word/new-word.component';
 import { StudentsComponent } from './components/profile/teacher/students/students.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { SignupComponent } from './components/signup/signup.component';
     BlogComponent,
     SocialMediaComponent,
     ProfileComponent,
+    UserSettingsComponent,
   ],
   imports: [
     BrowserModule,

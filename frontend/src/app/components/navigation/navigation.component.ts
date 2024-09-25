@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { faDoorOpen, faHouse } from '@fortawesome/free-solid-svg-icons';
+import { faPowerOff, faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { ScrollService } from 'src/app/services/scroll.service';
+import { UserService } from 'src/app/services/user.service';
 
 declare var bootstrap: any;
 
@@ -12,25 +13,38 @@ declare var bootstrap: any;
 })
 export class NavigationComponent implements OnInit {
   @ViewChild('testModal') testModal: ElementRef;
-  language: string = 'ua';
   isLoggedIn = false;
-  houseIcon = faHouse;
-  doorIcon = faDoorOpen;
 
-  constructor(private ss: ScrollService, private authService: AuthService) {}
+  // User photo
+  photoUrl: any;
+
+  icons = {
+    profile: faUser,
+    signOut: faPowerOff,
+  };
+
+  constructor(
+    private ss: ScrollService,
+    private authService: AuthService,
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.authService.isUserLoggedIn$.subscribe((res) => {
       if (res === 'success') {
         this.isLoggedIn = true;
+
+        // Subscribe to photo updates
+        this.userService.photoUrl$.subscribe((photoUrl) => {
+          this.photoUrl = photoUrl;
+        });
+
+        // Load the current photo
+        this.userService.getPhoto();
       } else {
         this.isLoggedIn = false;
       }
     });
-  }
-
-  onLanguageChange(selectedValue: string) {
-    this.language = selectedValue;
   }
 
   scrollToSection(section: string) {
@@ -54,5 +68,4 @@ export class NavigationComponent implements OnInit {
     e.stopPropagation();
     bsOffcanvas.toggle();
   }
-  
 }

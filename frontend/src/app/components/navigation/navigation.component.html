@@ -64,7 +64,7 @@
         </li>
         <li *ngIf="isLoggedIn" class="dropdown">
           <img
-            src="../../../assets/landing/teacher.png"
+            [src]="photoUrl"
             data-bs-toggle="dropdown"
             alt="Avatar"
             class="avatar"
@@ -72,8 +72,8 @@
           <ul class="dropdown-menu dropdown-menu-start">
             <li>
               <a class="dropdown-item" href="/home">
-                <fa-icon [icon]="houseIcon"></fa-icon>
-                &nbsp;&nbsp;Особистий кабінет
+                <fa-icon [icon]="icons.profile"></fa-icon>
+                &nbsp;Мій профіль
               </a>
             </li>
             <li><hr class="dropdown-divider" /></li>
@@ -83,7 +83,7 @@
                 type="button"
                 class="dropdown-item text-start"
               >
-                <fa-icon [icon]="doorIcon"></fa-icon>
+                <fa-icon [icon]="icons.signOut"></fa-icon>
                 &nbsp;&nbsp;Вийти
               </button>
             </li>
@@ -111,7 +111,7 @@
       </li>
       <li *ngIf="isLoggedIn" class="dropdown">
         <img
-          src="../../../assets/landing/teacher.png"
+          [src]="photoUrl"
           data-bs-toggle="dropdown"
           alt="Avatar"
           class="avatar"
@@ -119,8 +119,8 @@
         <ul class="dropdown-menu dropdown-menu-end position-absolute">
           <li>
             <a class="dropdown-item" href="/home">
-              <fa-icon [icon]="houseIcon"></fa-icon>
-              &nbsp;&nbsp;Особистий кабінет
+              <fa-icon [icon]="icons.profile"></fa-icon>
+              &nbsp;Мій профіль
             </a>
           </li>
           <li><hr class="dropdown-divider" /></li>
@@ -130,7 +130,7 @@
               type="button"
               class="dropdown-item text-start"
             >
-              <fa-icon [icon]="doorIcon"></fa-icon>
+              <fa-icon [icon]="icons.signOut"></fa-icon>
 
               &nbsp;&nbsp;Вийти
             </button>
@@ -253,7 +253,7 @@
           data-bs-dismiss="offcanvas"
           routerLink="/home"
           class="nav-link offcanvas-link mb-2"
-          >Особистий кабінет</a
+          >Мій профіль</a
         >
       </li>
       <li *ngIf="isLoggedIn">

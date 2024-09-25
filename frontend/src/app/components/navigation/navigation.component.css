@@ -158,6 +158,25 @@ fa-icon {
   font-size: 15px;
 }
 
+.dropdown-menu {
+  background-color: var(--new-blue);
+  padding: 5px 0;
+}
+
+.dropdown-menu li {
+  font-size: 13px;
+  color: white;
+}
+
+.dropdown-menu a,
+.dropdown-menu button {
+  color: white;
+}
+.dropdown-menu a:hover,
+.dropdown-menu button:hover {
+  background-color: #a1a8f3;
+}
+
 @media screen and (max-width: 1027px) and (min-width: 993px) {
   .custom-link {
     font-size: 14px;

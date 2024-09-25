@@ -1,0 +1,156 @@
+<!-- Avatar -->
+<div id="avatar-setting">
+  <p class="text-center" style="font-family: montserrat-bold; font-size: 20px">
+    Ваше фото
+  </p>
+  <img
+    style="height: 150px !important; width: 150px !important"
+    class="avatar mb-3"
+    [src]="photoUrl"
+    alt=""
+  />
+  <div id="avatar-actions">
+    <button (click)="deletePhoto()" class="outline-btn">
+      <fa-icon [icon]="icons.delete"></fa-icon>
+      &nbsp; Видалити
+    </button>
+    <label class="filled-btn" for="photo-input">
+      <fa-icon [icon]="icons.upload"></fa-icon>
+      &nbsp; Завантажити
+    </label>
+    <input
+      id="photo-input"
+      type="file"
+      accept="image/png"
+      (change)="onFileSelected($event)"
+    />
+  </div>
+</div>
+
+<!-- Name, Email, PhoneNumber -->
+<div id="data-setting">
+  <p class="text-center" style="font-family: montserrat-bold; font-size: 20px">
+    Ваші дані
+  </p>
+  <form [formGroup]="detailsForm" (ngSubmit)="onSubmit()">
+    <!-- Name field -->
+    <fieldset class="input-group has-validation">
+      <div
+        class="w-100"
+        [class.is-invalid]="name.invalid && (name.dirty || name.touched)"
+      >
+        <input
+          [class.is-invalid]="
+            detailsForm.get('name')?.invalid &&
+            (detailsForm.get('name').dirty || detailsForm.get('name').touched)
+          "
+          formControlName="name"
+          type="text"
+          class="form-control"
+          placeholder="Ім'я*"
+        />
+      </div>
+      <div class="invalid-feedback">
+        <span class="error-span" *ngIf="name.hasError('required')">
+          Ім'я обов'язкове
+        </span>
+        <div *ngIf="name.hasError('pattern')">
+          <span class="error-span">
+            Ім'я може містити лише літери, апостроф та пробіл
+          </span>
+        </div>
+        <div *ngIf="name.hasError('minlength')">
+          <span class="error-span">
+            Ім'я повинно містити принаймні 2 символи
+          </span>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Email field -->
+    <fieldset class="input-group has-validation">
+      <div
+        class="w-100"
+        [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+      >
+        <input
+          [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+          formControlName="email"
+          type="text"
+          class="form-control"
+          id="emailControl"
+          placeholder="Пошта*"
+        />
+      </div>
+      <div class="invalid-feedback">
+        <div *ngIf="email.hasError('required')">
+          <span class="error-span">Email обов'язковий</span>
+        </div>
+        <div *ngIf="email.hasError('email') || email.hasError('minlength')">
+          <span class="error-span">Email недійсний</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Phone field -->
+    <fieldset class="input-group has-validation">
+      <div
+        [class.is-invalid]="phone.invalid && (phone.dirty || phone.touched)"
+        class="form-floating"
+      >
+        <ngx-intl-tel-input
+          [class.is-invalid]="phone.invalid && phone.touched"
+          [cssClass]="'form-control'"
+          [preferredCountries]="preferredCountries"
+          [enableAutoCountrySelect]="true"
+          [customPlaceholder]="'Номер телефону*'"
+          [searchCountryFlag]="false"
+          [selectFirstCountry]="false"
+          [phoneValidation]="true"
+          [separateDialCode]="false"
+          name="phone1"
+          formControlName="phone"
+        >
+        </ngx-intl-tel-input>
+      </div>
+      <div class="invalid-feedback">
+        <div *ngIf="phone.hasError('required') && phone.touched">
+          <span class="error-span">Номер телефону обов'язковий</span>
+        </div>
+        <div *ngIf="phone.hasError('validatePhoneNumber')">
+          <span class="error-span">Номер телефону недійсний</span>
+        </div>
+      </div>
+    </fieldset>
+
+    <div class="w-100 d-flex justify-content-center">
+      <button
+        (click)="changeEditMode()"
+        *ngIf="!isEditMode"
+        type="button"
+        class="filled-btn"
+      >
+        <fa-icon [icon]="icons.edit"></fa-icon>
+        &nbsp; Редагувати
+      </button>
+
+      <div class="d-flex justify-content-around w-50" *ngIf="isEditMode">
+        <button
+          style="background-color: rgb(236, 141, 141); border: 2px solid #000"
+          type="button"
+          class="outline-btn"
+          (click)="changeEditMode()"
+        >
+          Скасувати
+        </button>
+        <button
+          style="background-color: rgb(163, 232, 163); border: 2px solid #000"
+          type="submit"
+          class="outline-btn"
+        >
+          Готово
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

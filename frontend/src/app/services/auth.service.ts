@@ -15,10 +15,11 @@ export class AuthService {
     id: '',
     name: '',
     email: '',
+    phoneNumber: '',
     role: 'init', // Can be: ["init", "student", "teacher"]
   };
-  private userSubject$ = new BehaviorSubject<any>(this.userStub);
-  currentUser$ = this.userSubject$.asObservable();
+  private userSubject = new BehaviorSubject<any>(this.userStub);
+  currentUser$ = this.userSubject.asObservable();
 
   private url = 'http://localhost:3001/auth';
 
@@ -48,7 +49,7 @@ export class AuthService {
         tap((res: any) => {
           localStorage.setItem('token', res.token);
           this.loginStatus$.next('success');
-          this.userSubject$.next(res.user);
+          this.userSubject.next(res.user);
           this.router.navigate(['/home']);
         })
       );
@@ -88,7 +89,7 @@ export class AuthService {
       .pipe(
         tap((res) => {
           this.loginStatus$.next('success');
-          this.userSubject$.next(res.user);
+          this.userSubject.next(res.user);
         }),
         catchError((err) => {
           this.loginStatus$.next('failure');
@@ -101,5 +102,9 @@ export class AuthService {
     localStorage.removeItem('token');
     this.router.navigate(['']);
     this.loginStatus$.next('failure');
+  }
+
+  updateUserDetails(details) {
+    this.userSubject.next(details);
   }
 }

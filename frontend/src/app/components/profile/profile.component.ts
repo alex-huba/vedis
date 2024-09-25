@@ -1,43 +1,73 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faFolderPlus,
+  faGear,
   faHouse,
   faListCheck,
   faMagnifyingGlass,
   faPowerOff,
   faSquarePen,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { AnalyticsService } from 'src/app/services/analytics.service';
+import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ClassesService } from 'src/app/services/classes.service';
+import { HomeworkService } from 'src/app/services/homework.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
 })
-export class ProfileComponent implements OnInit {
-  private url = 'http://localhost:3001/post';
-  posts$: Observable<any[]>;
+export class ProfileComponent implements OnInit, AfterViewInit {
+  revenueData$: Observable<any>;
+  amountOfClassesForCurrentWeek$: Observable<any>;
+  amountOfUnfinishedHomework$: Observable<any>;
+  amountOfApplications$: Observable<any>;
 
   // User details
   isTeacher = false;
   username = '';
 
-  houseIcon = faHouse;
-  taskIcon = faListCheck;
-  turnOffIcon = faPowerOff;
-  folderIcon = faFolderPlus;
-  penIcon = faSquarePen;
-  glassIcon = faMagnifyingGlass;
+  // User photo
+  photoUrl: any;
 
+  // Hides content in home-page when offcanvas is opened on mobile
+  @ViewChild('homeContent', { static: true }) homeContent!: ElementRef;
+
+  // This holds the input value
+  searchValue: string = '';
+
+  // Icons
+  icons = {
+    house: faHouse,
+    task: faListCheck,
+    signOut: faPowerOff,
+    folder: faFolderPlus,
+    pen: faSquarePen,
+    search: faMagnifyingGlass,
+    settings: faGear,
+    students: faUsers,
+  };
+
+  // Decides whether to show home page
   isHomePage = false;
 
+  // Calendar settings
   calendarOptions: CalendarOptions = {
     plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
     headerToolbar: {
@@ -57,111 +87,156 @@ export class ProfileComponent implements OnInit {
     height: 'auto',
   };
 
-  salesData = [
-    { date: '01.2024', sum: 2000 },
-    { date: '02.2024', sum: 4000 },
-    { date: '03.2024', sum: 1500 },
-    { date: '04.2024', sum: 1500 },
-    { date: '05.2024', sum: 2500 },
-    { date: '06.2024', sum: 3500 },
-    { date: '07.2024', sum: 1500 },
-    { date: '08.2024', sum: 2500 },
-    { date: '09.2024', sum: 3500 },
-    { date: '10.2024', sum: 500 },
-    { date: '11.2024', sum: 50 },
-    { date: '12.2024', sum: 1500 },
-  ];
-  chartOptions: any;
+  // Chart settings
+  chartOptions: any = {
+    series: [
+      {
+        name: 'Сума',
+        data: [],
+      },
+    ],
+    chart: {
+      height: 250,
+      type: 'line',
+      zoom: {
+        enabled: false,
+      },
+      background: '#fff',
+      toolbar: {
+        show: false,
+      },
+    },
+    title: {
+      text: 'Дохід школи',
+      align: 'left',
+    },
+    xaxis: {
+      type: 'category',
+    },
+    yaxis: {
+      labels: {
+        formatter: function (value) {
+          return value + ' ₴';
+        },
+      },
+    },
+    markers: {
+      size: 5,
+    },
+    tooltip: {
+      y: {
+        formatter: function (value) {
+          return value + ' ₴';
+        },
+      },
+    },
+    grid: {
+      row: {
+        colors: ['rgb(233, 233, 233)', 'white'],
+        opacity: 0.5,
+      },
+    },
+  };
 
   constructor(
-    private http: HttpClient,
     private authService: AuthService,
+    private analyticsService: AnalyticsService,
+    private applicationService: ApplicationService,
+    private classesService: ClassesService,
+    private homeworkService: HomeworkService,
+    private userService: UserService,
     private router: Router
-  ) {
-    this.router.events.subscribe(() => {
-      this.isHomePage = this.router.url == '/home';
-    });
-
-    const transformedData = this.salesData.map((sale) => ({
-      x: sale.date,
-      y: sale.sum,
-    }));
-    this.chartOptions = {
-      series: [
-        {
-          name: 'Сума',
-          data: transformedData,
-        },
-      ],
-      chart: {
-        height: 250,
-        type: 'line',
-        zoom: {
-          enabled: false,
-        },
-        background: '#fff',
-        toolbar: {
-          show: false,
-        },
-      },
-      title: {
-        text: 'Дохід школи',
-        align: 'left',
-      },
-      xaxis: {
-        type: 'category',
-      },
-      yaxis: {
-        labels: {
-          formatter: function (value) {
-            return value + ' ₴';
-          },
-        },
-      },
-      markers: {
-        size: 5,
-      },
-      tooltip: {
-        y: {
-          formatter: function (value) {
-            return value + ' ₴';
-          },
-        },
-      },
-      grid: {
-        row: {
-          colors: ['rgb(233, 233, 233)', 'white'],
-          opacity: 0.5,
-        },
-      },
-    };
-  }
+  ) {}
 
   ngOnInit(): void {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1);
 
-    this.posts$ = this.fetchAll();
+    this.router.events.subscribe(() => {
+      this.isHomePage = this.router.url == '/home';
+    });
+
     this.authService.currentUser$.subscribe((user) => {
       // Check user role
       if (user.role === 'teacher') {
         this.isTeacher = true;
+        this.revenueData$ =
+          this.analyticsService.generateMonthlyRevenueReport();
+
+        // Transform revenue data
+        this.revenueData$
+          .pipe(
+            map((sales) =>
+              sales.map((sale: any) => ({
+                x: sale.month_year,
+                y: sale.total_revenue,
+              }))
+            )
+          )
+          .subscribe((transformedData) => {
+            this.chartOptions.series[0].data = transformedData;
+          });
+
+        this.amountOfApplications$ =
+          this.applicationService.countAllApplication();
+        this.amountOfClassesForCurrentWeek$ =
+          this.classesService.countClassesForCurrentWeek();
+        this.amountOfUnfinishedHomework$ =
+          this.homeworkService.countUnfinishedHomework();
       } else {
         this.isTeacher = false;
       }
+
+      this.userService.photoUrl$.subscribe((photoUrl) => {
+        this.photoUrl = photoUrl;
+      });
+
+      // Load the current photo
+      this.userService.getPhoto();
 
       // Get username
       this.username = user.name;
     });
   }
 
-  fetchAll(): Observable<any[]> {
-    return this.http.get<any[]>(this.url, { responseType: 'json' });
+  ngAfterViewInit(): void {
+    // Create a ResizeObserver instance
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const width = entry.contentRect.width;
+
+        // Check if width is below a threshold, e.g., 400px
+        if (width < 200) {
+          // Perform actions when width is too small, e.g., apply styles to blend child elements
+          this.homeContent.nativeElement.style.visibility = 'hidden';
+        } else {
+          // Reset styles when width is above the threshold
+          this.homeContent.nativeElement.style.visibility = 'visible';
+        }
+      }
+    });
+
+    // Start observing the target div
+    resizeObserver.observe(this.homeContent.nativeElement);
   }
 
   signOut() {
     this.authService.signOut();
+  }
+
+  changePage(page) {
+    switch (page) {
+      case 'Заявки':
+        this.router.navigate(['/home/applications']);
+        break;
+      case 'Розклад':
+        this.router.navigate(['/home/schedule']);
+        break;
+      case 'Всі завдання':
+        this.router.navigate(['/home/tasks']);
+        break;
+    }
   }
 
   renderCalendar() {
