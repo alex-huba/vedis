@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { SchoolService } from 'src/app/services/school.service';
+import { ClassesService } from 'src/app/services/classes.service';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-new-class',
@@ -12,23 +14,27 @@ export class NewClassComponent implements OnInit {
   students$: Observable<any[]>;
 
   newClassForm = this.fb.group({
-    student: 'default',
-    start: [this.getCurrentTimestamp(), Validators.required],
-    end: [this.getCurrentTimestamp(), Validators.required],
+    studentId: 'default',
+    start: ['', Validators.required],
+    end: ['', Validators.required],
+    price: [300, [Validators.required, Validators.min(0)]],
   });
 
   awaitingResponse = false;
-  showErrorMsg = false;
-  showSuccessMsg = false;
 
   ngOnInit(): void {
-    this.students$ = this.ss.getAllStudents();
+    this.students$ = this.studentService.getAllValidStudents();
   }
 
-  constructor(private fb: FormBuilder, private ss: SchoolService) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private studentService: StudentService,
+    private classService: ClassesService
+  ) {}
 
-  get student() {
-    return this.newClassForm.get('student');
+  get studentId() {
+    return this.newClassForm.get('studentId');
   }
 
   get start() {
@@ -39,25 +45,36 @@ export class NewClassComponent implements OnInit {
     return this.newClassForm.get('end');
   }
 
+  get price() {
+    return this.newClassForm.get('price');
+  }
+
   onSubmit() {
-    if (this.newClassForm.invalid || this.student.value === 'default') {
+    if (this.newClassForm.invalid || this.studentId.value === 'default') {
       this.newClassForm.markAllAsTouched();
     } else {
       this.awaitingResponse = true;
-      const id = this.student.value.split(' ')[0];
-      const name = this.student.value.split(' ')[1];
 
-      this.ss
-        .createClass(id, name, this.start.value, this.end.value)
+      this.classService
+        .createClass(
+          this.studentId.value,
+          this.start.value,
+          this.end.value,
+          this.price.value
+        )
         .subscribe({
-          next: (e) => {
+          next: () => {
             this.awaitingResponse = false;
-            this.showSuccessMsg = true;
             this.newClassForm.reset();
+            this.snackBar.open('Урок створено', '👍', {
+              duration: 5000,
+            });
           },
-          error: (e) => {
+          error: () => {
             this.awaitingResponse = false;
-            this.showErrorMsg = true;
+            this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
+              duration: 5000,
+            });
           },
         });
     }

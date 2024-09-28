@@ -56,17 +56,6 @@ export class SchoolService {
     });
   }
 
-  createClass(studentId, studentName, start, end): Observable<any> {
-    return this.http.post<any>(
-      `${this.url}/classes`,
-      { studentId, studentName, start, end },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
-    );
-  }
-
   updateClass(id, status, studentId, start, end) {
     return this.http.put<any>(
       `${this.url}/classes/update`,

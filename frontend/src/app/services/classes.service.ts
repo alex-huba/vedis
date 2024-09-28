@@ -1,5 +1,6 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -18,5 +19,16 @@ export class ClassesService {
       ...this.httpOptions,
       reportProgress: true,
     });
+  }
+
+  createClass(studentId, start, end, price): Observable<any> {
+    return this.http.post<any>(
+      `${this.url}/classes`,
+      { studentId, start, end, price },
+      {
+        ...this.httpOptions,
+        reportProgress: true,
+      }
+    );
   }
 }

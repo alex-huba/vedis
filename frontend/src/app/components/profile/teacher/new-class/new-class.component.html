@@ -1,42 +1,14 @@
-<div
-  *ngIf="showErrorMsg"
-  class="alert alert-danger d-flex align-items-center gap-3"
-  role="alert"
->
-  <div>Помилка! Спробуйте ще раз</div>
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-    (click)="showErrorMsg = !showErrorMsg"
-  ></button>
-</div>
-<div
-  *ngIf="showSuccessMsg"
-  class="alert alert-success d-flex align-items-center gap-3"
-  role="alert"
->
-  <div>Урок створено!</div>
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-    (click)="showSuccessMsg = !showSuccessMsg"
-  ></button>
-</div>
 <div class="class-card">
+  <h5 class="text-xcenter my-0">Новий урок 📆</h5>
+  <hr />
   <form [formGroup]="newClassForm" (ngSubmit)="onSubmit()">
-    <legend>Новий урок</legend>
-
     <!-- Student name field -->
     <fieldset>
       <label for="student-select">Виберіть учня</label>
       <select
-        formControlName="student"
-        [class.is-invalid]="
-          student.value == 'default' && (student.dirty || student.touched)
+        formControlName="studentId"
+        [class.mark-invalid]="
+          studentId.value == 'default' && (studentId.dirty || studentId.touched)
         "
         id="student-select"
         class="form-select"
@@ -49,15 +21,6 @@
           {{ s.name }}
         </option>
       </select>
-      <div id="validationServer05Feedback" class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="
-            student.value == 'default' && (student.dirty || student.touched)
-          "
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
 
     <!-- Start field -->
@@ -65,7 +28,7 @@
       <label for="class-time-start">Початок уроку</label>
       <input
         id="class-time-start"
-        [class.is-invalid]="start.invalid && (start.dirty || start.touched)"
+        [class.mark-invalid]="start.invalid && (start.dirty || start.touched)"
         formControlName="start"
         type="datetime-local"
         class="form-control"
@@ -77,20 +40,33 @@
       <label for="class-time-end">Кінець уроку</label>
       <input
         id="class-time-end"
-        [class.is-invalid]="end.invalid && (end.dirty || end.touched)"
+        [class.mark-invalid]="end.invalid && (end.dirty || end.touched)"
         formControlName="end"
         type="datetime-local"
         class="form-control"
       />
     </fieldset>
 
-    <div class="w-100 d-flex justify-content-center">
+    <!-- Price field -->
+    <fieldset>
+      <label for="class-price">Вартість</label>
+      <input
+        id="class-price"
+        [class.mark-invalid]="price.invalid && (price.dirty || price.touched)"
+        formControlName="price"
+        type="number"
+        class="form-control"
+      />
+    </fieldset>
+
+    <div class="w-100 mt-2 d-flex justify-content-center">
       <button
+        (click)="onSubmit()"
         *ngIf="!awaitingResponse; else loadingBtn"
-        type="submit"
-        class="cta"
+        type="button"
+        class="outline-btn"
       >
-        Створити
+        Зберегти
       </button>
       <ng-template #loadingBtn>
         <button class="cta" type="button" disabled>
