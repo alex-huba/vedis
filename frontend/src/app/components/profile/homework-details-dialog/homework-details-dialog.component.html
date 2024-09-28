@@ -3,20 +3,24 @@
 <mat-dialog-content class="mat-typography">
   <div>
     <h3>Ім'я учня:</h3>
-    <p>{{ data.studentName }}</p>
+    <p>{{ data.name }}</p>
   </div>
   <div>
     <h3>Email учня:</h3>
     <p>{{ data.email }}</p>
   </div>
   <div>
-    <h3>Дата виконання:</h3>
+    <h3>Дата створення:</h3>
+    <p>{{ parseTimestamp(data.createdAt) }}</p>
+  </div>
+  <div>
+    <h3>Виконати до:</h3>
     <p>{{ parseTimestamp(data.dueDate) }}</p>
   </div>
   <div>
     <h3>Статус:</h3>
     <p>
-      <span *ngIf="data.status === 'not done'; else doneStatus">Не виконано ❌</span>
+      <span *ngIf="!data.done; else doneStatus">Не виконано ❌</span>
       <ng-template #doneStatus>
         <span>Виконано ✅</span>
       </ng-template>

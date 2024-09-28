@@ -50,9 +50,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   // Hides content in home-page when offcanvas is opened on mobile
   @ViewChild('homeContent', { static: true }) homeContent!: ElementRef;
 
-  // This holds the input value
-  searchValue: string = '';
-
   // Icons
   icons = {
     house: faHouse,
@@ -245,5 +242,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 200);
+  }
+
+  // Used in template
+  getCurrentUrl() {
+    return this.router.url;
   }
 }

@@ -1,166 +1,93 @@
-<div
-  *ngIf="showErrorMsg"
-  class="alert alert-danger d-flex align-items-center gap-3"
-  role="alert"
->
-  <div>Помилка! Спробуйте ще раз</div>
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-    (click)="showErrorMsg = !showErrorMsg"
-  ></button>
-</div>
-<div
-  *ngIf="showSuccessMsg"
-  class="alert alert-success d-flex align-items-center gap-3"
-  role="alert"
->
-  <div>Слово додано до словника!</div>
-  <button
-    type="button"
-    class="btn-close"
-    data-bs-dismiss="alert"
-    aria-label="Close"
-    (click)="showSuccessMsg = !showSuccessMsg"
-  ></button>
-</div>
 <div class="class-card">
+  <h5 class="text-xcenter my-0">Нове слово до словника 📒</h5>
+  <hr />
   <form [formGroup]="newWordForm" (ngSubmit)="onSubmit()">
-    <legend>Додати нове слово до словника</legend>
-
     <!-- Student name field -->
     <fieldset>
-      <label for="student-select">Виберіть учня</label>
+      <label for="student-select">Виберіть учня:</label>
       <select
-        formControlName="student"
-        [class.is-invalid]="
-          student.value == 'default' && (student.dirty || student.touched)
+        formControlName="studentId"
+        [class.mark-invalid]="
+          studentId.value == 'default' && (studentId.dirty || studentId.touched)
         "
         id="student-select"
         class="form-select"
       >
         <option selected disabled value="default"></option>
-        <option
-          *ngFor="let s of students$ | async"
-          value="{{ s.id }} {{ s.name }}"
-        >
+        <option *ngFor="let s of students$ | async" value="{{ s.id }}">
           {{ s.name }}
         </option>
       </select>
-      <div id="validationServer05Feedback" class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="
-            student.value == 'default' && (student.dirty || student.touched)
-          "
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
 
-    <!-- Date field -->
+    <!-- dueDate field -->
     <fieldset>
-      <label for="word-input">Дата</label>
+      <label for="class-time-start">Вивчити до:</label>
       <input
+        id="class-time-start"
+        [class.mark-invalid]="dueDate.invalid && (dueDate.dirty || dueDate.touched)"
+        formControlName="dueDate"
         type="date"
         class="form-control"
-        formControlName="date"
-        [class.is-invalid]="date.value == '' && (date.dirty || date.touched)"
-        id="word-input"
       />
-      <div class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="date.value == '' && (date.dirty || date.touched)"
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
 
     <!-- Word field -->
     <fieldset>
-      <label for="word-input">Слово</label>
+      <label for="class-time-start">Слово:</label>
       <input
+        id="class-time-start"
+        [class.mark-invalid]="word.invalid && (word.dirty || word.touched)"
+        formControlName="word"
         type="text"
         class="form-control"
-        formControlName="word"
-        [class.is-invalid]="word.value == '' && (word.dirty || word.touched)"
-        id="word-input"
       />
-      <div class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="word.value == '' && (word.dirty || word.touched)"
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
 
     <!-- Transcription field -->
     <fieldset>
-      <label for="transcription-input">Транскрипція</label>
+      <label for="class-time-start">Транскрипція:</label>
       <input
-        type="text"
-        class="form-control"
-        formControlName="transcription"
-        [class.is-invalid]="
-          transcription.value == '' &&
+        id="class-time-start"
+        [class.mark-invalid]="
+          transcription.invalid &&
           (transcription.dirty || transcription.touched)
         "
-        id="transcription-input"
+        formControlName="transcription"
+        type="text"
+        class="form-control"
       />
-      <div class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="
-            transcription.value == '' &&
-            (transcription.dirty || transcription.touched)
-          "
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
 
     <!-- Translation field -->
     <fieldset>
-      <label for="translation-input">Переклад</label>
+      <label for="class-time-start">Переклад:</label>
       <input
+        id="class-time-start"
+        [class.mark-invalid]="
+          translation.invalid && (translation.dirty || translation.touched)
+        "
+        formControlName="translation"
         type="text"
         class="form-control"
-        formControlName="translation"
-        [class.is-invalid]="
-          translation.value == '' && (translation.dirty || translation.touched)
-        "
-        id="translation-input"
       />
-      <div class="invalid-feedback">
-        <span
-          class="error-span"
-          *ngIf="
-            translation.value == '' &&
-            (translation.dirty || translation.touched)
-          "
-          >Це поле є обов'язковим</span
-        >
-      </div>
     </fieldset>
-
-    <div class="w-100 d-flex justify-content-center">
-      <button
-        *ngIf="!awaitingResponse; else loadingBtn"
-        type="submit"
-        class="cta"
-      >
-        Створити
-      </button>
-      <ng-template #loadingBtn>
-        <button class="cta" type="button" disabled>
-          <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
-          Зачекайте...
-        </button>
-      </ng-template>
-    </div>
   </form>
+
+  <div class="w-100 mt-2 d-flex justify-content-center">
+    <button
+      (click)="onSubmit()"
+      *ngIf="!awaitingResponse; else loadingBtn"
+      type="button"
+      class="outline-btn"
+    >
+      Зберегти
+    </button>
+    <ng-template #loadingBtn>
+      <button class="cta" type="button" disabled>
+        <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+        Зачекайте...
+      </button>
+    </ng-template>
+  </div>
 </div>

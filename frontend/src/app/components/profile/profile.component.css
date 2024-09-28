@@ -60,28 +60,6 @@ fa-icon {
   color: #000;
 }
 
-#search-form {
-  width: 20%;
-}
-
-#search-input {
-  width: 100%;
-  box-sizing: border-box;
-  border: 2px solid var(--new-blue);
-  border-radius: 15px;
-  background-color: white;
-  background-image: url("../../../assets/profile/search.svg");
-  background-size: 12px;
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding: 5px 5px 5px 30px;
-}
-#search-input:active,
-#search-input:focus {
-  border: 2px solid var(--new-blue);
-  outline: none;
-}
-
 .info-card {
   display: flex;
   gap: 25px;
@@ -140,6 +118,10 @@ full-calendar {
 
 #wrapper {
   width: 75%;
+}
+
+.show-breadcrumb {
+  display: block !important;
 }
 
 @media screen and (max-width: 1310px) {

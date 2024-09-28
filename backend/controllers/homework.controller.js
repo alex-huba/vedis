@@ -51,7 +51,17 @@ exports.fetchAll = async (req, res, next) => {
 
   // Fetch all homework
   try {
-    const [homework] = await Homework.getAll();
+    let [homework] = await Homework.getAll();
+    homework = homework.map((user) => {
+      const parsedHomework = JSON.parse(user.homework);
+      parsedHomework.forEach((hw) => {
+        hw.done = !!hw.done;
+      });
+      return {
+        ...user,
+        homework: parsedHomework,
+      };
+    });
 
     res.status(200).json(homework);
   } catch (err) {
@@ -74,18 +84,18 @@ exports.fetchUnfinished = async (req, res, next) => {
 };
 
 exports.countUnfinished = async (req, res, next) => {
-    // Check whether user has sufficient rights
-    if (req.role != "teacher") return res.status(401).end();
+  // Check whether user has sufficient rights
+  if (req.role != "teacher") return res.status(401).end();
 
-    // Get total amount of unfinished homework
-    try {
-      const [row] = await Homework.countUnfinished();
-      res.status(200).json(row[0].amount);
-    } catch (err) {
-      if(!err.statusCode) err.statusCode = 500;
-      next(err);
-    }
-}
+  // Get total amount of unfinished homework
+  try {
+    const [row] = await Homework.countUnfinished();
+    res.status(200).json(row[0].amount);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
 
 exports.delete = async (req, res, next) => {
   // Check for errors
@@ -110,8 +120,10 @@ exports.updateStatus = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) return res.status(400).end();
 
+  const [homeworkToChange] = await Homework.getById(req.params.id);
+
   // Check whether user has sufficient rights
-  if (req.role == "teacher" || req.userId == req.params.studentId) {
+  if (req.role == "teacher" || req.userId == homeworkToChange[0].studentId) {
     // Update status of a specific homework
     try {
       await Homework.updateStatus(req.params.id, req.body.done);

@@ -5,6 +5,7 @@ import { SchoolService } from 'src/app/services/school.service';
 import { HomeworkDetailsDialogComponent } from '../homework-details-dialog/homework-details-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from 'src/app/services/auth.service';
+import { HomeworkService } from 'src/app/services/homework.service';
 
 @Component({
   selector: 'app-tasks',
@@ -20,7 +21,8 @@ export class TasksComponent implements OnInit {
     private matDialog: MatDialog,
     private ss: SchoolService,
     private snackBar: MatSnackBar,
-    private authService: AuthService
+    private authService: AuthService,
+    private homeworkService: HomeworkService
   ) {}
 
   ngOnInit(): void {
@@ -28,9 +30,9 @@ export class TasksComponent implements OnInit {
       this.isUserTeacher = user.role === 'teacher';
 
       if (this.isUserTeacher) {
-        this.homework$ = this.ss.getAllHomework();
+        this.homework$ = this.homeworkService.getAllHomework();
       } else {
-        this.homework$ = this.ss.getHomeworkById(user.id);
+        this.homework$ = this.homeworkService.getHomeworkById(user.id);
       }
     });
   }
@@ -39,7 +41,7 @@ export class TasksComponent implements OnInit {
     const parsedDate = new Date(date);
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
-      month: 'long',
+      month: 'numeric',
       day: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
@@ -50,23 +52,23 @@ export class TasksComponent implements OnInit {
     return parsedDate.toLocaleDateString('uk-UA', options);
   }
 
-  openDialog(studentName, email, dueDate, status, content) {
+  openDialog(name, email, createdAt, dueDate, done, content) {
     let dialogRef = this.matDialog.open(HomeworkDetailsDialogComponent, {
-      data: { studentName, email, dueDate, status, content },
+      data: { name, email, createdAt, dueDate, done, content },
     });
 
-    dialogRef.afterClosed().subscribe((res) => {});
+    dialogRef.afterClosed().subscribe();
   }
 
   deleteTask(id) {
-    this.ss.deleteHomework(id).subscribe({
-      next: (res) => {
+    this.homeworkService.deleteHomework(id).subscribe({
+      next: () => {
         this.snackBar.open('Завдання видалено', '✅', {
           duration: 5000,
         });
         this.ngOnInit();
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
           duration: 5000,
         });
@@ -74,16 +76,22 @@ export class TasksComponent implements OnInit {
     });
   }
 
-  changeTaskStatus(id, status) {
+  changeTaskStatus(id, done) {
     this.awaitingResponse = true;
-    this.ss.updateTaskStatus(id, status).subscribe({
-      next: (res) => {
+    this.homeworkService.updateTaskStatus(id, done).subscribe({
+      next: () => {
         this.awaitingResponse = false;
+        this.snackBar.open('Статус оновлено', '✅', {
+          duration: 5000,
+        });
         this.ngOnInit();
-      }, 
-      error: (err) => {
+      },
+      error: () => {
+        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+          duration: 5000,
+        });
         this.awaitingResponse = false;
-      }
-    })
+      },
+    });
   }
 }

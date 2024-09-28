@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { SchoolService } from 'src/app/services/school.service';
 
 @Component({
@@ -12,29 +14,32 @@ export class NewWordComponent implements OnInit {
   students$: Observable<any[]>;
 
   newWordForm = this.fb.group({
-    student: 'default',
-    date: ['', Validators.required],
+    studentId: 'default',
+    dueDate: ['', Validators.required],
     word: ['', Validators.required],
     transcription: ['', Validators.required],
     translation: ['', Validators.required],
   });
 
   awaitingResponse = false;
-  showErrorMsg = false;
-  showSuccessMsg = false;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.students$ = this.ss.getAllStudents();
   }
 
-  constructor(private fb: FormBuilder, private ss: SchoolService) {}
+  constructor(
+    private fb: FormBuilder,
+    private ss: SchoolService,
+    private snackBar: MatSnackBar,
+    private dictionaryService: DictionaryService
+  ) {}
 
-  get student() {
-    return this.newWordForm.get('student');
+  get studentId() {
+    return this.newWordForm.get('studentId');
   }
 
-  get date() {
-    return this.newWordForm.get('date');
+  get dueDate() {
+    return this.newWordForm.get('dueDate');
   }
 
   get word() {
@@ -50,27 +55,31 @@ export class NewWordComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.newWordForm.invalid || this.student.value === 'default') {
+    if (this.newWordForm.invalid || this.studentId.value === 'default') {
       this.newWordForm.markAllAsTouched();
     } else {
       this.awaitingResponse = true;
-      this.ss
+      this.dictionaryService
         .createWord(
-          this.student.value,
-          this.date.value,
+          this.studentId.value,
+          this.dueDate.value,
           this.word.value,
           this.transcription.value,
           this.translation.value
         )
         .subscribe({
-          next: (e) => {
+          next: () => {
             this.awaitingResponse = false;
-            this.showSuccessMsg = true;
             this.newWordForm.reset();
+            this.snackBar.open('Слово додано до словника', '✅', {
+              duration: 5000,
+            });
           },
-          error: (e) => {
+          error: () => {
             this.awaitingResponse = false;
-            this.showErrorMsg = true;
+            this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '✅', {
+              duration: 5000,
+            });
           },
         });
     }

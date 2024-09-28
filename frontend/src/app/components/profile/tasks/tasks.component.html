@@ -1,101 +1,121 @@
 <!-- Teacher section -->
 <section *ngIf="isUserTeacher; else studentSection">
   <div class="text-center">
-    <h2>Домашнє завдання</h2>
+    <h2>Домашні завдання</h2>
   </div>
 
-  <ul class="tree">
-    <li class="mb-3" *ngFor="let item of homework$ | async">
-      <details>
-        <summary>{{ item.name }} ({{ item.email }})</summary>
-        <ul>
-          <li class="mb-2 fs-lg" *ngFor="let homework of item.homework">
-            {{ parseTimestamp(homework.date) }} &nbsp;
-            <button
-              (click)="
-                openDialog(
-                  item.name,
-                  item.email,
-                  homework.date,
-                  homework.status,
-                  homework.content
-                )
-              "
-              class="info-btn"
-              type="button"
-            >
-              <i class="bi bi-info-circle-fill"></i>
-            </button>
-            <button
-              (click)="deleteTask(homework.id)"
-              class="info-btn"
-              style="margin-left: 15px"
-              type="button"
-            >
-              <i class="bi bi-trash-fill"></i>
-            </button>
-          </li>
-        </ul>
-      </details>
-    </li>
-  </ul>
+  <div
+    style="
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background-color: #fff;
+      border-radius: 15px;
+      box-shadow: var(--shadow);
+      padding: 15px;
+    "
+  >
+    <ul class="tree">
+      <li class="mb-3" *ngFor="let item of homework$ | async">
+        <details>
+          <summary>{{ item.name }} ({{ item.email }})</summary>
+          <ul>
+            <li class="mb-2 fs-lg" *ngFor="let homework of item.homework">
+              {{ parseTimestamp(homework.dueDate) }} &nbsp;
+              <button
+                (click)="
+                  openDialog(
+                    item.name,
+                    item.email,
+                    homework.createdAt,
+                    homework.dueDate,
+                    homework.done,
+                    homework.content
+                  )
+                "
+                class="info-btn"
+                type="button"
+              >
+                <i class="bi bi-info-circle-fill"></i>
+              </button>
+              <button
+                (click)="deleteTask(homework.id)"
+                class="info-btn"
+                style="margin-left: 15px"
+                type="button"
+              >
+                <i class="bi bi-trash-fill"></i>
+              </button>
+            </li>
+          </ul>
+        </details>
+      </li>
+    </ul>
+  </div>
 </section>
 
 <!-- Student section -->
 <ng-template #studentSection>
   <section>
-    <div class="text-center mb-3">
-      <h2>Домашнє завдання</h2>
-    </div>
+    <h2 style="font-family: montserrat-bold">Домашні завдання</h2>
 
     <div
       *ngIf="(homework$ | async)?.length !== 0; else emptyHomework"
-      class="d-flex flex-column align-items-center gap-4"
+      class="d-flex gap-4"
     >
       <div class="task-card" *ngFor="let item of homework$ | async">
-        <h3 style="font-weight: 600">Виконати до</h3>
-        <p class="text-center">{{ parseTimestamp(item.date) }}</p>
-        <h3 style="font-weight: 600">Статус</h3>
-        <p>
-          <span *ngIf="item.status === 'not done'; else doneStatus"
-            >Не виконано ❌</span
-          >
-          <ng-template #doneStatus>
-            <span>Виконано ✅</span>
-          </ng-template>
-        </p>
-        <h3 style="font-weight: 600">Завдання</h3>
-        <div [innerHTML]="item.content"></div>
-        <button
-          (click)="changeTaskStatus(item.id, 'done')"
-          type="button"
-          *ngIf="item.status === 'not done' && !awaitingResponse"
-          mat-raised-button
-          color="primary"
-        >
-          Виконано
-        </button>
-        <button
-          (click)="changeTaskStatus(item.id, 'not done')"
-          type="button"
-          *ngIf="item.status === 'done' && !awaitingResponse"
-          mat-raised-button
-          color="accent"
-        >
-          Не виконано
-        </button>
-
-        <button
-          *ngIf="awaitingResponse"
-          type="button"
-          mat-raised-button
-          disabled
-        >
-          <div class="spinner-grow spinner-grow-sm" role="status">
-            <span class="visually-hidden">Loading...</span>
+        <div>
+          <div class="d-flex justify-content-between">
+            <span style="font-family: montserrat-bold"
+              >Виконати до: &nbsp;</span
+            >
+            <span>{{ parseTimestamp(item.dueDate) }}</span>
           </div>
-          <span>&nbsp; Зачекайте...</span>
-        </button>
+          <div class="d-flex justify-content-between">
+            <span style="font-family: montserrat-bold">Статус:</span>
+            <span *ngIf="!item.done; else doneStatus">Не виконано ❌</span>
+            <ng-template #doneStatus>
+              <span>Виконано ✅</span>
+            </ng-template>
+          </div>
+          <hr />
+          <div
+            style="overflow-y: auto; max-height: 150px"
+            [innerHTML]="item.content"
+          ></div>
+          <hr />
+        </div>
+        <div>
+          <button
+            (click)="changeTaskStatus(item.id, true)"
+            type="button"
+            *ngIf="!item.done && !awaitingResponse"
+            mat-raised-button
+            color="primary"
+          >
+            Виконано
+          </button>
+          <button
+            (click)="changeTaskStatus(item.id, false)"
+            type="button"
+            *ngIf="item.done && !awaitingResponse"
+            mat-raised-button
+            color="accent"
+          >
+            Не виконано
+          </button>
+          <button
+            *ngIf="awaitingResponse"
+            type="button"
+            mat-raised-button
+            disabled
+          >
+            <div class="spinner-grow spinner-grow-sm" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <span>&nbsp; Зачекайте...</span>
+          </button>
+        </div>
       </div>
     </div>
 

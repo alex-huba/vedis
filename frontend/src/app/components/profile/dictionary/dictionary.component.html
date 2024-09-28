@@ -1,97 +1,121 @@
-<div class="pt-4 text-center">
-  <h2>Словник</h2>
-</div>
-
-<div *ngIf="isUserTeacher; else studentSection">
-  <div class="d-flex flex-column-reverse align-items-center flex-sm-row gap-3 justify-content-between">
-    <form [formGroup]="wordSearchForm">
-      <fieldset>
-        <label for="word-search">Пошук слова</label>
-        <input
-          formControlName="wordRegex"
-          type="search"
-          id="word-search"
-          class="form-control"
-        />
-      </fieldset>
-    </form>
-    <form [formGroup]="studentForm">
-      <fieldset>
-        <label for="student-select">Виберіть учня</label>
-        <select
-          formControlName="studentSelection"
-          id="student-select"
-          class="form-select"
+<div class="pt-4 table-responsive" *ngIf="isUserTeacher; else studentSection">
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background-color: #ededed">
+        <th
+          colspan="4"
+          style="text-align: start; border: none; vertical-align: middle"
         >
-          <option selected disabled value="default">-</option>
-          <option *ngFor="let s of words$ | async" value="{{ s.id }}">
-            {{ s.name }}
-          </option>
-        </select>
-      </fieldset>
-    </form>
-  </div>
-
-  <div *ngIf="studentSelection.value == 'default'; else notEmptyDictionary">
-    <h3 class="text-center">Ви не обрали учня</h3>
-  </div>
-  <ng-template #notEmptyDictionary>
-    <div
-      *ngFor="let student of filteredWords$ | async"
-      class="pt-4 table-responsive"
-    >
-      <h3>{{ student.name }} ({{ student.email }})</h3>
-      <table class="table table-striped table-bordered">
-        <thead>
-          <tr class="table-dark">
-            <th scope="col">Дата</th>
-            <th scope="col">Слово</th>
-            <th scope="col">Транскрипція</th>
-            <th scope="col">Переклад</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of student.dictionary">
-            <td>{{ parseTimestamp(item.date) }}</td>
-            <td>{{ item.word }}</td>
-            <td>{{ item.transcription }}</td>
-            <td>{{ item.translation }}</td>
-            <td>
-              <button
-                data-bs-toggle="dropdown"
-                mat-icon-button
-                aria-label="Example icon button with a vertical three dot icon"
+          <h4>Словник 📒</h4>
+        </th>
+        <th
+          colspan="1"
+          style="display: flex; justify-content: flex-end; border: none"
+        >
+          <form
+            [formGroup]="wordSearchForm"
+            id="search-form"
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              width: 250px;
+            "
+          >
+            <fieldset>
+              <select
+                style="border: 2px solid var(--new-blue); border-radius: 15px;"
+                formControlName="studentId"
+                id="student-select"
+                class="form-select"
               >
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <div class="dropdown">
-                <ul class="dropdown-menu">
-                  <li>
-                    <button
-                      (click)="deleteWord(item.id)"
-                      type="button"
-                      class="dropdown-item"
-                    >
-                      Видалити
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </ng-template>
+                <option selected disabled value="default">Вибрати учня</option>
+                <option
+                  *ngFor="let s of dictionary$ | async"
+                  value="{{ s.studentId }}"
+                >
+                  {{ s.name }}
+                </option>
+              </select>
+            </fieldset>
+            <input
+              type="search"
+              formControlName="wordRegex"
+              list="pages"
+              name="search"
+              id="search-input"
+              placeholder="Знайти слово"
+            />
+          </form>
+        </th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">Вивчити до</th>
+        <th scope="col">Слово</th>
+        <th scope="col">Транскрипція</th>
+        <th scope="col">Переклад</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let w of filteredDictionary$ | async">
+        <td>{{ parseTimestamp(w.dueDate) }}</td>
+        <td>{{ w.word }}</td>
+        <td>{{ w.transcription }}</td>
+        <td>{{ w.translation }}</td>
+        <td>
+          <button
+            data-bs-toggle="dropdown"
+            mat-icon-button
+            aria-label="Example icon button with a vertical three dot icon"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <div class="dropdown">
+            <ul class="dropdown-menu">
+              <li>
+                <button
+                  (click)="deleteWord(w.id)"
+                  type="button"
+                  class="dropdown-item"
+                >
+                  Видалити
+                </button>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #studentSection>
-  <div *ngIf="(words$ | async)?.length !== 0; else emptyDictionary">
-    <table class="table table-striped table-bordered">
+  <div style="padding: 50px">
+    <table class="table table-bordered">
       <thead>
-        <tr class="table-dark">
-          <th scope="col">Дата</th>
+        <tr style="background-color: #ededed">
+          <th colspan="4" style="text-align: start; border: none">
+            <h3>Словник 📒</h3>
+          </th>
+          <th colspan="1" style="text-align: end; border: none">
+            <form [formGroup]="wordSearchForm" id="search-form">
+              <input
+                formControlName="wordRegex"
+                list="pages"
+                name="search"
+                id="search-input"
+                placeholder="Знайти слово"
+              />
+            </form>
+          </th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>
+          <th scope="col">Вивчити до</th>
           <th scope="col">Слово</th>
           <th scope="col">Транскрипція</th>
           <th scope="col">Переклад</th>
@@ -99,12 +123,17 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let item of words$ | async; index as i">
-          <td>{{ parseTimestamp(item.date) }}</td>
+        <tr *ngIf="(dictionary$ | async)?.length == 0">
+          <td colspan="5" class="text-center">
+            Ваш вчитель поки що не додав нових слів 🥳
+          </td>
+        </tr>
+        <tr *ngFor="let item of filteredDictionary$ | async; index as i">
+          <td>{{ parseTimestamp(item.dueDate) }}</td>
           <td>{{ item.word }}</td>
           <td>{{ item.transcription }}</td>
           <td class="hidden-text" id="translation-{{ i }}">
-            <p>
+            <p class="m-0">
               {{ item.translation }}
             </p>
           </td>
@@ -114,16 +143,11 @@
               type="button"
               class="dropdown-item"
             >
-              <i class="bi bi-eye-fill"></i>
+              <i id="show-icon-{{ i }}" class="bi bi-eye-fill"></i>
             </button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <ng-template #emptyDictionary>
-    <div class="d-flex align-items-center justify-content-center">
-      <h3 class="text-center">Ваш вчитель поки що не додав нових слів 🥳</h3>
-    </div>
-  </ng-template>
 </ng-template>

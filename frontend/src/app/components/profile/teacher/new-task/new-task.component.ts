@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { EditorConfig, ST_BUTTONS } from 'ngx-simple-text-editor';
 import { Observable } from 'rxjs';
-import { SchoolService } from 'src/app/services/school.service';
+import { HomeworkService } from 'src/app/services/homework.service';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-new-task',
@@ -13,33 +15,49 @@ export class NewTaskComponent implements OnInit {
   students$: Observable<any[]>;
 
   newTaskForm = this.fb.group({
-    student: 'default',
-    date: [this.getCurrentTimestamp(), Validators.required],
+    studentId: 'default',
+    dueDate: [null, Validators.required],
   });
 
   content = '';
 
+  excludedCommands = [
+    'insertImage',
+    'strikeThrough',
+    'justifyRight',
+    'justifyFull',
+    'subscript',
+    'superscript',
+  ];
+  buttons = ST_BUTTONS.filter(
+    //@ts-ignore
+    (b) => !this.excludedCommands.includes(b.command)
+  );
+
   config: EditorConfig = {
     placeholder: 'Напишіть ваше завдання...',
-    buttons: ST_BUTTONS,
+    buttons: this.buttons,
   };
 
   awaitingResponse = false;
-  showErrorMsg = false;
-  showSuccessMsg = false;
 
   ngOnInit(): void {
-    this.students$ = this.ss.getAllStudents();
+    this.students$ = this.studentService.getAllValidStudents();
   }
 
-  constructor(private fb: FormBuilder, private ss: SchoolService) {}
+  constructor(
+    private fb: FormBuilder,
+    private studentService: StudentService,
+    private homeworkService: HomeworkService,
+    private snackBar: MatSnackBar
+  ) {}
 
-  get student() {
-    return this.newTaskForm.get('student');
+  get studentId() {
+    return this.newTaskForm.get('studentId');
   }
 
-  get date() {
-    return this.newTaskForm.get('date');
+  get dueDate() {
+    return this.newTaskForm.get('dueDate');
   }
 
   onSubmit() {
@@ -47,40 +65,25 @@ export class NewTaskComponent implements OnInit {
       this.newTaskForm.markAllAsTouched();
     } else {
       this.awaitingResponse = true;
-      const studentId = this.student.value.split(' ')[0];
-      const studentName = this.student.value.split(' ')[1];
 
-      this.ss
-        .createHomework(
-          studentId,
-          this.date.value,
-          'not done',
-          this.content,
-          studentName
-        )
+      this.homeworkService
+        .createHomework(this.studentId.value, this.dueDate.value, this.content)
         .subscribe({
-          next: (res) => {
+          next: () => {
             this.awaitingResponse = false;
-            this.showSuccessMsg = true;
             this.newTaskForm.reset();
-            this.content = "";
+            this.snackBar.open('ДЗ збережено', '👍', {
+              duration: 5000,
+            });
+            this.content = '';
           },
-          error: (err) => {
+          error: () => {
             this.awaitingResponse = false;
-            this.showErrorMsg = true;
+            this.snackBar.open('Помилка. Спробуйте ще раз', '👍', {
+              duration: 5000,
+            });
           },
         });
     }
-  }
-
-  getCurrentTimestamp() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = ('0' + (now.getMonth() + 1)).slice(-2);
-    const date = ('0' + now.getDate()).slice(-2);
-    const hours = ('0' + now.getHours()).slice(-2);
-    const minutes = ('0' + now.getMinutes()).slice(-2);
-
-    return `${year}-${month}-${date}T${hours}:${minutes}`;
   }
 }

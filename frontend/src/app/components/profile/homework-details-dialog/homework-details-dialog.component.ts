@@ -10,10 +10,11 @@ export class HomeworkDetailsDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA)
     public data: {
-      studentName: string;
+      name: string;
       email: string;
+      createdAt: string;
       dueDate: string;
-      status: string;
+      done: boolean;
       content: string;
     }
   ) {}

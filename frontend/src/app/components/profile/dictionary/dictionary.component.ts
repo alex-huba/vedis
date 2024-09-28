@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { SchoolService } from 'src/app/services/school.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 
 @Component({
   selector: 'app-dictionary',
@@ -11,67 +11,70 @@ import { SchoolService } from 'src/app/services/school.service';
   styleUrls: ['./dictionary.component.css'],
 })
 export class DictionaryComponent implements OnInit {
-  words$: Observable<any[]>;
-  filteredWords$: Observable<any[]>;
+  dictionary$: Observable<any>;
+  filteredDictionary$: Observable<any>;
 
   isUserTeacher = false;
 
-  studentForm = this.fb.group({
-    studentSelection: 'default',
-  });
-
   wordSearchForm = this.fb.group({
+    studentId: 'default',
     wordRegex: '',
   });
 
   constructor(
-    private ss: SchoolService,
     private snackBar: MatSnackBar,
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dictionaryService: DictionaryService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.isUserTeacher = user.role === 'teacher';
 
       if (this.isUserTeacher) {
-        this.words$ = this.ss.getWholeDictionary();
+        this.dictionary$ = this.dictionaryService.getWholeDictionary();
       } else {
-        this.words$ = this.ss.getDictionaryById(user.id);
+        this.dictionary$ = this.dictionaryService.getDictionaryById(user.id);
+        this.filteredDictionary$ = this.dictionary$;
       }
     });
 
-    this.studentForm.valueChanges.subscribe((value) => {
-      this.filteredWords$ = this.words$.pipe(
-        map((students) =>
-          students.filter((s) => s.id === value.studentSelection)
-        )
+    this.wordSearchForm.get('studentId').valueChanges.subscribe((value) => {
+      this.filteredDictionary$ = this.dictionary$.pipe(
+        map((d) => {
+          let [dictionary] = d.filter((d) => d.studentId === value);
+          return dictionary.words;
+        })
       );
     });
 
     this.wordSearchForm
       .get('wordRegex')
-      .valueChanges.pipe(debounceTime(300), distinctUntilChanged())
-      .subscribe((searchTerm: string) => {
-        if(searchTerm === "") {
-          this.filteredWords$ = this.words$.pipe(
-            map((students) =>
-              students.filter((s) => s.id === this.studentSelection.value)
-            )
-          );
-        } else {
-          this.filteredWords$ = this.filteredWords$.pipe(
-            map((students) =>
-              students.map((student) => ({
-                ...student,
-                dictionary: student.dictionary.filter((entry) =>
-                  entry.word.toLowerCase().includes(searchTerm.toLowerCase())
-                ),
-              }))
-            )
-          );
-        }
+      .valueChanges.pipe(debounceTime(500), distinctUntilChanged())
+      .subscribe((searchTerm) => {
+        const regex = new RegExp(searchTerm, 'i');
+
+        const filterDictionary = (dictionary, isTeacher) => {
+          if (!searchTerm) return isTeacher ? dictionary.words : dictionary;
+          return isTeacher
+            ? dictionary.words.filter((w) => regex.test(w.word))
+            : dictionary.filter((w) => regex.test(w.word));
+        };
+
+        const processDictionaries = (dictionaries) => {
+          if (this.isUserTeacher) {
+            const [dictionary] = dictionaries.filter(
+              (d) => d.studentId == this.studentId.value
+            );
+            return filterDictionary(dictionary, true);
+          }
+          return filterDictionary(dictionaries, false);
+        };
+
+        this.filteredDictionary$ = this.dictionary$.pipe(
+          map(processDictionaries)
+        );
       });
   }
 
@@ -79,7 +82,7 @@ export class DictionaryComponent implements OnInit {
     const parsedDate = new Date(date);
     const options: Intl.DateTimeFormatOptions = {
       year: 'numeric',
-      month: 'long',
+      month: 'numeric',
       day: 'numeric',
       timeZone: 'Europe/Kiev',
     };
@@ -88,14 +91,20 @@ export class DictionaryComponent implements OnInit {
   }
 
   deleteWord(id) {
-    this.ss.deleteWord(id).subscribe({
-      next: (res) => {
-        this.ngOnInit();
+    this.dictionaryService.deleteWord(id).subscribe({
+      next: () => {
+        this.dictionary$ = this.dictionaryService.getWholeDictionary();
+        this.filteredDictionary$ = this.dictionary$.pipe(
+          map((d) => {
+            let [dictionary] = d.filter((d) => d.studentId === this.studentId);
+            return dictionary.words;
+          })
+        );
         this.snackBar.open('Слово видалено', '✅', {
           duration: 5000,
         });
       },
-      error: (err) => {
+      error: () => {
         this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
           duration: 5000,
         });
@@ -106,9 +115,12 @@ export class DictionaryComponent implements OnInit {
   hideTranslation(index) {
     let td = document.querySelector(`#translation-${index}`);
     td.classList.toggle('hidden-text');
+    let icon = document.querySelector(`#show-icon-${index}`);
+    icon.classList.toggle('bi-eye-fill');
+    icon.classList.toggle('bi-eye-slash-fill');
   }
 
-  get studentSelection() {
-    return this.studentForm.get('studentSelection');
+  get studentId() {
+    return this.wordSearchForm.get('studentId');
   }
 }

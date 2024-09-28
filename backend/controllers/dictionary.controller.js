@@ -11,7 +11,6 @@ exports.fetchByStudentId = async (req, res, next) => {
     // Fetch whole dictionary for a specific student
     try {
       const [dictionary] = await Dictionary.getById(req.params.studentId);
-      dictionary.sort((a, b) => new Date(b.date) - new Date(a.date));
       res.status(200).json(dictionary);
     } catch (err) {
       if (!err.statusCode) err.statusCode = 500;
@@ -28,8 +27,14 @@ exports.fetchAll = async (req, res, next) => {
   if (req.role != "teacher") return res.status(401).end();
 
   try {
-    const [dictionary] = await Dictionary.getAll();
-    dictionary.sort((a, b) => new Date(b.date) - new Date(a.date));
+    let [dictionary] = await Dictionary.getAll();
+    dictionary = dictionary.map((d) => {
+      const parsedWords = JSON.parse(d.words);
+      return {
+        ...d,
+        words: parsedWords,
+      };
+    });
 
     res.status(200).json(dictionary);
   } catch (err) {
@@ -50,7 +55,7 @@ exports.create = async (req, res, next) => {
   try {
     await Dictionary.save(
       req.body.studentId,
-      new Date().toISOString().slice(0, 19),
+      req.body.dueDate,
       req.body.word,
       req.body.transcription,
       req.body.translation

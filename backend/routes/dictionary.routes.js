@@ -11,6 +11,7 @@ router.post(
   [
     authMiddleware,
     body("studentId").trim().not().isEmpty(),
+    body("dueDate").trim().not().isEmpty(),
     body("word").trim().not().isEmpty(),
     body("transcription").trim().not().isEmpty(),
     body("translation").trim().not().isEmpty(),

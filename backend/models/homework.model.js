@@ -14,8 +14,34 @@ module.exports = class Homework {
     ]);
   }
 
+  static getById(id) {
+    return db.execute("SELECT * from homework WHERE id = ?", [id]);
+  }
+
   static getAll() {
-    return db.execute("SELECT * FROM homework");
+    return db.execute(
+      `
+      SELECT 
+      u.name,
+      u.email,
+      CONCAT('[', 
+          GROUP_CONCAT(
+              CONCAT(
+                  '{"createdAt": "', h.createdAt, '",',
+                  '"dueDate": "', h.dueDate, '",',
+                  '"id": "', h.id, '",',
+                  '"done": ', h.done, ',',
+                  '"content": "', h.content, '"}'
+              )
+              ORDER BY STR_TO_DATE(h.dueDate, '%Y-%m-%dT%H:%i') ASC
+          ),
+      ']') AS homework
+      FROM vedis.users u
+      JOIN vedis.homework h ON u.id = h.studentId
+      where u.role = "student"
+      GROUP BY u.id;
+      `
+    );
   }
 
   static getUnfinished() {
@@ -23,7 +49,9 @@ module.exports = class Homework {
   }
 
   static countUnfinished() {
-    return db.execute("select count(id) as amount from homework where done = false");
+    return db.execute(
+      "select count(id) as amount from homework where done = false"
+    );
   }
 
   static deleteById(id) {
