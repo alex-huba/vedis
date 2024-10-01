@@ -55,7 +55,9 @@
       <fieldset class="input-group has-validation">
         <div class="input-container">
           <div
-            [class.is-invalid]="phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)"
+            [class.is-invalid]="
+              phoneNumber.invalid && (phoneNumber.dirty || phoneNumber.touched)
+            "
             class="form-floating"
           >
             <ngx-intl-tel-input
@@ -74,7 +76,9 @@
             </ngx-intl-tel-input>
           </div>
           <div class="invalid-feedback">
-            <div *ngIf="phoneNumber.hasError('required') && phoneNumber.touched">
+            <div
+              *ngIf="phoneNumber.hasError('required') && phoneNumber.touched"
+            >
               <span class="error-span">Номер телефону обов'язковий</span>
             </div>
             <div *ngIf="phoneNumber.hasError('validatePhoneNumber')">
@@ -148,6 +152,38 @@
                 >Пароль повинен містити щонайменше 7 літер та один символ
                 (!&#64;#_$%^&*)</span
               >
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Timezone selection field -->
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="
+              timezone.invalid && (timezone.dirty || timezone.touched)
+            "
+            class="form-floating"
+          >
+            <select
+              [class.is-invalid]="timezone.invalid && timezone.touched"
+              id="timezone"
+              formControlName="timezone"
+              class="form-select"
+            >
+              <option
+                *ngFor="let timezone of timezones"
+                [value]="timezone.value"
+              >
+                {{ timezone.display }}
+              </option>
+            </select>
+            <label for="timezone">Оберіть часовий пояс 🕑</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="timezone.hasError('required') && timezone.touched">
+              <span class="error-span">Часовий пояс обов'язковий</span>
             </div>
           </div>
         </div>

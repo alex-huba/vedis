@@ -4,5 +4,6 @@ CREATE TABLE vedis.users (
     email VARCHAR(255) unique NOT NULL,
     password VARCHAR(255) NOT NULL,
     phoneNumber VARCHAR(255) unique NOT NULL,
-    role VARCHAR(255) DEFAULT 'pending'
+    role VARCHAR(255) DEFAULT 'pending',
+    timezone VARCHAR(255) NOT NULL
 );

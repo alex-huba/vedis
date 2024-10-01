@@ -6,6 +6,7 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
+// used
 router.get("/", authMiddleware, studentController.getAll);
 
 router.get(

@@ -50,7 +50,7 @@ import { LevelCheckComponent } from './components/landing/level-check/level-chec
 import { SocialMediaComponent } from './components/landing/social-media/social-media.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { ClassDetailsDialogComponent } from './components/profile/class-details-dialog/class-details-dialog.component';
+import { ClassDetailsDialogComponent } from './components/profile/schedule/class-details-dialog/class-details-dialog.component';
 import { DictionaryComponent } from './components/profile/dictionary/dictionary.component';
 import { HomeworkDetailsDialogComponent } from './components/profile/homework-details-dialog/homework-details-dialog.component';
 import { ProfileComponent } from './components/profile/profile.component';

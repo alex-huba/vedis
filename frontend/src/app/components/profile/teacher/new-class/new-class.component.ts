@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
+import { filter, map, Observable, switchMap } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { StudentService } from 'src/app/services/student.service';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-new-class',
@@ -11,7 +13,20 @@ import { StudentService } from 'src/app/services/student.service';
   styleUrls: ['./new-class.component.css'],
 })
 export class NewClassComponent implements OnInit {
-  students$: Observable<any[]>;
+  // Array of all verified students
+  students$: Observable<any>;
+
+  // Timezones in format "Europe/Berlin"
+  public timezone = {
+    teacher: '',
+    student: '',
+  };
+
+  // Converted start and end timestamps for teacher
+  public teacherTime = {
+    start: '',
+    end: '',
+  };
 
   newClassForm = this.fb.group({
     studentId: 'default',
@@ -22,31 +37,54 @@ export class NewClassComponent implements OnInit {
 
   awaitingResponse = false;
 
-  ngOnInit(): void {
-    this.students$ = this.studentService.getAllValidStudents();
-  }
-
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private studentService: StudentService,
-    private classService: ClassesService
+    private classService: ClassesService,
+    private authService: AuthService
   ) {}
 
-  get studentId() {
-    return this.newClassForm.get('studentId');
-  }
+  ngOnInit() {
+    // Get all verified students
+    this.students$ = this.studentService.getAllValidStudents();
 
-  get start() {
-    return this.newClassForm.get('start');
-  }
+    // Get teacher's timezone
+    this.authService.currentUser$.subscribe(
+      (u) => (this.timezone.teacher = u.timezone)
+    );
 
-  get end() {
-    return this.newClassForm.get('end');
-  }
+    // Get student's timezone
+    this.newClassForm
+      .get('studentId')
+      .valueChanges.pipe(
+        filter((studentId) => studentId !== '' && studentId !== null),
+        switchMap((studentId) =>
+          this.students$.pipe(
+            map((students) => students.find((s) => s.id === studentId)),
+            map((student) => student.timezone)
+          )
+        )
+      )
+      .subscribe((timezone) => {
+        this.timezone.student = timezone;
+        this.teacherTime.start = this.convertTimeToTeachersTimezone(
+          this.newClassForm.get('start').value
+        );
+        this.teacherTime.end = this.convertTimeToTeachersTimezone(
+          this.newClassForm.get('end').value
+        );
+      });
 
-  get price() {
-    return this.newClassForm.get('price');
+    // Get start of class for teacher's timezone
+    this.newClassForm.get('start').valueChanges.subscribe((timeStamp) => {
+      this.teacherTime.start = this.convertTimeToTeachersTimezone(timeStamp);
+    });
+
+    // Get end of class for teacher's timezone
+    this.newClassForm.get('end').valueChanges.subscribe((timeStamp) => {
+      this.teacherTime.end = this.convertTimeToTeachersTimezone(timeStamp);
+    });
   }
 
   onSubmit() {
@@ -66,6 +104,9 @@ export class NewClassComponent implements OnInit {
           next: () => {
             this.awaitingResponse = false;
             this.newClassForm.reset();
+            this.timezone.student = '';
+            this.teacherTime.start = '';
+            this.teacherTime.end = '';
             this.snackBar.open('Урок створено', '👍', {
               duration: 5000,
             });
@@ -80,14 +121,34 @@ export class NewClassComponent implements OnInit {
     }
   }
 
-  getCurrentTimestamp() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = ('0' + (now.getMonth() + 1)).slice(-2);
-    const date = ('0' + now.getDate()).slice(-2);
-    const hours = ('0' + now.getHours()).slice(-2);
-    const minutes = ('0' + now.getMinutes()).slice(-2);
+  /**
+   * 
+   * @param studentTimestamp string
+   * @returns converted timestamp for teacher's timezone in format "HH:mm"
+   */
+  convertTimeToTeachersTimezone(studentTimestamp) {
+    // Parse the student's timestamp using their timezone
+    const studentTime = DateTime.fromISO(studentTimestamp, {
+      zone: this.timezone.student,
+    });
 
-    return `${year}-${month}-${date}T${hours}:${minutes}`;
+    // Convert the student's time to the teacher's timezone
+    const teacherTime = studentTime.setZone(this.timezone.teacher);
+
+    // Return the teacher's time in a readable format
+    return teacherTime.toFormat('HH:mm');
+  }
+
+  get studentId() {
+    return this.newClassForm.get('studentId');
+  }
+  get start() {
+    return this.newClassForm.get('start');
+  }
+  get end() {
+    return this.newClassForm.get('end');
+  }
+  get price() {
+    return this.newClassForm.get('price');
   }
 }

@@ -21,6 +21,7 @@ router.put(
       .trim()
       .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/)
       .withMessage("Недопустимий номер телефону"),
+    body("timezone").trim().notEmpty().withMessage("Некоректний часовий пояс"),
   ],
   userController.update
 );

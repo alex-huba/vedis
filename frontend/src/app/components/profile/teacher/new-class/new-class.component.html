@@ -1,5 +1,5 @@
 <div class="class-card">
-  <h5 class="text-xcenter my-0">Новий урок 📆</h5>
+  <h5 class="text-center my-0">Новий урок 📆</h5>
   <hr />
   <form [formGroup]="newClassForm" (ngSubmit)="onSubmit()">
     <!-- Student name field -->
@@ -14,14 +14,24 @@
         class="form-select"
       >
         <option selected disabled value="default"></option>
-        <option
-          *ngFor="let s of students$ | async"
-          value="{{ s.id }} {{ s.name }}"
-        >
+        <option *ngFor="let s of students$ | async" value="{{ s.id }}">
           {{ s.name }}
         </option>
       </select>
     </fieldset>
+
+    <!-- Student's timezone -->
+    <fieldset style="color: grey">
+      <span>Часовий пояс учня:</span>
+      <span class="teacher-hint">{{ timezone.student }}</span>
+    </fieldset>
+
+    <!-- Teacher's timezone -->
+    <fieldset style="color: grey">
+      <span>Ваш часовий пояс:</span>
+      <span class="teacher-hint">{{ timezone.teacher }}</span>
+    </fieldset>
+    <hr />
 
     <!-- Start field -->
     <fieldset>
@@ -35,6 +45,13 @@
       />
     </fieldset>
 
+    <!-- Teacher's start -->
+    <fieldset style="color: grey">
+      <span>Початок уроку для вас:</span>
+      <span class="teacher-hint">{{ teacherTime.start }}</span>
+    </fieldset>
+    <hr />
+
     <!-- End field -->
     <fieldset>
       <label for="class-time-end">Кінець уроку</label>
@@ -47,9 +64,16 @@
       />
     </fieldset>
 
+    <!-- Teacher's end -->
+    <fieldset style="color: grey">
+      <span>Кінець уроку для вас:</span>
+      <span class="teacher-hint">{{ teacherTime.end }}</span>
+    </fieldset>
+    <hr />
+
     <!-- Price field -->
     <fieldset>
-      <label for="class-price">Вартість</label>
+      <label for="class-price">Вартість (₴)</label>
       <input
         id="class-price"
         [class.mark-invalid]="price.invalid && (price.dirty || price.touched)"
@@ -58,6 +82,7 @@
         class="form-control"
       />
     </fieldset>
+    <hr />
 
     <div class="w-100 mt-2 d-flex justify-content-center">
       <button
@@ -66,7 +91,7 @@
         type="button"
         class="outline-btn"
       >
-        Зберегти
+        Створити
       </button>
       <ng-template #loadingBtn>
         <button class="cta" type="button" disabled>

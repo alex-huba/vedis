@@ -41,38 +41,4 @@ export class SchoolService {
     );
   }
 
-  // CLASS Section
-  getAllClasses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/classes`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
-  }
-
-  getClassesById(studentId): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/classes/${studentId}`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
-  }
-
-  updateClass(id, status, studentId, start, end) {
-    return this.http.put<any>(
-      `${this.url}/classes/update`,
-      { id, status, studentId, start, end },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
-    );
-  }
-
-  deleteClass(id) {
-    return this.http.delete<any>(`${this.url}/classes`, {
-      ...this.httpOptions,
-      reportProgress: true,
-      body: { id },
-    });
-  }
-
 }

@@ -10,7 +10,11 @@ module.exports = class User {
   }
 
   static findAllStudents() {
-    return db.execute("SELECT * FROM users WHERE role = 'student'");
+    return db.execute(`
+      SELECT id, name, email, phoneNumber, role, timezone 
+      FROM users 
+      WHERE role = 'student'
+    `);
   }
 
   static getStudentsUnfiltered() {
@@ -29,8 +33,8 @@ module.exports = class User {
 
   static save(user) {
     return db.execute(
-      "INSERT INTO users (id, name, email, password, phoneNumber) VALUES (UUID(),?,?,?,?)",
-      [user.name, user.email, user.password, user.phoneNumber]
+      "INSERT INTO users (id, name, email, password, phoneNumber, timezone) VALUES (UUID(),?,?,?,?,?)",
+      [user.name, user.email, user.password, user.phoneNumber, user.timezone]
     );
   }
 
@@ -38,10 +42,10 @@ module.exports = class User {
     return db.execute("DELETE FROM users WHERE id = ?", [id]);
   }
 
-  static update(id, name, email, phoneNumber) {
+  static update(id, name, email, phoneNumber, timezone) {
     return db.execute(
-      "UPDATE users SET name = ?, email = ?, phoneNumber = ? WHERE id = ?",
-      [name, email, phoneNumber, id]
+      "UPDATE users SET name = ?, email = ?, phoneNumber = ?, timezone = ? WHERE id = ?",
+      [name, email, phoneNumber, timezone, id]
     );
   }
 

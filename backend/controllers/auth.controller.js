@@ -31,6 +31,7 @@ exports.signup = async (req, res, next) => {
       email: req.body.email,
       password: hashedPassword,
       phoneNumber: req.body.phoneNumber,
+      timezone: req.body.timezone,
     };
 
     await User.save(userDetails);
@@ -107,6 +108,7 @@ exports.login = async (req, res, next) => {
         email: storedUser.email,
         phoneNumber: storedUser.phoneNumber,
         role: storedUser.role,
+        timezone: storedUser.timezone,
       },
       process.env.JWT_SECRET,
       { expiresIn: "30m" }
@@ -120,6 +122,7 @@ exports.login = async (req, res, next) => {
         email: storedUser.email,
         phoneNumber: storedUser.phoneNumber,
         role: storedUser.role,
+        timezone: storedUser.timezone,
       },
     });
   } catch (err) {
@@ -160,6 +163,7 @@ exports.verifyToken = async (req, res, next) => {
       email: decodedToken.email,
       phoneNumber: decodedToken.phoneNumber,
       role: decodedToken.role,
+      timezone: decodedToken.timezone,
     },
   });
 };

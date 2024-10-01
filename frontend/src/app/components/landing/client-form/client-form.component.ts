@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { CountryISO } from 'ngx-intl-tel-input';
 import { ContactInfo } from 'src/app/models/contact-info';
+import { preferredCountries } from 'src/app/models/preferredCountriesPhone';
 import { ContactService } from 'src/app/services/contact.service';
 
 @Component({
@@ -10,19 +11,7 @@ import { ContactService } from 'src/app/services/contact.service';
   styleUrls: ['./client-form.component.css'],
 })
 export class ClientFormComponent {
-  preferredCountries: CountryISO[] = [
-    CountryISO.Ukraine,
-    CountryISO.Germany,
-    CountryISO.Austria,
-    CountryISO.Switzerland,
-    CountryISO.UnitedKingdom,
-    CountryISO.UnitedStates,
-    CountryISO.Poland,
-    CountryISO.CzechRepublic,
-    CountryISO.Slovenia,
-    CountryISO.Slovakia,
-    CountryISO.Romania,
-  ];
+  preferredCountries: CountryISO[] = preferredCountries;
 
   contactForm = this.fb.group({
     name: [

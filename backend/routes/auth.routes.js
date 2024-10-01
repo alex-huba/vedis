@@ -4,6 +4,7 @@ const authController = require("../controllers/auth.controller");
 
 const router = express.Router();
 
+// used
 router.post(
   "/signup",
   [
@@ -26,10 +27,12 @@ router.post(
       .trim()
       .matches(/^\+(?:[0-9] ?){6,14}[0-9]$/)
       .withMessage("Недопустимий номер телефону"),
+    body("timezone").trim().notEmpty().withMessage("Некоректний часовий пояс"),
   ],
   authController.signup
 );
 
+// used
 router.post(
   "/login",
   [
@@ -46,6 +49,7 @@ router.post(
   authController.login
 );
 
+// used
 router.post("/verifyToken", authController.verifyToken);
 
 module.exports = router;

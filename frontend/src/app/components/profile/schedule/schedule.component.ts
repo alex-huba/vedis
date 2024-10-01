@@ -1,53 +1,66 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import { Observable } from 'rxjs';
+import { DateTime } from 'luxon';
+import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
-import { SchoolService } from 'src/app/services/school.service';
-import { ClassDetailsDialogComponent } from '../class-details-dialog/class-details-dialog.component';
+import { ClassesService } from 'src/app/services/classes.service';
+import { ClassDetailsDialogComponent } from './class-details-dialog/class-details-dialog.component';
 
 @Component({
   selector: 'app-schedule',
   templateUrl: './schedule.component.html',
   styleUrls: ['./schedule.component.css'],
 })
-export class ScheduleComponent {
+export class ScheduleComponent implements OnInit {
   isUserTeacher = false;
-  userId = '';
-
-  students$: Observable<any[]>;
 
   events$: Observable<any[]>;
 
   dialogData = {
-    classId: '',
-    studentName: '',
-    classStatus: '',
+    id: '',
+    isCancelled: false,
+    start: '',
+    end: '',
     studentId: '',
-    classStart: undefined,
-    classEnd: undefined,
+    studentName: '',
+    price: 300,
+    isPaid: false,
+    studentTimezone: '',
   };
 
   calendarOptions: CalendarOptions = {
-    plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin],
+    plugins: [
+      dayGridPlugin,
+      interactionPlugin,
+      timeGridPlugin,
+      momentTimezonePlugin,
+    ],
     eventClick: (arg) => {
-      this.dialogData.classId = arg.event._def.publicId;
-      this.dialogData.studentName = arg.event._def.title;
-      this.dialogData.classStatus = arg.event._def.extendedProps['status'];
+      this.dialogData.id = arg.event.id;
+      this.dialogData.isCancelled = arg.event._def.extendedProps['isCancelled'];
       this.dialogData.studentId = arg.event._def.extendedProps['studentId'];
-      this.dialogData.classStart = arg.event.start;
-      this.dialogData.classEnd = arg.event.end;
+      this.dialogData.studentName = arg.event._def.extendedProps['studentName'];
+      this.dialogData.start = DateTime.fromJSDate(
+        new Date(arg.event.start)
+      ).toFormat("yyyy-MM-dd'T'HH:mm");
+      this.dialogData.end = DateTime.fromJSDate(
+        new Date(arg.event.end)
+      ).toFormat("yyyy-MM-dd'T'HH:mm");
+      this.dialogData.price = arg.event._def.extendedProps['price'];
+      this.dialogData.isPaid = arg.event._def.extendedProps['isPaid'];
+      this.dialogData.studentTimezone =
+        arg.event._def.extendedProps['timezone'];
 
       let dialogRef = this.matDialog.open(ClassDetailsDialogComponent, {
         data: this.dialogData,
       });
 
-      dialogRef.afterClosed().subscribe((res) => {
-        this.ngOnInit();
-      });
+      dialogRef.afterClosed().subscribe(() => this.ngOnInit());
     },
     editable: true,
     headerToolbar: {
@@ -57,6 +70,35 @@ export class ScheduleComponent {
     },
     initialView: 'timeGridDay',
     locale: 'uk',
+    eventTimeFormat: {
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZoneName: 'short',
+    },
+    eventContent: function (arg) {
+      // Create new Date objects for the event's start and end times
+      const startDate = new Date(arg.event.start);
+      const endDate = new Date(arg.event.end);
+
+      // Format the start time as HH:MM
+      const startHours = String(startDate.getHours()).padStart(2, '0'); // Pad with leading 0
+      const startMinutes = String(startDate.getMinutes()).padStart(2, '0'); // Pad with leading 0
+      const formattedStartTime = `${startHours}:${startMinutes}`;
+
+      // Format the end time as HH:MM
+      const endHours = String(endDate.getHours()).padStart(2, '0'); // Pad with leading 0
+      const endMinutes = String(endDate.getMinutes()).padStart(2, '0'); // Pad with leading 0
+      const formattedEndTime = `${endHours}:${endMinutes}`;
+
+      // Customize the display of the event
+      let title = arg.event._def.extendedProps['isUserTeacher']
+        ? `<b>${formattedStartTime} - ${formattedEndTime}</b><br>${arg.event._def.extendedProps['studentName']}`
+        : `<b>${formattedStartTime} - ${formattedEndTime}</b>`;
+
+      return {
+        html: title,
+      };
+    },
     firstDay: 1,
     titleFormat: { day: 'numeric', month: 'long' },
     allDaySlot: false,
@@ -70,7 +112,7 @@ export class ScheduleComponent {
     slotDuration: '00:30:00',
     height: 'auto',
     windowResize: function (arg) {
-      if (window.innerWidth < 451) {
+      if (window.innerWidth < 780) {
         this.changeView('timeGridDay', new Date());
       } else {
         this.changeView('timeGridWeek', new Date());
@@ -81,10 +123,10 @@ export class ScheduleComponent {
   constructor(
     private matDialog: MatDialog,
     private authService: AuthService,
-    private ss: SchoolService
+    private classesService: ClassesService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1);
@@ -92,17 +134,31 @@ export class ScheduleComponent {
     this.authService.currentUser$.subscribe((user) => {
       if (user.role === 'teacher') {
         this.isUserTeacher = true;
-        this.students$ = this.ss.getAllStudents();
-        this.events$ = this.ss.getAllClasses();
+        this.events$ = this.classesService.getAllClasses().pipe(
+          map((events) =>
+            events.map((event) => ({
+              ...event,
+              start: DateTime.fromISO(event.start, { zone: event.timezone }) // Parse the time in student's timezone
+                .setZone(user.timezone, { keepLocalTime: false }) // Convert to teacher's timezone
+                .toISO(),
+              end: DateTime.fromISO(event.end, { zone: event.timezone }) // Parse the time in student's timezone
+                .setZone(user.timezone, { keepLocalTime: false }) // Convert to teacher's timezone
+                .toISO(),
+              isUserTeacher: this.isUserTeacher,
+            }))
+          )
+        );
       } else {
         this.isUserTeacher = false;
-        this.userId = user.id;
-        this.events$ = this.ss.getClassesById(this.userId);
+        this.events$ = this.classesService.getClassesById(user.id);
       }
+
+      // Set timezone for a calendar
+      this.calendarOptions.timeZone = user.timezone;
     });
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     this.onWindowResize();
   }
 
@@ -121,7 +177,7 @@ export class ScheduleComponent {
     ) as HTMLElement;
 
     // Hide week btn for mobile screens & reverse for desktops
-    if (window.innerWidth < 451) {
+    if (window.innerWidth < 780) {
       [weekButton, dayButton].forEach((button) => {
         if (button) button.style.display = 'none';
       });
@@ -140,7 +196,7 @@ export class ScheduleComponent {
   }
 
   openDialog() {
-    let currentDialog = this.matDialog.open(ClassDetailsDialogComponent, {
+    this.matDialog.open(ClassDetailsDialogComponent, {
       data: this.dialogData,
     });
   }

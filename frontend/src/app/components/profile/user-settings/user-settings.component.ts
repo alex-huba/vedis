@@ -8,6 +8,8 @@ import {
   faWandMagicSparkles,
 } from '@fortawesome/free-solid-svg-icons';
 import { CountryISO } from 'ngx-intl-tel-input';
+import { preferredCountries } from 'src/app/models/preferredCountriesPhone';
+import { timezones } from 'src/app/models/timezones';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -24,19 +26,7 @@ export class UserSettingsComponent implements OnInit {
     done: faCircleCheck,
   };
 
-  preferredCountries: CountryISO[] = [
-    CountryISO.Ukraine,
-    CountryISO.Germany,
-    CountryISO.Austria,
-    CountryISO.Switzerland,
-    CountryISO.UnitedKingdom,
-    CountryISO.UnitedStates,
-    CountryISO.Poland,
-    CountryISO.CzechRepublic,
-    CountryISO.Slovenia,
-    CountryISO.Slovakia,
-    CountryISO.Romania,
-  ];
+  preferredCountries: CountryISO[] = preferredCountries;
 
   // Form fields w/ user info
   detailsForm = this.fb.group({
@@ -54,6 +44,7 @@ export class UserSettingsComponent implements OnInit {
     ],
     phone: [undefined, Validators.required],
     role: '',
+    timezone: ['', Validators.required],
   });
 
   // Disables/enables input fields
@@ -64,6 +55,9 @@ export class UserSettingsComponent implements OnInit {
 
   // User photo
   photoUrl: any;
+
+  // List of 24 major timezones
+  timezones = timezones;
 
   constructor(
     private fb: FormBuilder,
@@ -80,6 +74,7 @@ export class UserSettingsComponent implements OnInit {
         email: user.email,
         phone: user.phoneNumber,
         role: user.role,
+        timezone: user.timezone,
       });
     });
 
@@ -108,6 +103,10 @@ export class UserSettingsComponent implements OnInit {
     return this.detailsForm.get('role');
   }
 
+  get timezone() {
+    return this.detailsForm.get('timezone');
+  }
+
   changeEditMode() {
     this.isEditMode = !this.isEditMode;
     if (this.isEditMode) {
@@ -121,7 +120,7 @@ export class UserSettingsComponent implements OnInit {
     if (this.detailsForm.invalid) {
       this.detailsForm.markAllAsTouched();
     } else {
-      this.userService.sendData(this.detailsForm.value).subscribe({
+      this.userService.updateProfileData(this.detailsForm.value).subscribe({
         next: (res) => {
           this.snackBar.open('Дані оновлено', '👍', {
             duration: 15000,

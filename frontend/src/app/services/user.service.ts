@@ -16,7 +16,7 @@ export class UserService {
   url = 'http://localhost:3001/api/user';
 
   // Update user data
-  sendData(data) {
+  updateProfileData(data) {
     data.phoneNumber = data.phone.e164Number;
     return this.http.put<any>('http://localhost:3001/api/user', data);
   }

@@ -14,11 +14,14 @@ module.exports = class Class {
 
   static getAll() {
     return db.execute(`SELECT c.id,
-        c.cancelled,
+        c.isCancelled,
         c.start,
         c.end,
         c.studentId,
-        u.name AS studentName
+        u.name AS studentName,
+        c.price,
+        c.isPaid,
+        u.timezone
       FROM vedis.classes c
       INNER JOIN vedis.users u ON c.studentId = u.id;
     `);
@@ -73,7 +76,7 @@ module.exports = class Class {
   }
 
   static changeStatus(cancelled, id) {
-    return db.execute("UPDATE classes SET cancelled = ? WHERE id = ?", [
+    return db.execute("UPDATE classes SET isCancelled = ? WHERE id = ?", [
       cancelled,
       id,
     ]);
@@ -84,5 +87,12 @@ module.exports = class Class {
       "UPDATE classes SET cancelled = ?, studentId = ?, start = ?, end = ?, price = ?, isPaid = ? WHERE id = ?",
       [cancelled, studentId, start, end, price, isPaid, id]
     );
+  }
+
+  static updatePaymentStatus(id, isPaid) {
+    return db.execute("UPDATE classes SET isPaid = ? WHERE id = ?", [
+      isPaid,
+      id,
+    ]);
   }
 };

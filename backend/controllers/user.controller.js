@@ -19,7 +19,8 @@ exports.update = async (req, res, next) => {
       req.userId,
       req.body.name,
       req.body.email,
-      req.body.phoneNumber
+      req.body.phoneNumber,
+      req.body.timezone
     );
 
     // Generate a new jwt
@@ -30,6 +31,7 @@ exports.update = async (req, res, next) => {
         email: req.body.email,
         phoneNumber: req.body.phoneNumber,
         role: req.body.role,
+        timezone: req.body.timezone,
       },
       process.env.JWT_SECRET,
       { expiresIn: "30m" }
@@ -43,6 +45,7 @@ exports.update = async (req, res, next) => {
         email: req.body.email,
         phoneNumber: req.body.phoneNumber,
         role: req.body.role,
+        timezone: req.body.timezone,
       },
     });
   } catch (err) {

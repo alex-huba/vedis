@@ -17,6 +17,7 @@ export class AuthService {
     email: '',
     phoneNumber: '',
     role: 'init', // Can be: ["init", "student", "teacher"]
+    timezone: '',
   };
   private userSubject = new BehaviorSubject<any>(this.userStub);
   currentUser$ = this.userSubject.asObservable();
@@ -59,19 +60,19 @@ export class AuthService {
     name: string,
     email: string,
     password: string,
-    phone: any
+    phone: any,
+    timezone: string
   ): Observable<any> {
-    const reqBody = {
-      name: name,
-      email: email,
-      password: password,
-      phoneNumber: phone.e164Number,
-    };
-
     const req = new HttpRequest(
       'POST',
       `${this.url}/signup`,
-      reqBody,
+      {
+        name: name,
+        email: email,
+        password: password,
+        phoneNumber: phone.e164Number,
+        timezone: timezone,
+      },
       this.options
     );
     return this.http.request(req);

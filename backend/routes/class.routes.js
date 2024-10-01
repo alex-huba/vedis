@@ -6,6 +6,7 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
+// used
 router.post(
   "/",
   [
@@ -18,6 +19,7 @@ router.post(
   classController.create
 );
 
+// used
 router.get("/", authMiddleware, classController.fetchAll);
 
 router.get(
@@ -32,6 +34,7 @@ router.get(
   classController.fetchForCurrentWeek
 );
 
+// used
 router.get(
   "/:studentId",
   authMiddleware,
@@ -39,10 +42,33 @@ router.get(
   classController.fetchByStudentId
 );
 
+// used
 router.delete(
   "/",
   [authMiddleware, body("id").trim().not().isEmpty()],
   classController.delete
+);
+
+// used
+router.put(
+  "/:id/cancellation",
+  [
+    authMiddleware,
+    param("id").trim().not().isEmpty(),
+    body("isCancelled").isBoolean().toBoolean(),
+  ],
+  classController.changeStatus
+);
+
+// used
+router.put(
+  "/:id/payment",
+  [
+    authMiddleware,
+    param("id").trim().not().isEmpty(),
+    body("isPaid").isBoolean().toBoolean(),
+  ],
+  classController.changePaymentStatus
 );
 
 router.put(
@@ -64,16 +90,6 @@ router.put(
     body("id").trim().not().isEmpty(),
   ],
   classController.changeTime
-);
-
-router.put(
-  "/change-status",
-  [
-    authMiddleware,
-    body("cancelled").isBoolean().toBoolean(),
-    body("id").trim().not().isEmpty(),
-  ],
-  classController.changeStatus
 );
 
 router.put(

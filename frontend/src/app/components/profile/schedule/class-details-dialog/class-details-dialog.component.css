@@ -1,0 +1,33 @@
+:host {
+  font-family: nunito-regular;
+  position: relative;
+}
+
+mat-dialog-title {
+  margin-top: 15px;
+}
+
+.closeBtnModal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.teacher-hint {
+  color: black;
+  font-style: oblique;
+  font-weight: 600;
+}
+
+.action-btns {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+  .action-btns {
+    flex-direction: column;
+  }
+}

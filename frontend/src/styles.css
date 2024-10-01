@@ -106,7 +106,7 @@ ngx-intl-tel-input.is-invalid > .iti > input:focus {
 .fc .fc-button-group > .fc-button.fc-button-active,
 .fc .fc-button-group > .fc-button:active,
 .fc .fc-button-group > .fc-button:focus {
-  background-color: rgb(14, 82, 14);
+  background-color: var(--new-blue);
 }
 
 :root {

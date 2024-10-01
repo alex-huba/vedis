@@ -1,8 +1,10 @@
 import { HttpEventType } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CountryISO } from 'ngx-intl-tel-input';
+import { timezones } from 'src/app/models/timezones';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -33,6 +35,7 @@ export class SignupComponent {
         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d|.*[!@#_$%^&*])/),
       ],
     ],
+    timezone: ['', Validators.required],
   });
 
   // Used by phone field
@@ -57,10 +60,14 @@ export class SignupComponent {
   showErrorMsg = false;
   errorMsg = '';
 
+  // List of major timezones
+  timezones = timezones;
+
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   get name() {
@@ -79,6 +86,10 @@ export class SignupComponent {
     return this.signupForm.get('password');
   }
 
+  get timezone() {
+    return this.signupForm.get('timezone');
+  }
+
   onSubmit() {
     if (this.signupForm.invalid) {
       this.signupForm.markAllAsTouched();
@@ -88,7 +99,8 @@ export class SignupComponent {
           this.name.value,
           this.email.value,
           this.password.value,
-          this.phoneNumber.value
+          this.phoneNumber.value,
+          this.timezone.value
         )
         .subscribe({
           next: (event) => {
@@ -97,12 +109,14 @@ export class SignupComponent {
                 this.awaitingResponse = true;
                 break;
               case HttpEventType.Response:
+                this.snackBar.open('Профіль створено', '👍', {
+                  duration: 5000,
+                });
                 this.router.navigate(['/login']);
                 break;
             }
           },
           error: (event) => {
-            debugger;
             this.awaitingResponse = false;
             this.errorMsg = event.error.message;
             this.showErrorMsg = true;

@@ -1,4 +1,9 @@
+<p class="text-center" style="font-size: 13px">
+  Дати синхронізовано з вашим часовим поясом:
+  <span class="teacher-hint">{{ this.calendarOptions.timeZone }}</span>
+</p>
+
 <full-calendar
-[events]="events$ | async"
+  [events]="events$ | async"
   [options]="calendarOptions"
 ></full-calendar>

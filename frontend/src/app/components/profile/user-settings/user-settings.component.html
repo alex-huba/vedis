@@ -123,6 +123,38 @@
       </div>
     </fieldset>
 
+          <!-- Timezone selection field -->
+          <fieldset class="input-group has-validation">
+            <div class="input-container w-100">
+              <div
+                [class.is-invalid]="
+                  timezone.invalid && (timezone.dirty || timezone.touched)
+                "
+                class="form-floating"
+              >
+                <select
+                  [class.is-invalid]="timezone.invalid && timezone.touched"
+                  id="timezone"
+                  formControlName="timezone"
+                  class="form-select"
+                >
+                  <option
+                    *ngFor="let timezone of timezones"
+                    [value]="timezone.value"
+                  >
+                    {{ timezone.display }}
+                  </option>
+                </select>
+                <label for="timezone">Оберіть часовий пояс 🕑</label>
+              </div>
+              <div class="invalid-feedback">
+                <div *ngIf="timezone.hasError('required') && timezone.touched">
+                  <span class="error-span">Часовий пояс обов'язковий</span>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
     <div class="w-100 d-flex justify-content-center">
       <button
         (click)="changeEditMode()"

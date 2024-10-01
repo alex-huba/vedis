@@ -1,0 +1,146 @@
+<h2 mat-dialog-title>Деталі заняття 🔍</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form class="m-3" [formGroup]="classForm" (ngSubmit)="onSubmit()">
+    <!-- Student name field -->
+    <fieldset *ngIf="isUserTeacher">
+      <label class="form-label" for="classTime-end"><b>Учень</b></label>
+      <input
+        formControlName="studentName"
+        class="form-control"
+        type="text"
+        id="classTime-end"
+      />
+      <hr />
+    </fieldset>
+
+    <!-- Class start field -->
+    <fieldset>
+      <label class="form-label" for="classTime-start"
+        ><b>Початок заняття</b></label
+      >
+      <input
+        formControlName="start"
+        class="form-control"
+        type="datetime-local"
+        id="classTime-start"
+      />
+      <div *ngIf="isUserTeacher">
+        <span class="mt-1">Початок заняття для вчителя: </span>
+        <span class="teacher-hint">{{ teacherTime.start }}</span>
+      </div>
+    </fieldset>
+    <hr />
+
+    <!-- Class end field -->
+    <fieldset>
+      <label class="form-label" for="classTime-end"
+        ><b>Кінець заняття</b></label
+      >
+      <input
+        formControlName="end"
+        class="form-control"
+        type="datetime-local"
+        id="classTime-end"
+      />
+      <div *ngIf="isUserTeacher">
+        <span class="mt-1">Кінець заняття для вчителя: </span>
+        <span class="teacher-hint">{{ teacherTime.end }}</span>
+      </div>
+    </fieldset>
+    <hr />
+
+    <!-- Class end field -->
+    <fieldset>
+      <label class="form-label" for="classTime-end"><b>Вартість (₴)</b></label>
+      <input
+        formControlName="price"
+        class="form-control"
+        type="number"
+        id="classTime-end"
+      />
+    </fieldset>
+    <hr />
+
+    <!-- isPaid field -->
+    <fieldset>
+      <p class="form-label d-flex justify-content-between">
+        <b>Оплата: </b>
+        <span
+          *ngIf="isPaid.value; else notPaidBadge"
+          class="badge text-bg-success"
+          >Сплачено</span
+        >
+        <ng-template #notPaidBadge>
+          <span class="badge text-bg-danger">Не сплачено</span>
+        </ng-template>
+      </p>
+    </fieldset>
+    <hr />
+
+    <!-- Status field -->
+    <fieldset>
+      <p class="form-label d-flex justify-content-between">
+        <b>Статус: </b>
+        <span
+          *ngIf="!isCancelled.value; else canceledBadge"
+          class="badge text-bg-success"
+          >За графіком</span
+        >
+        <ng-template #canceledBadge>
+          <span class="badge text-bg-danger">Відмінено</span>
+        </ng-template>
+      </p>
+    </fieldset>
+    <hr />
+
+    <div class="text-center">
+      <div class="action-btns">
+        <!-- Change payment status btn -->
+        <button
+          *ngIf="isUserTeacher"
+          (click)="changePaymentStatus()"
+          mat-raised-button
+          color="primary"
+          type="button"
+        >
+          <span *ngIf="!isPaid.value">Оплата надійшла</span>
+          <span *ngIf="isPaid.value">Оплата не надійшла</span>
+        </button>
+        <!-- Change class status btn -->
+        <button
+          [disabled]="!cancellationPolicy()"
+          (click)="cancelClass()"
+          mat-raised-button
+          type="button"
+          color="primary"
+        >
+          <span *ngIf="!isCancelled.value"> Скасувати заняття </span>
+          <span *ngIf="isCancelled.value"> Відновити заняття </span>
+        </button>
+      </div>
+
+      <div *ngIf="isUserTeacher">
+        <hr />
+        <p class="text-danger text-center" style="font-size: 13px">
+          Скасувати заняття можливо не пізніше, ніж за 12 год
+        </p>
+        <!--Delete class btn  -->
+        <button
+          (click)="deleteClass()"
+          mat-raised-button
+          color="warn"
+          type="button"
+        >
+          Видалити заняття
+        </button>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<button
+  mat-dialog-close
+  type="button"
+  class="btn-close closeBtnModal"
+  aria-label="Close"
+></button>
