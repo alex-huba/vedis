@@ -44,20 +44,22 @@ exports.fetchAll = async (req, res, next) => {
   // Get all classes
   try {
     const [classes] = await Class.getAll();
-    const parsedClasses = classes.map((c) => {
-      return {
-        ...c,
-        isCancelled: !!c.isCancelled,
-        isPaid: !!c.isPaid,
-        // 2024-10-10T10:00
-        start: DateTime.fromJSDate(new Date(c.start)).toFormat(
-          "yyyy-MM-dd'T'HH:mm"
-        ),
-        end: DateTime.fromJSDate(new Date(c.end)).toFormat(
-          "yyyy-MM-dd'T'HH:mm"
-        ),
-      };
-    });
+    const parsedClasses = classes
+      .map((c) => {
+        return {
+          ...c,
+          isCancelled: !!c.isCancelled,
+          isPaid: !!c.isPaid,
+          // 2024-10-10T10:00
+          start: DateTime.fromJSDate(new Date(c.start)).toFormat(
+            "yyyy-MM-dd'T'HH:mm"
+          ),
+          end: DateTime.fromJSDate(new Date(c.end)).toFormat(
+            "yyyy-MM-dd'T'HH:mm"
+          ),
+        };
+      })
+      .sort((a, b) => new Date(b.start) - new Date(a.start));
     res.status(200).json(parsedClasses);
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
@@ -65,7 +67,6 @@ exports.fetchAll = async (req, res, next) => {
   }
 };
 
-// used
 exports.fetchByStudentId = async (req, res, next) => {
   // Check whether studentId was supplied
   const errors = validationResult(req);

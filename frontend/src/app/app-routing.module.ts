@@ -17,6 +17,7 @@ import { UserSettingsComponent } from './components/profile/user-settings/user-s
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
+import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'settings',
         component: UserSettingsComponent,
+      },
+      {
+        path: 'overview',
+        component: ClassOverviewComponent,
       },
       {
         path: 'new-word',

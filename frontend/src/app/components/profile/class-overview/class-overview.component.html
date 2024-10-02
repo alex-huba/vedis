@@ -1,0 +1,224 @@
+<div class="pt-4 table-responsive" *ngIf="isUserTeacher; else studentSection">
+  <table class="table table-bordered">
+    <thead>
+      <tr style="background-color: #ededed">
+        <th
+          colspan="6"
+          style="text-align: start; border: none; vertical-align: middle"
+        >
+          <h4>Історія занять📆</h4>
+        </th>
+        <th
+          colspan="1"
+          style="display: flex; justify-content: flex-end; border: none"
+        >
+          <form
+            [formGroup]="classSearchForm"
+            id="search-form"
+            style="
+              display: flex;
+              flex-direction: column;
+              gap: 10px;
+              width: 250px;
+            "
+          >
+            <fieldset>
+              <select
+                style="border: 2px solid var(--new-blue); border-radius: 15px"
+                formControlName="studentId"
+                id="student-select"
+                class="form-select"
+              >
+                <option selected disabled value="default">Вибрати учня</option>
+                <option *ngFor="let s of students$ | async" value="{{ s.id }}">
+                  {{ s.name }}
+                </option>
+              </select>
+            </fieldset>
+          </form>
+        </th>
+      </tr>
+    </thead>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Учень</th>
+        <th scope="col">Дата</th>
+        <th scope="col">Вартість (₴)</th>
+        <th scope="col">Статус оплати</th>
+        <th scope="col">Поточний стан</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let c of filteredClasses$
+            | async
+            | paginate : { itemsPerPage: 10, currentPage: currentPage };
+          index as i
+        "
+      >
+        <td>{{ i + 1 }}</td>
+        <td>{{ c.studentName }}</td>
+        <td>{{ c.start }}</td>
+        <td>{{ c.price }}</td>
+        <td>
+          <span
+            *ngIf="c.isPaid; else notPaidBadge"
+            class="badge text-bg-success"
+            >Сплачено</span
+          >
+          <ng-template #notPaidBadge>
+            <span class="badge text-bg-danger">Не сплачено</span>
+          </ng-template>
+        </td>
+        <td>
+          <span
+            *ngIf="c.isCancelled; else cancelledBadge"
+            class="badge text-bg-danger"
+            >Відмінено</span
+          >
+          <ng-template #cancelledBadge>
+            <span class="badge text-bg-success">За графіком</span>
+          </ng-template>
+        </td>
+        <td class="d-flex justify-content-center">
+          <button
+            data-bs-toggle="dropdown"
+            mat-icon-button
+            aria-label="Example icon button with a vertical three dot icon"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <div class="dropdown">
+            <ul class="dropdown-menu">
+              <li>
+                <button
+                  (click)="deleteClass(c.id)"
+                  type="button"
+                  class="dropdown-item"
+                >
+                  Видалити
+                </button>
+              </li>
+              <li>
+                <button
+                  (click)="cancelClass(c.id, c.isCancelled)"
+                  [disabled]="!cancellationPolicy(c.start)"
+                  type="button"
+                  class="dropdown-item"
+                >
+                  <span *ngIf="!c.isCancelled">Скасувати заняття</span>
+                  <span *ngIf="c.isCancelled">Відновити заняття</span>
+                </button>
+              </li>
+              <li>
+                <button
+                  (click)="changePaymentStatus(c.id, c.isPaid)"
+                  type="button"
+                  class="dropdown-item"
+                >
+                  <span *ngIf="!c.isPaid">Оплата надійшла</span>
+                  <span *ngIf="c.isPaid">Оплата не надійшла</span>
+                </button>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #studentSection>
+  <div class="pt-4 table-responsive">
+    <table class="table table-bordered">
+      <thead>
+        <tr style="background-color: #ededed">
+          <th
+            colspan="6"
+            style="text-align: start; border: none; vertical-align: middle"
+          >
+            <h4>Історія занять📆</h4>
+          </th>
+        </tr>
+      </thead>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Дата</th>
+          <th scope="col">Вартість (₴)</th>
+          <th scope="col">Статус оплати</th>
+          <th scope="col">Поточний стан</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let c of filteredClasses$
+              | async
+              | paginate : { itemsPerPage: 10, currentPage: currentPage };
+            index as i
+          "
+        >
+          <td>{{ i + 1 }}</td>
+          <td>{{ c.start }}</td>
+          <td>{{ c.price }}</td>
+          <td>
+            <span
+              *ngIf="c.isPaid; else notPaidBadge"
+              class="badge text-bg-success"
+              >Сплачено</span
+            >
+            <ng-template #notPaidBadge>
+              <span class="badge text-bg-danger">Не сплачено</span>
+            </ng-template>
+          </td>
+          <td>
+            <span
+              *ngIf="c.isCancelled; else cancelledBadge"
+              class="badge text-bg-danger"
+              >Відмінено</span
+            >
+            <ng-template #cancelledBadge>
+              <span class="badge text-bg-success">За графіком</span>
+            </ng-template>
+          </td>
+          <td class="d-flex justify-content-center">
+            <button
+              data-bs-toggle="dropdown"
+              mat-icon-button
+              aria-label="Example icon button with a vertical three dot icon"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <div class="dropdown">
+              <ul class="dropdown-menu">
+                <li>
+                  <button
+                    (click)="cancelClass(c.id, c.isCancelled)"
+                    [disabled]="!cancellationPolicy(c.start)"
+                    type="button"
+                    class="dropdown-item"
+                  >
+                    <span *ngIf="!c.isCancelled">Скасувати заняття</span>
+                    <span *ngIf="c.isCancelled">Відновити заняття</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</ng-template>
+
+<pagination-controls
+  previousLabel=""
+  nextLabel=""
+  [maxSize]=5
+  [autoHide]="true"
+(pageChange)="currentPage = $event"></pagination-controls>

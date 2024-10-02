@@ -63,6 +63,8 @@ import { StudentsComponent } from './components/profile/teacher/students/student
 import { SignupComponent } from './components/signup/signup.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 import { ApplicationsComponent } from './components/profile/teacher/applications/applications.component';
+import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -95,6 +97,7 @@ import { ApplicationsComponent } from './components/profile/teacher/applications
     ProfileComponent,
     UserSettingsComponent,
     ApplicationsComponent,
+    ClassOverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -112,7 +115,8 @@ import { ApplicationsComponent } from './components/profile/teacher/applications
     MatSnackBarModule,
     MatIconModule,
     NgxSimpleTextEditorModule,
-    NgApexchartsModule
+    NgApexchartsModule,
+    NgxPaginationModule,
   ],
   providers: [
     {

@@ -1,0 +1,29 @@
+.table {
+  text-align: center;
+  border: 2px solid rgb(175, 176, 180);
+}
+
+.table thead th {
+  background-color: #ededed;
+}
+
+#search-input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 2px solid var(--new-blue);
+  border-radius: 15px;
+  background-color: white;
+  background-image: url("../../../../assets/profile/search.svg");
+  background-size: 12px;
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 5px 5px 5px 30px;
+}
+#search-input:active,
+#search-input:focus {
+  border: 2px solid var(--new-blue);
+  outline: none;
+}
+pagination-controls {
+  text-align: center;
+}

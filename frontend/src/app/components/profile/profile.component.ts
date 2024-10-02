@@ -7,15 +7,16 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import {
-  faFolderPlus,
+  faCalendarDays,
+  faClockRotateLeft,
   faGear,
   faHouse,
   faInbox,
   faListCheck,
   faMagnifyingGlass,
+  faPlusCircle,
   faPowerOff,
-  faSquarePen,
-  faUsers,
+  faUsers
 } from '@fortawesome/free-solid-svg-icons';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -55,12 +56,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     house: faHouse,
     task: faListCheck,
     signOut: faPowerOff,
-    folder: faFolderPlus,
-    pen: faSquarePen,
     search: faMagnifyingGlass,
     settings: faGear,
     students: faUsers,
     applications: faInbox,
+    overview: faClockRotateLeft,
+    calendar: faCalendarDays,
+    add: faPlusCircle
   };
 
   // Decides whether to show home page

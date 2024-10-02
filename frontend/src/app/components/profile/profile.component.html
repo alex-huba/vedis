@@ -10,14 +10,17 @@
           <fa-icon [icon]="icons.house"></fa-icon>&nbsp; Головна
         </a>
         <a routerLink="/home/schedule" routerLinkActive="is-active">
-          <i class="bi bi-calendar4-week"></i>&nbsp; Розклад
+          <fa-icon [icon]="icons.calendar"></fa-icon> &nbsp; Розклад
+        </a>
+        <a routerLink="/home/overview" routerLinkActive="is-active">
+          <fa-icon [icon]="icons.overview"></fa-icon> &nbsp; Історія занять
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/new-class"
         >
-          <i class="bi bi-plus-circle"></i>&nbsp; Нове заняття
+          <fa-icon [icon]="icons.add"></fa-icon> &nbsp; Нове заняття
         </a>
         <a routerLinkActive="is-active" routerLink="/home/tasks">
           <fa-icon [icon]="icons.task"></fa-icon>&nbsp; Завдання
@@ -27,7 +30,7 @@
           routerLinkActive="is-active"
           routerLink="/home/new-task"
         >
-          <fa-icon [icon]="icons.folder"></fa-icon>&nbsp; Нове завдання
+          <fa-icon [icon]="icons.add"></fa-icon>&nbsp; Нове завдання
         </a>
         <a routerLinkActive="is-active" routerLink="/home/dictionary">
           <i class="bi bi-journal-bookmark-fill"></i>&nbsp; Словник
@@ -37,7 +40,7 @@
           routerLinkActive="is-active"
           routerLink="/home/new-word"
         >
-          <fa-icon [icon]="icons.pen"></fa-icon>&nbsp; Нове слово
+          <fa-icon [icon]="icons.add"></fa-icon>&nbsp; Нове слово
         </a>
         <a
           *ngIf="isTeacher"
@@ -124,6 +127,12 @@
           class="breadcrumb-item"
         >
           Заявки
+        </li>
+        <li
+          *ngIf="getCurrentUrl() == '/home/overview'"
+          class="breadcrumb-item"
+        >
+          Історія занять
         </li>
       </ol>
     </nav>
