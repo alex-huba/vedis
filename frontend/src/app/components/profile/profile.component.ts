@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import {
   faCalendarDays,
   faClockRotateLeft,
+  faFolderOpen,
   faGear,
   faHouse,
   faInbox,
@@ -16,7 +17,8 @@ import {
   faMagnifyingGlass,
   faPlusCircle,
   faPowerOff,
-  faUsers
+  faSpellCheck,
+  faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -62,7 +64,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     applications: faInbox,
     overview: faClockRotateLeft,
     calendar: faCalendarDays,
-    add: faPlusCircle
+    add: faPlusCircle,
+    library: faFolderOpen,
+    dictionary: faSpellCheck,
   };
 
   // Decides whether to show home page

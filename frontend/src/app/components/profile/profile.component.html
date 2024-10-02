@@ -1,5 +1,5 @@
 <mat-drawer-container autosize>
-  <mat-drawer #drawer mode="side">
+  <mat-drawer style="padding: 0px;" #drawer mode="side">
     <div class="sidenav-links">
       <div style="display: flex; flex-direction: column">
         <a
@@ -7,62 +7,67 @@
           [routerLinkActiveOptions]="{ exact: true }"
           routerLink="/home/"
         >
-          <fa-icon [icon]="icons.house"></fa-icon>&nbsp; Головна
+          <fa-icon [icon]="icons.house"></fa-icon> <span>Головна</span>
         </a>
         <a routerLink="/home/schedule" routerLinkActive="is-active">
-          <fa-icon [icon]="icons.calendar"></fa-icon> &nbsp; Розклад
+          <fa-icon [icon]="icons.calendar"></fa-icon> <span>Розклад</span>
         </a>
         <a routerLink="/home/overview" routerLinkActive="is-active">
-          <fa-icon [icon]="icons.overview"></fa-icon> &nbsp; Історія занять
+          <fa-icon [icon]="icons.overview"></fa-icon>
+          <span>Історія занять</span>
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/new-class"
         >
-          <fa-icon [icon]="icons.add"></fa-icon> &nbsp; Нове заняття
+          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове заняття</span>
         </a>
         <a routerLinkActive="is-active" routerLink="/home/tasks">
-          <fa-icon [icon]="icons.task"></fa-icon>&nbsp; Завдання
+          <fa-icon [icon]="icons.task"></fa-icon> <span>Завдання</span>
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/new-task"
         >
-          <fa-icon [icon]="icons.add"></fa-icon>&nbsp; Нове завдання
+          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове завдання</span>
         </a>
         <a routerLinkActive="is-active" routerLink="/home/dictionary">
-          <i class="bi bi-journal-bookmark-fill"></i>&nbsp; Словник
+          <fa-icon [icon]="icons.dictionary"></fa-icon> <span>Словник</span>
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/new-word"
         >
-          <fa-icon [icon]="icons.add"></fa-icon>&nbsp; Нове слово
+          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове слово</span>
+        </a>
+        <a routerLinkActive="is-active" routerLink="/home/library">
+          <fa-icon [icon]="icons.library"></fa-icon> <span>Бібліотека</span>
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/students"
         >
-          <fa-icon [icon]="icons.students"></fa-icon> &nbsp; Учні
+          <fa-icon [icon]="icons.students"></fa-icon> <span>Учні</span>
         </a>
         <a
           *ngIf="isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/applications"
         >
-          <fa-icon [icon]="icons.applications"></fa-icon> &nbsp; Заявки
+          <fa-icon [icon]="icons.applications"></fa-icon> <span>Заявки</span>
         </a>
       </div>
       <div style="display: flex; flex-direction: column">
+        <hr class="m-0">
         <a routerLink="/home/settings" routerLinkActive="is-active">
-          <fa-icon [icon]="icons.settings"></fa-icon> &nbsp; Налаштування
+          <fa-icon [icon]="icons.settings"></fa-icon> <span>Налаштування</span>
         </a>
         <button (click)="signOut()" type="button">
-          <fa-icon [icon]="icons.signOut"></fa-icon>&nbsp; Вийти
+          <fa-icon [icon]="icons.signOut"></fa-icon> <span>Вийти</span>
         </button>
       </div>
     </div>
@@ -128,11 +133,11 @@
         >
           Заявки
         </li>
-        <li
-          *ngIf="getCurrentUrl() == '/home/overview'"
-          class="breadcrumb-item"
-        >
+        <li *ngIf="getCurrentUrl() == '/home/overview'" class="breadcrumb-item">
           Історія занять
+        </li>
+        <li *ngIf="getCurrentUrl() == '/home/library'" class="breadcrumb-item">
+          Бібліотека
         </li>
       </ol>
     </nav>
