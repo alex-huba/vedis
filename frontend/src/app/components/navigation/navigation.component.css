@@ -176,6 +176,12 @@ fa-icon {
 .dropdown-menu button:hover {
   background-color: #a1a8f3;
 }
+.dropdown-menu li:first-child a:hover {
+  border-radius: 6px 6px 0px 0px;
+}
+.dropdown-menu li:last-child button:hover {
+  border-radius: 0px 0px 6px 6px;
+}
 
 @media screen and (max-width: 1027px) and (min-width: 993px) {
   .custom-link {

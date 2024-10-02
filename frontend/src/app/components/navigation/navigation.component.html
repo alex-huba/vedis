@@ -67,17 +67,16 @@
             [src]="photoUrl"
             data-bs-toggle="dropdown"
             alt="Avatar"
-            style="margin-left: 15px;"
+            style="margin-left: 15px"
             class="avatar"
           />
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li>
+          <ul class="dropdown-menu dropdown-menu-end p-0">
+            <li style="border-bottom: 2px solid #a1a8f3">
               <a class="dropdown-item" href="/home">
                 <fa-icon [icon]="icons.profile"></fa-icon>
                 &nbsp;Мій профіль
               </a>
             </li>
-            <li><hr class="dropdown-divider" /></li>
             <li>
               <button
                 (click)="signOut()"
@@ -117,14 +116,13 @@
           alt="Avatar"
           class="avatar"
         />
-        <ul class="dropdown-menu dropdown-menu-end position-absolute">
-          <li>
+        <ul class="dropdown-menu dropdown-menu-end position-absolute p-0">
+          <li style="border-bottom: 2px solid #a1a8f3">
             <a class="dropdown-item" href="/home">
               <fa-icon [icon]="icons.profile"></fa-icon>
               &nbsp;Мій профіль
             </a>
           </li>
-          <li><hr class="dropdown-divider" /></li>
           <li>
             <button
               (click)="signOut()"
