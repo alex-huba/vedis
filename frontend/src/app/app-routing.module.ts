@@ -18,6 +18,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
 import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
+import { LibraryComponent } from './components/profile/library/library.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -49,6 +50,10 @@ const routes: Routes = [
       {
         path: 'overview',
         component: ClassOverviewComponent,
+      },
+      {
+        path: 'library',
+        component: LibraryComponent,
       },
       {
         path: 'new-word',

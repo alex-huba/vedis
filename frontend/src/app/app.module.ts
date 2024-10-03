@@ -31,7 +31,11 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 // Ngx text editor library
 import { NgxSimpleTextEditorModule } from 'ngx-simple-text-editor';
 
+// Charts in profile
 import { NgApexchartsModule } from 'ng-apexcharts';
+
+// Pagination in class overview
+import { NgxPaginationModule } from 'ngx-pagination';
 
 // Components
 import { AppComponent } from './app.component';
@@ -50,21 +54,22 @@ import { LevelCheckComponent } from './components/landing/level-check/level-chec
 import { SocialMediaComponent } from './components/landing/social-media/social-media.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
-import { ClassDetailsDialogComponent } from './components/profile/schedule/class-details-dialog/class-details-dialog.component';
+import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
 import { DictionaryComponent } from './components/profile/dictionary/dictionary.component';
 import { HomeworkDetailsDialogComponent } from './components/profile/homework-details-dialog/homework-details-dialog.component';
+import { LibraryComponent } from './components/profile/library/library.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ClassDetailsDialogComponent } from './components/profile/schedule/class-details-dialog/class-details-dialog.component';
 import { ScheduleComponent } from './components/profile/schedule/schedule.component';
 import { TasksComponent } from './components/profile/tasks/tasks.component';
+import { ApplicationsComponent } from './components/profile/teacher/applications/applications.component';
 import { NewClassComponent } from './components/profile/teacher/new-class/new-class.component';
 import { NewTaskComponent } from './components/profile/teacher/new-task/new-task.component';
 import { NewWordComponent } from './components/profile/teacher/new-word/new-word.component';
 import { StudentsComponent } from './components/profile/teacher/students/students.component';
-import { SignupComponent } from './components/signup/signup.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
-import { ApplicationsComponent } from './components/profile/teacher/applications/applications.component';
-import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
-import { NgxPaginationModule } from 'ngx-pagination';
+import { SignupComponent } from './components/signup/signup.component';
+import { NewFileComponent } from './components/profile/library/new-file/new-file.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +103,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
     UserSettingsComponent,
     ApplicationsComponent,
     ClassOverviewComponent,
+    LibraryComponent,
+    NewFileComponent,
   ],
   imports: [
     BrowserModule,

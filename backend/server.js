@@ -12,6 +12,7 @@ const dictionaryRoutes = require("./routes/dictionary.routes");
 const applicationRoutes = require("./routes/application.routes");
 const analyticsRoutes = require("./routes/analytics.routes");
 const userRoutes = require("./routes/user.routes");
+const libraryRoutes = require("./routes/library.routes");
 
 // Middleware for errors
 const errorController = require("./controllers/error.controller");
@@ -47,6 +48,7 @@ app.use("/api/dictionary", dictionaryRoutes);
 app.use("/api/applications", applicationRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/library", libraryRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 

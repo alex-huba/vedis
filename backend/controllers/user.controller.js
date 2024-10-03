@@ -61,13 +61,13 @@ exports.uploadPhoto = async (req, res, next) => {
 
 exports.getPhoto = async (req, res, next) => {
   let fileName = req.userId + ".png";
-  let filePath = path.join(__dirname, "../uploads", fileName);
+  let filePath = path.join(__dirname, "../uploads/avatars", fileName);
 
   // Check if the file exists
   fs.access(filePath, fs.constants.F_OK, (err) => {
     if (err) {
-      fileName = "standard-photo.png";
-      filePath = path.join(__dirname, "../uploads", fileName);
+      fileName = "default.png";
+      filePath = path.join(__dirname, "../uploads/avatars", fileName);
     }
 
     res.sendFile(filePath, (err) => {
@@ -78,7 +78,7 @@ exports.getPhoto = async (req, res, next) => {
 
 exports.deletePhoto = async (req, res, next) => {
   const fileName = req.userId + ".png";
-  let filePath = path.join(__dirname, "../uploads", fileName);
+  let filePath = path.join(__dirname, "../uploads/avatars", fileName);
 
   // Check if the photo exists
   fs.access(filePath, fs.constants.F_OK, (err) => {

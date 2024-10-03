@@ -19,5 +19,5 @@ const storage = multer.diskStorage({
 });
 
 // Initialize multer with the storage config
-const uploadMiddleware = multer({ storage: storage });
-module.exports = uploadMiddleware;
+const uploadAvatarMiddleware = multer({ storage: storage });
+module.exports = uploadAvatarMiddleware;

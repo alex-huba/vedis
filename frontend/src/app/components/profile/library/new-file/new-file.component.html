@@ -1,0 +1,40 @@
+<h2 mat-dialog-title>Новий файл</h2>
+
+<mat-dialog-content class="mat-typography">
+  <form class="m-3" [formGroup]="newFileForm" (ngSubmit)="onSubmit()">
+    <fieldset>
+      <select
+        [class.mark-invalid]="
+          studentId.value == '' && (studentId.dirty || studentId.touched)
+        "
+        class="form-select"
+        formControlName="studentId"
+      >
+        <option value="" selected disabled>Учень</option>
+        <option *ngFor="let s of students$ | async" value="{{ s.id }}">
+          {{ s.name }}
+        </option>
+      </select>
+      <hr />
+    </fieldset>
+
+    <fieldset>
+      <label for="file-input">Обрати файл</label>
+      <input id="file-input" type="file" (change)="onFileSelected($event)" />
+      <p *ngIf="selectedFile">{{selectedFile.name}}</p>
+      <hr />
+    </fieldset>
+
+    <div class="text-center">
+      <button [class.disabled]="newFileForm.invalid" class="filled-btn" type="submit">
+        <fa-icon [icon]="icons.upload"></fa-icon> &nbsp; Завантажити файл
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>
+<button
+  mat-dialog-close
+  type="button"
+  class="btn-close closeBtnModal"
+  aria-label="Close"
+></button>

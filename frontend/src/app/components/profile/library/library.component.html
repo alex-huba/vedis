@@ -1,0 +1,86 @@
+<div class="main-wrapper">
+  <div class="heading">
+    <p><b>Бібліотека</b></p>
+  </div>
+  <div class="w-100 px-3 mb-5" *ngIf="isUserTeacher; else studentFiles">
+    <div class="dirs-wrapper">
+      <div class="d-flex gap-3 w-100 flex-wrap justify-content-center">
+        <div
+          *ngFor="let elem of generalCount$ | async"
+          [class.active]="activeStudentId == elem.studentId"
+          (click)="openFolder(elem.studentId)"
+          class="folder-card"
+        >
+          <div class="d-flex gap-1">
+            <fa-icon
+              *ngIf="activeStudentId == elem.studentId && isFolderOpened"
+              [icon]="icons.openedFolder"
+            ></fa-icon>
+            <fa-icon
+              *ngIf="activeStudentId != elem.studentId || !isFolderOpened"
+              [icon]="icons.closedFolder"
+            ></fa-icon>
+
+            <p class="m-0">{{ elem.studentName }}</p>
+          </div>
+          <p class="m-0 fw-bold">{{ elem.amount_of_files }}</p>
+        </div>
+      </div>
+      <hr />
+    </div>
+    <div class="d-flex justify-content-start justify-content-end">
+      <button (click)="openDialog()" class="outline-btn" type="button">
+        <fa-icon [icon]="icons.add"></fa-icon> Завантажити файл
+      </button>
+    </div>
+    <hr />
+
+    <div class="d-flex justify-content-center">
+      <table class="table text-center w-75" *ngIf="isFolderOpened">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>файл</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let f of files$ | async; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>
+              <a [href]="getFileLink(f.link)">{{ f.fileName }}</a>
+            </td>
+            <td>
+              <button (click)="deleteFile(f.fileName)" class="delete-btn">
+                Видалити
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ng-template #studentFiles>
+    <div class="w-100 px-3">
+      <div class="d-flex justify-content-center">
+        <table class="table text-center w-75">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>файл</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let f of files$ | async; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>
+                <a [href]="getFileLink(f.link)">{{ f.fileName }}</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </ng-template>
+</div>

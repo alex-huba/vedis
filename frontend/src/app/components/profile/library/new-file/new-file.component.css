@@ -1,0 +1,51 @@
+:host {
+  font-family: nunito-regular;
+  position: relative;
+}
+
+.closeBtnModal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+mat-dialog-title {
+  margin-top: 15px;
+}
+
+.filled-btn {
+  border: 2px solid #6366f1;
+  border-radius: 8px;
+  padding: 5px;
+  font-family: nunito;
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.filled-btn {
+  background-color: #6366f1;
+  color: #fff;
+}
+
+.filled-btn:hover {
+  background-color: #4245ed;
+}
+
+.disabled {
+  background-color: grey;
+  border: black;
+  pointer-events: none;
+}
+
+label {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+input {
+  display: none;
+}
+.mark-invalid {
+  border: 1px solid red;
+}

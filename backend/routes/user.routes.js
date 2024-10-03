@@ -2,7 +2,7 @@ const express = require("express");
 const { body } = require("express-validator");
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middleware/auth.middleware");
-const uploadMiddleware = require("../middleware/upload.middleware");
+const uploadAvatarMiddleware = require("../middleware/uploadAvatar.middleware");
 
 const router = express.Router();
 
@@ -28,7 +28,7 @@ router.put(
 
 router.post(
   "/photo",
-  [authMiddleware, uploadMiddleware.single("photo")],
+  [authMiddleware, uploadAvatarMiddleware.single("photo")],
   userController.uploadPhoto
 );
 
