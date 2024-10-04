@@ -43,24 +43,22 @@ exports.fetchByStudentId = async (req, res, next) => {
 };
 
 exports.fetchAll = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
-
   // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
   // Fetch all homework
   try {
     let [homework] = await Homework.getAll();
-    homework = homework.map((user) => {
-      const parsedHomework = JSON.parse(user.homework);
-      parsedHomework.forEach((hw) => {
-        hw.done = !!hw.done;
-      });
-      return {
-        ...user,
-        homework: parsedHomework,
-      };
+    homework = homework.map((elem) => {
+      elem.homework = JSON.parse(elem.homework);
+      elem.homework = elem.homework
+        .map((hw) => {
+          hw.done = !!hw.done;
+          return hw;
+        })
+        .sort((a, b) => new Date(b.dueDate) - new Date(a.dueDate));
+
+      return elem;
     });
 
     res.status(200).json(homework);

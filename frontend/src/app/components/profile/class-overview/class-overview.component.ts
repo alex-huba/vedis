@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { StudentService } from 'src/app/services/student.service';
+import { NewClassComponent } from './new-class/new-class.component';
 
 @Component({
   selector: 'app-class-overview',
@@ -24,13 +27,18 @@ export class ClassOverviewComponent implements OnInit {
 
   currentPage: number = 1;
 
+  icons = {
+    add: faPlus,
+  };
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private classService: ClassesService,
     private studentService: StudentService,
-    private classesService: ClassesService
+    private classesService: ClassesService,
+    private matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -147,6 +155,32 @@ export class ClassOverviewComponent implements OnInit {
 
     // Check if the time difference is more than 12 hours (in milliseconds)
     return timeDifference > 12 * 60 * 60 * 1000;
+  }
+
+  openDialog() {
+    this.matDialog
+      .open(NewClassComponent)
+      .afterClosed()
+      .subscribe(() => {
+        this.classes$ = this.classes$ = this.classService.getAllClasses().pipe(
+          map((classes) => {
+            return classes.map((c) => ({
+              ...c,
+              start: new Date(c.start).toISOString().slice(0, 10),
+            }));
+          })
+        );
+        this.filteredClasses$ = this.classes$.pipe(
+          map((arr) => {
+            let classes = arr.filter(
+              (c) => c.studentId == this.studentId.value
+            );
+            return classes;
+          })
+        );
+      });
+
+      this.currentPage = 1;
   }
 
   get studentId() {

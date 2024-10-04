@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
-import { SchoolService } from 'src/app/services/school.service';
-import { HomeworkDetailsDialogComponent } from '../homework-details-dialog/homework-details-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { HomeworkService } from 'src/app/services/homework.service';
+import { HomeworkDetailsDialogComponent } from './homework-details-dialog/homework-details-dialog.component';
+import { NewTaskComponent } from './new-task/new-task.component';
 
 @Component({
   selector: 'app-tasks',
@@ -14,25 +16,48 @@ import { HomeworkService } from 'src/app/services/homework.service';
 })
 export class TasksComponent implements OnInit {
   homework$: Observable<any>;
+  filteredHomework$: Observable<any>;
+
+  userId = '';
   isUserTeacher = false;
   awaitingResponse = false;
 
+  taskSearchForm = this.fb.group({
+    studentEmail: 'default',
+  });
+
+  icons = {
+    add: faPlus,
+  };
+
   constructor(
+    private fb: FormBuilder,
     private matDialog: MatDialog,
-    private ss: SchoolService,
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private homeworkService: HomeworkService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.currentUser$.subscribe((user) => {
       this.isUserTeacher = user.role === 'teacher';
 
       if (this.isUserTeacher) {
         this.homework$ = this.homeworkService.getAllHomework();
+
+        this.taskSearchForm
+          .get('studentEmail')
+          .valueChanges.subscribe((value) => {
+            this.filteredHomework$ = this.homework$.pipe(
+              map((h) => {
+                let [response] = h.filter((h) => h.email == value);
+                return response.homework;
+              })
+            );
+          });
       } else {
         this.homework$ = this.homeworkService.getHomeworkById(user.id);
+        this.userId = user.id;
       }
     });
   }
@@ -52,24 +77,24 @@ export class TasksComponent implements OnInit {
     return parsedDate.toLocaleDateString('uk-UA', options);
   }
 
-  openDialog(name, email, createdAt, dueDate, done, content) {
-    let dialogRef = this.matDialog.open(HomeworkDetailsDialogComponent, {
-      data: { name, email, createdAt, dueDate, done, content },
-    });
-
-    dialogRef.afterClosed().subscribe();
-  }
-
   deleteTask(id) {
     this.homeworkService.deleteHomework(id).subscribe({
       next: () => {
-        this.snackBar.open('Завдання видалено', '✅', {
+        this.homework$ = this.homeworkService.getAllHomework();
+        this.filteredHomework$ = this.homework$.pipe(
+          map((h) => {
+            let [response] = h.filter(
+              (h) => h.email == this.studentEmail.value
+            );
+            return response.homework;
+          })
+        );
+        this.snackBar.open('Завдання видалено', '👍', {
           duration: 5000,
         });
-        this.ngOnInit();
       },
       error: () => {
-        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
           duration: 5000,
         });
       },
@@ -81,17 +106,57 @@ export class TasksComponent implements OnInit {
     this.homeworkService.updateTaskStatus(id, done).subscribe({
       next: () => {
         this.awaitingResponse = false;
-        this.snackBar.open('Статус оновлено', '✅', {
+        if (this.isUserTeacher) {
+          this.homework$ = this.homeworkService.getAllHomework();
+          this.filteredHomework$ = this.homework$.pipe(
+            map((h) => {
+              let [response] = h.filter(
+                (h) => h.email == this.studentEmail.value
+              );
+              return response.homework;
+            })
+          );
+        } else {
+          this.homework$ = this.homeworkService.getHomeworkById(this.userId);
+        }
+
+        this.snackBar.open('Статус оновлено', '👍', {
           duration: 5000,
         });
-        this.ngOnInit();
       },
       error: () => {
-        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
           duration: 5000,
         });
         this.awaitingResponse = false;
       },
     });
+  }
+
+  createTaskDialog() {
+    this.matDialog
+      .open(NewTaskComponent)
+      .afterClosed()
+      .subscribe(() => {
+        this.homework$ = this.homeworkService.getAllHomework();
+        this.filteredHomework$ = this.homework$.pipe(
+          map((h) => {
+            let [response] = h.filter(
+              (h) => h.email == this.studentEmail.value
+            );
+            return response.homework;
+          })
+        );
+      });
+  }
+
+  openDetailsDialog(content) {
+    this.matDialog.open(HomeworkDetailsDialogComponent, {
+      data: content,
+    });
+  }
+
+  get studentEmail() {
+    return this.taskSearchForm.get('studentEmail');
   }
 }

@@ -6,6 +6,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { StudentService } from 'src/app/services/student.service';
 import { DateTime } from 'luxon';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-new-class',
@@ -42,7 +43,8 @@ export class NewClassComponent implements OnInit {
     private snackBar: MatSnackBar,
     private studentService: StudentService,
     private classService: ClassesService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialogRef: DialogRef<NewClassComponent>
   ) {}
 
   ngOnInit() {
@@ -107,6 +109,7 @@ export class NewClassComponent implements OnInit {
             this.timezone.student = '';
             this.teacherTime.start = '';
             this.teacherTime.end = '';
+            this.dialogRef.close();
             this.snackBar.open('Урок створено', '👍', {
               duration: 5000,
             });
@@ -122,7 +125,7 @@ export class NewClassComponent implements OnInit {
   }
 
   /**
-   * 
+   *
    * @param studentTimestamp string
    * @returns converted timestamp for teacher's timezone in format "HH:mm"
    */

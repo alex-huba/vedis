@@ -28,15 +28,15 @@
       </div>
       <hr />
     </div>
-    <div class="d-flex justify-content-start justify-content-end">
+    <div class="d-flex justify-content-start justify-content-center">
       <button (click)="openDialog()" class="outline-btn" type="button">
         <fa-icon [icon]="icons.add"></fa-icon> Завантажити файл
       </button>
     </div>
     <hr />
 
-    <div class="d-flex justify-content-center">
-      <table class="table text-center w-75" *ngIf="isFolderOpened">
+    <div class="table-responsive">
+      <table class="table text-center" *ngIf="isFolderOpened">
         <thead>
           <tr>
             <th>#</th>
@@ -45,6 +45,9 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="(files$ | async)?.length == 0">
+            <td colspan="2">Ця папка порожня 😶‍🌫️</td>
+          </tr>
           <tr *ngFor="let f of files$ | async; let i = index">
             <td>{{ i + 1 }}</td>
             <td>
@@ -72,6 +75,9 @@
             </tr>
           </thead>
           <tbody>
+            <tr *ngIf="(files$ | async).length == 0">
+              <td colspan="2">Вчитель ще не додав матеріали 😶‍🌫️</td>
+            </tr>
             <tr *ngFor="let f of files$ | async; let i = index">
               <td>{{ i + 1 }}</td>
               <td>

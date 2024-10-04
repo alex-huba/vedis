@@ -1,0 +1,78 @@
+<div class="main-wrapper">
+  <div class="heading">
+    <p><b>Учні</b></p>
+  </div>
+  <div class="w-100 px-3 mb-5 d-flex justify-content-center">
+    <div class="table-responsive">
+      <table class="table text-center w-75">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Ім'я</th>
+            <th scope="col">Пошта</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Статус</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="(students$ | async)?.length == 0">
+            <td colspan="8" class="text-center">Всі заявки оброблено 😎</td>
+          </tr>
+          <tr *ngFor="let s of students$ | async; let i = index">
+            <th scope="row">{{ i + 1 }}</th>
+            <td>{{ s.name }}</td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.phoneNumber }}</td>
+            <td>
+              <span
+                *ngIf="s.role == 'student'; else pending"
+                class="badge text-bg-success"
+                >Учень</span
+              >
+              <ng-template #pending>
+                <span
+                  *ngIf="s.role != 'student'; else pending"
+                  class="badge text-bg-danger"
+                  >Заявка</span
+                >
+              </ng-template>
+            </td>
+            <td>
+              <button
+                data-bs-toggle="dropdown"
+                mat-icon-button
+                aria-label="Example icon button with a vertical three dot icon"
+              >
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <div class="dropdown">
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      (click)="delete(s.id)"
+                      type="button"
+                      class="dropdown-item"
+                    >
+                      Видалити
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      *ngIf="s.role !== 'student'"
+                      (click)="changeRole(s.id)"
+                      type="button"
+                      class="dropdown-item"
+                    >
+                      Одобрити заявку
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

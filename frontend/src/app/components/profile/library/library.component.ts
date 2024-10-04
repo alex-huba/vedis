@@ -93,7 +93,7 @@ export class LibraryComponent implements OnInit {
     this.matDialog
       .open(NewFileComponent)
       .afterClosed()
-      .subscribe((data) => {
+      .subscribe(() => {
         this.generalCount$ = this.libraryService.getCountOfFiles();
         this.isFolderOpened = false;
       });

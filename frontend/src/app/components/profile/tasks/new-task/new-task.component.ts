@@ -1,3 +1,4 @@
+import { DialogRef } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -49,16 +50,9 @@ export class NewTaskComponent implements OnInit {
     private fb: FormBuilder,
     private studentService: StudentService,
     private homeworkService: HomeworkService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogRef: DialogRef<NewTaskComponent>
   ) {}
-
-  get studentId() {
-    return this.newTaskForm.get('studentId');
-  }
-
-  get dueDate() {
-    return this.newTaskForm.get('dueDate');
-  }
 
   onSubmit() {
     if (this.newTaskForm.invalid || this.content === '') {
@@ -72,10 +66,11 @@ export class NewTaskComponent implements OnInit {
           next: () => {
             this.awaitingResponse = false;
             this.newTaskForm.reset();
+            this.content = '';
+            this.dialogRef.close();
             this.snackBar.open('ДЗ збережено', '👍', {
               duration: 5000,
             });
-            this.content = '';
           },
           error: () => {
             this.awaitingResponse = false;
@@ -85,5 +80,12 @@ export class NewTaskComponent implements OnInit {
           },
         });
     }
+  }
+
+  get studentId() {
+    return this.newTaskForm.get('studentId');
+  }
+  get dueDate() {
+    return this.newTaskForm.get('dueDate');
   }
 }

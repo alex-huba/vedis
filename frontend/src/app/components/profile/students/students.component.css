@@ -15,7 +15,7 @@
   justify-content: center;
   align-items: center;
   padding: 30px;
-  background-image: url(../../../../assets/profile/heading.svg);
+  background-image: url(../../../../../assets/profile/heading.svg);
   background-position: bottom;
   background-repeat: no-repeat;
   background-size: cover;
@@ -30,20 +30,16 @@
   background-color: #ededed;
 }
 
-form {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-select {
+#delete-btn {
+  border: 1px solid red !important;
+  background-color: #fff;
+  color: red !important;
+  border-radius: 8px;
+  padding: 5px;
+  font-family: nunito;
+  transition: 0.5s ease;
   cursor: pointer;
-  border: 2px solid var(--new-blue);
-  border-radius: 15px;
 }
-
-@media screen and (max-width: 635px) {
-  table {
-    font-size: 12px;
-  }
+#delete-btn:hover {
+  background-color: rgb(255, 217, 217);
 }

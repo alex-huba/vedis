@@ -26,7 +26,7 @@
     </fieldset>
 
     <div class="text-center">
-      <button [class.disabled]="newFileForm.invalid" class="filled-btn" type="submit">
+      <button [class.disabled]="newFileForm.invalid || !selectedFile" class="filled-btn" type="submit">
         <fa-icon [icon]="icons.upload"></fa-icon> &nbsp; Завантажити файл
       </button>
     </div>

@@ -53,9 +53,23 @@
   border: 2px solid var(--new-blue);
 }
 
+.table thead th {
+  background-color: #ededed;
+}
+
 .outline-btn {
+  font-size: 12px;
   border: 2px solid rgb(5, 102, 2);
 }
 .outline-btn:hover {
   background: rgba(139, 223, 143, 0.479);
+}
+
+@media screen and (max-width: 600px){
+  table {
+    font-size: 12px;
+  }
+  .delete-btn {
+    font-size: 10px;
+  }
 }

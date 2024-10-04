@@ -1,6 +1,29 @@
-.table {
-  text-align: center;
-  border: 2px solid rgb(175, 176, 180);
+.main-wrapper {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-image: url(../../../../assets/profile/heading.svg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  border-radius: 15px;
+  font-family: montserrat-bold;
+  font-size: 30px;
+  color: #fff;
 }
 
 .table thead th {
@@ -8,7 +31,6 @@
 }
 
 #search-input {
-  width: 100%;
   box-sizing: border-box;
   border: 2px solid var(--new-blue);
   border-radius: 15px;
@@ -26,4 +48,27 @@
 }
 pagination-controls {
   text-align: center;
+}
+
+form {
+  display: flex;
+  justify-content: space-between;
+}
+
+select {
+  cursor: pointer;
+  width: auto;
+}
+
+@media screen and (max-width: 735px) {
+  table {
+    font-size: 9px;
+  }
+}
+
+@media screen and (max-width: 455px) {
+  form {
+    flex-direction: column-reverse;
+    gap: 7px;
+  }
 }

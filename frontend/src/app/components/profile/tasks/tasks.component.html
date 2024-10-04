@@ -1,128 +1,168 @@
-<!-- Teacher section -->
-<section *ngIf="isUserTeacher; else studentSection">
-  <div class="text-center">
-    <h2>Домашні завдання</h2>
+<div class="main-wrapper">
+  <div class="heading">
+    <p class="text-center"><b>Домашні завдання</b></p>
   </div>
-
-  <div
-    style="
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      background-color: #fff;
-      border-radius: 15px;
-      box-shadow: var(--shadow);
-      padding: 15px;
-    "
-  >
-    <ul class="tree">
-      <li class="mb-3" *ngFor="let item of homework$ | async">
-        <details>
-          <summary>{{ item.name }} ({{ item.email }})</summary>
-          <ul>
-            <li class="mb-2 fs-lg" *ngFor="let homework of item.homework">
-              {{ parseTimestamp(homework.dueDate) }} &nbsp;
-              <button
-                (click)="
-                  openDialog(
-                    item.name,
-                    item.email,
-                    homework.createdAt,
-                    homework.dueDate,
-                    homework.done,
-                    homework.content
-                  )
-                "
-                class="info-btn"
-                type="button"
-              >
-                <i class="bi bi-info-circle-fill"></i>
-              </button>
-              <button
-                (click)="deleteTask(homework.id)"
-                class="info-btn"
-                style="margin-left: 15px"
-                type="button"
-              >
-                <i class="bi bi-trash-fill"></i>
-              </button>
-            </li>
-          </ul>
-        </details>
-      </li>
-    </ul>
-  </div>
-</section>
-
-<!-- Student section -->
-<ng-template #studentSection>
-  <section>
-    <h2 style="font-family: montserrat-bold">Домашні завдання</h2>
-
+  <div class="w-100 px-3 mb-5">
     <div
-      *ngIf="(homework$ | async)?.length !== 0; else emptyHomework"
-      class="d-flex gap-4"
+      class="table-responsive w-100"
+      *ngIf="isUserTeacher; else studentSection"
     >
-      <div class="task-card" *ngFor="let item of homework$ | async">
-        <div>
-          <div class="d-flex justify-content-between">
-            <span style="font-family: montserrat-bold"
-              >Виконати до: &nbsp;</span
+      <div class="w-100 mb-3 p-2">
+        <form [formGroup]="taskSearchForm" id="search-form">
+          <fieldset>
+            <select
+              formControlName="studentEmail"
+              id="student-select"
+              class="form-select"
             >
-            <span>{{ parseTimestamp(item.dueDate) }}</span>
-          </div>
-          <div class="d-flex justify-content-between">
-            <span style="font-family: montserrat-bold">Статус:</span>
-            <span *ngIf="!item.done; else doneStatus">Не виконано ❌</span>
-            <ng-template #doneStatus>
-              <span>Виконано ✅</span>
-            </ng-template>
-          </div>
-          <hr />
-          <div
-            style="overflow-y: auto; max-height: 150px"
-            [innerHTML]="item.content"
-          ></div>
-          <hr />
-        </div>
-        <div>
-          <button
-            (click)="changeTaskStatus(item.id, true)"
-            type="button"
-            *ngIf="!item.done && !awaitingResponse"
-            mat-raised-button
-            color="primary"
-          >
-            Виконано
-          </button>
-          <button
-            (click)="changeTaskStatus(item.id, false)"
-            type="button"
-            *ngIf="item.done && !awaitingResponse"
-            mat-raised-button
-            color="accent"
-          >
-            Не виконано
-          </button>
-          <button
-            *ngIf="awaitingResponse"
-            type="button"
-            mat-raised-button
-            disabled
-          >
-            <div class="spinner-grow spinner-grow-sm" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <span>&nbsp; Зачекайте...</span>
-          </button>
-        </div>
+              <option selected disabled value="default">Вибрати учня</option>
+              <option *ngFor="let h of homework$ | async" value="{{ h.email }}">
+                {{ h.name }}
+              </option>
+            </select>
+          </fieldset>
+
+          <fieldset>
+            <button (click)="createTaskDialog()" class="outline-btn">
+              <fa-icon [icon]="icons.add"></fa-icon> Додати завдання
+            </button>
+          </fieldset>
+        </form>
       </div>
+      <table class="table text-center mb-4">
+        <thead>
+          <tr>
+            <th scope="col">Створено</th>
+            <th scope="col">Дедлайн</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Завдання</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of filteredHomework$ | async">
+            <td>{{ parseTimestamp(t.createdAt) }}</td>
+            <td>{{ parseTimestamp(t.dueDate) }}</td>
+            <td>
+              <span
+                *ngIf="t.done; else canceledBadge"
+                class="badge text-bg-success"
+                >Виконано</span
+              >
+              <ng-template #canceledBadge>
+                <span class="badge text-bg-danger">Не виконано</span>
+              </ng-template>
+            </td>
+            <td>
+              <button
+                (click)="openDetailsDialog(t.content)"
+                class="outline-btn"
+                type="button"
+              >
+                Деталі
+              </button>
+            </td>
+            <td>
+              <button data-bs-toggle="dropdown" mat-icon-button>
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <div class="dropdown">
+                <ul class="dropdown-menu">
+                  <li>
+                    <button
+                      (click)="deleteTask(t.id)"
+                      type="button"
+                      class="dropdown-item"
+                    >
+                      Видалити
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      (click)="changeTaskStatus(t.id, !t.done)"
+                      type="button"
+                      class="dropdown-item"
+                    >
+                      <span *ngIf="!t.done; else notDone">Виконано</span>
+                      <ng-template #notDone>
+                        <span>Не виконано</span>
+                      </ng-template>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
-    <ng-template #emptyHomework>
-      <div class="d-flex align-items-center justify-content-center">
-        <h3 class="text-center">У Вас поки що немає домашніх завдань 🥳</h3>
+    <ng-template #studentSection>
+      <div class="table-responsive w-100">
+        <div class="w-100 mb-3 p-2"></div>
+        <table class="table text-center mb-4">
+          <thead>
+            <tr>
+              <th scope="col">Створено</th>
+              <th scope="col">Дедлайн</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Завдання</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngIf="(homework$ | async)?.length == 0">
+              <td colspan="5" class="text-center">
+                Ваш вчитель поки що не додав завдання 🥳
+              </td>
+            </tr>
+            <tr *ngFor="let item of homework$ | async">
+              <td>{{ parseTimestamp(item.createdAt) }}</td>
+              <td>{{ parseTimestamp(item.dueDate) }}</td>
+              <td>
+                <span
+                  *ngIf="item.done; else canceledBadge"
+                  class="badge text-bg-success"
+                  >Виконано</span
+                >
+                <ng-template #canceledBadge>
+                  <span class="badge text-bg-danger">Не виконано</span>
+                </ng-template>
+              </td>
+              <td>
+                <button
+                  (click)="openDetailsDialog(item.content)"
+                  class="outline-btn"
+                  type="button"
+                >
+                  Деталі
+                </button>
+              </td>
+              <td>
+                <button data-bs-toggle="dropdown" mat-icon-button>
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <div class="dropdown">
+                  <ul class="dropdown-menu">
+                    <li>
+                      <button
+                        (click)="changeTaskStatus(item.id, !item.done)"
+                        type="button"
+                        class="dropdown-item"
+                      >
+                        <span *ngIf="!item.done; else notDone">Виконано</span>
+                        <ng-template #notDone>
+                          <span>Не виконано</span>
+                        </ng-template>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </ng-template>
-  </section>
-</ng-template>
+  </div>
+</div>

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class HomeworkService {
-  private url = 'http://localhost:3001/api';
+  private url = 'http://localhost:3001/api/homework';
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -21,8 +21,10 @@ export class HomeworkService {
   }
 
   createHomework(studentId, dueDate, content): Observable<any> {
+    content = content.replace(/"/g, "'");
+
     return this.http.post<any>(
-      `${this.url}/homework`,
+      `${this.url}`,
       {
         studentId,
         dueDate,
@@ -36,7 +38,7 @@ export class HomeworkService {
   }
 
   getAllHomework(): Observable<any> {
-    return this.http.get(`${this.url}/homework`, {
+    return this.http.get(`${this.url}`, {
       ...this.httpOptions,
       reportProgress: true,
     });
@@ -44,7 +46,7 @@ export class HomeworkService {
 
   updateTaskStatus(id, done) {
     return this.http.put<any>(
-      `${this.url}/homework/${id}`,
+      `${this.url}/${id}`,
       { done: done },
       {
         ...this.httpOptions,
@@ -54,7 +56,7 @@ export class HomeworkService {
   }
 
   deleteHomework(id) {
-    return this.http.delete<any>(`${this.url}/homework`, {
+    return this.http.delete<any>(`${this.url}`, {
       ...this.httpOptions,
       reportProgress: true,
       body: { id },
@@ -62,7 +64,7 @@ export class HomeworkService {
   }
 
   getHomeworkById(id): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/homework/${id}`, {
+    return this.http.get<any[]>(`${this.url}/${id}`, {
       ...this.httpOptions,
       reportProgress: true,
     });

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { DictionaryService } from 'src/app/services/dictionary.service';
@@ -31,28 +32,9 @@ export class NewWordComponent implements OnInit {
     private fb: FormBuilder,
     private ss: SchoolService,
     private snackBar: MatSnackBar,
-    private dictionaryService: DictionaryService
+    private dictionaryService: DictionaryService,
+    private dialogRef: MatDialogRef<NewWordComponent>
   ) {}
-
-  get studentId() {
-    return this.newWordForm.get('studentId');
-  }
-
-  get dueDate() {
-    return this.newWordForm.get('dueDate');
-  }
-
-  get word() {
-    return this.newWordForm.get('word');
-  }
-
-  get transcription() {
-    return this.newWordForm.get('transcription');
-  }
-
-  get translation() {
-    return this.newWordForm.get('translation');
-  }
 
   onSubmit() {
     if (this.newWordForm.invalid || this.studentId.value === 'default') {
@@ -71,17 +53,34 @@ export class NewWordComponent implements OnInit {
           next: () => {
             this.awaitingResponse = false;
             this.newWordForm.reset();
-            this.snackBar.open('Слово додано до словника', '✅', {
+            this.dialogRef.close();
+            this.snackBar.open('Слово додано до словника', '👍', {
               duration: 5000,
             });
           },
           error: () => {
             this.awaitingResponse = false;
-            this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '✅', {
+            this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
               duration: 5000,
             });
           },
         });
     }
+  }
+
+  get studentId() {
+    return this.newWordForm.get('studentId');
+  }
+  get dueDate() {
+    return this.newWordForm.get('dueDate');
+  }
+  get word() {
+    return this.newWordForm.get('word');
+  }
+  get transcription() {
+    return this.newWordForm.get('transcription');
+  }
+  get translation() {
+    return this.newWordForm.get('translation');
   }
 }

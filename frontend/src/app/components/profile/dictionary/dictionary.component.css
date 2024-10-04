@@ -1,3 +1,31 @@
+.main-wrapper {
+  background-color: #fff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  border-radius: 15px;
+  box-shadow: var(--shadow);
+}
+
+.heading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  background-image: url(../../../../assets/profile/heading.svg);
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  border-radius: 15px;
+  font-family: montserrat-bold;
+  font-size: 30px;
+  color: #fff;
+}
+
 td.hidden-text::before {
   content: "****";
 }
@@ -17,11 +45,6 @@ td.hidden-text p {
 
 label {
   font-weight: 600;
-}
-
-.table {
-  text-align: center;
-  border: 2px solid rgb(175, 176, 180);
 }
 
 .table thead th {
@@ -44,4 +67,25 @@ label {
 #search-input:focus {
   border: 2px solid var(--new-blue);
   outline: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 550px) {
+  form {
+    flex-direction: column;
+    width: 70%;
+    gap: 10px;
+  }
+  table {
+    font-size: 13px;
+  }
 }

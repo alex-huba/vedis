@@ -6,6 +6,7 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
+// used
 router.post(
   "/",
   [
@@ -25,6 +26,7 @@ router.get(
 
 router.get("/unfinished", authMiddleware, homeworkController.fetchUnfinished);
 
+// used
 router.get(
   "/:studentId",
   authMiddleware,
@@ -32,8 +34,10 @@ router.get(
   homeworkController.fetchByStudentId
 );
 
+// used
 router.get("/", authMiddleware, homeworkController.fetchAll);
 
+// used
 router.delete(
   "/",
   [authMiddleware, body("id").trim().not().isEmpty()],

@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { debounceTime, distinctUntilChanged, map, Observable } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { DictionaryService } from 'src/app/services/dictionary.service';
+import { NewWordComponent } from './new-word/new-word.component';
 
 @Component({
   selector: 'app-dictionary',
@@ -21,11 +24,16 @@ export class DictionaryComponent implements OnInit {
     wordRegex: '',
   });
 
+  icons = {
+    add: faPlus,
+  };
+
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
     private fb: FormBuilder,
-    private dictionaryService: DictionaryService
+    private dictionaryService: DictionaryService,
+    private matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -96,16 +104,24 @@ export class DictionaryComponent implements OnInit {
         this.dictionary$ = this.dictionaryService.getWholeDictionary();
         this.filteredDictionary$ = this.dictionary$.pipe(
           map((d) => {
-            let [dictionary] = d.filter((d) => d.studentId === this.studentId);
+            let [dictionary] = d.filter(
+              (d) => d.studentId === this.studentId.value
+            );
+            if (!dictionary) {
+              this.wordSearchForm.patchValue({
+                studentId: 'default',
+              });
+              return [];
+            }
             return dictionary.words;
           })
         );
-        this.snackBar.open('Слово видалено', '✅', {
+        this.snackBar.open('Слово видалено', '👍', {
           duration: 5000,
         });
       },
       error: () => {
-        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
           duration: 5000,
         });
       },
@@ -118,6 +134,24 @@ export class DictionaryComponent implements OnInit {
     let icon = document.querySelector(`#show-icon-${index}`);
     icon.classList.toggle('bi-eye-fill');
     icon.classList.toggle('bi-eye-slash-fill');
+  }
+
+  openDialog() {
+    this.matDialog
+      .open(NewWordComponent)
+      .afterClosed()
+      .subscribe(() => {
+        this.dictionary$ = this.dictionaryService.getWholeDictionary();
+        this.filteredDictionary$ = this.dictionary$.pipe(
+          map((d) => {
+            debugger;
+            let [dictionary] = d.filter(
+              (d) => d.studentId === this.studentId.value
+            );
+            return dictionary.words;
+          })
+        );
+      });
   }
 
   get studentId() {

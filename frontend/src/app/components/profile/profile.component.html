@@ -1,5 +1,5 @@
 <mat-drawer-container autosize>
-  <mat-drawer style="padding: 0px;" #drawer mode="side">
+  <mat-drawer style="padding: 0px" #drawer mode="side">
     <div class="sidenav-links">
       <div style="display: flex; flex-direction: column">
         <a
@@ -16,32 +16,11 @@
           <fa-icon [icon]="icons.overview"></fa-icon>
           <span>Історія занять</span>
         </a>
-        <a
-          *ngIf="isTeacher"
-          routerLinkActive="is-active"
-          routerLink="/home/new-class"
-        >
-          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове заняття</span>
-        </a>
         <a routerLinkActive="is-active" routerLink="/home/tasks">
           <fa-icon [icon]="icons.task"></fa-icon> <span>Завдання</span>
         </a>
-        <a
-          *ngIf="isTeacher"
-          routerLinkActive="is-active"
-          routerLink="/home/new-task"
-        >
-          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове завдання</span>
-        </a>
         <a routerLinkActive="is-active" routerLink="/home/dictionary">
           <fa-icon [icon]="icons.dictionary"></fa-icon> <span>Словник</span>
-        </a>
-        <a
-          *ngIf="isTeacher"
-          routerLinkActive="is-active"
-          routerLink="/home/new-word"
-        >
-          <fa-icon [icon]="icons.add"></fa-icon> <span>Нове слово</span>
         </a>
         <a routerLinkActive="is-active" routerLink="/home/library">
           <fa-icon [icon]="icons.library"></fa-icon> <span>Бібліотека</span>
@@ -62,7 +41,7 @@
         </a>
       </div>
       <div style="display: flex; flex-direction: column">
-        <hr class="m-0">
+        <hr class="m-0" />
         <a routerLink="/home/settings" routerLinkActive="is-active">
           <fa-icon [icon]="icons.settings"></fa-icon> <span>Налаштування</span>
         </a>
@@ -111,18 +90,6 @@
         </li>
         <li *ngIf="getCurrentUrl() == '/home/settings'" class="breadcrumb-item">
           Налаштування
-        </li>
-        <li *ngIf="getCurrentUrl() == '/home/new-word'" class="breadcrumb-item">
-          Додати слово
-        </li>
-        <li *ngIf="getCurrentUrl() == '/home/new-task'" class="breadcrumb-item">
-          Додати завдання
-        </li>
-        <li
-          *ngIf="getCurrentUrl() == '/home/new-class'"
-          class="breadcrumb-item"
-        >
-          Додати заняття
         </li>
         <li *ngIf="getCurrentUrl() == '/home/students'" class="breadcrumb-item">
           Учні

@@ -24,12 +24,12 @@ export class StudentsComponent implements OnInit {
     this.studentService.deleteStudent(id).subscribe({
       next: () => {
         this.ngOnInit();
-        this.snackBar.open('Учня видалено', '✅', {
+        this.snackBar.open('Учня видалено', '👍', {
           duration: 5000,
         });
       },
       error: () => {
-        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+        this.snackBar.open('Помилка. Спробуйте ще раз', '👍', {
           duration: 5000,
         });
       },
@@ -40,12 +40,12 @@ export class StudentsComponent implements OnInit {
     this.studentService.changeStudentRole(id, 'student').subscribe({
       next: () => {
         this.ngOnInit();
-        this.snackBar.open('Статус учня змінено', '✅', {
+        this.snackBar.open('Статус учня змінено', '👍', {
           duration: 5000,
         });
       },
       error: () => {
-        this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '❌', {
+        this.snackBar.open('Помилка. Спробуйте ще раз', '👍', {
           duration: 5000,
         });
       },

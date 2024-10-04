@@ -25,7 +25,9 @@
       <label for="class-time-start">Вивчити до:</label>
       <input
         id="class-time-start"
-        [class.mark-invalid]="dueDate.invalid && (dueDate.dirty || dueDate.touched)"
+        [class.mark-invalid]="
+          dueDate.invalid && (dueDate.dirty || dueDate.touched)
+        "
         formControlName="dueDate"
         type="date"
         class="form-control"
@@ -73,6 +75,7 @@
       />
     </fieldset>
   </form>
+  <hr />
 
   <div class="w-100 mt-2 d-flex justify-content-center">
     <button
@@ -91,3 +94,9 @@
     </ng-template>
   </div>
 </div>
+<button
+  mat-dialog-close
+  type="button"
+  class="btn-close closeBtnModal"
+  aria-label="Close"
+></button>
