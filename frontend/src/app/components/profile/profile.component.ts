@@ -228,6 +228,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   signOut() {
     this.authService.signOut();
+    this.router.navigate(['']);
   }
 
   changePage(page) {

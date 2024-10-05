@@ -101,7 +101,6 @@ export class AuthService {
 
   signOut() {
     localStorage.removeItem('token');
-    this.router.navigate(['']);
     this.loginStatus$.next('failure');
   }
 

@@ -4,15 +4,14 @@ import { EnglishTestComponent } from './components/landing-tests/english-test/en
 import { GermanTestComponent } from './components/landing-tests/german-test/german-test.component';
 import { LandingComponent } from './components/landing/landing.component';
 import { LoginComponent } from './components/login/login.component';
+import { ApplicationsComponent } from './components/profile/applications/applications.component';
 import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
 import { DictionaryComponent } from './components/profile/dictionary/dictionary.component';
 import { LibraryComponent } from './components/profile/library/library.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ScheduleComponent } from './components/profile/schedule/schedule.component';
-import { TasksComponent } from './components/profile/tasks/tasks.component';
-import { ApplicationsComponent } from './components/profile/applications/applications.component';
-import { NewTaskComponent } from './components/profile/tasks/new-task/new-task.component';
 import { StudentsComponent } from './components/profile/students/students.component';
+import { TasksComponent } from './components/profile/tasks/tasks.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';

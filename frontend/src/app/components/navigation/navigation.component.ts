@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { faPowerOff, faUser } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from 'src/app/services/auth.service';
 import { ScrollService } from 'src/app/services/scroll.service';
@@ -26,7 +27,8 @@ export class NavigationComponent implements OnInit {
   constructor(
     private ss: ScrollService,
     private authService: AuthService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +59,7 @@ export class NavigationComponent implements OnInit {
 
   signOut() {
     this.authService.signOut();
+    this.router.navigate(['']);
   }
 
   // Used by offcanvas
