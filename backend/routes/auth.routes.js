@@ -36,7 +36,7 @@ router.post(
 router.post(
   "/login",
   [
-    body("email").trim().isEmail().withMessage("Некоректна електронна пошта"),
+    body("email").trim().isEmail().withMessage("Email недійсний"),
     body("password")
       .trim()
       .isLength({ min: 8 })
@@ -50,6 +50,10 @@ router.post(
 );
 
 // used
-router.post("/verifyToken", authController.verifyToken);
+router.post(
+  "/verification",
+  body("token").notEmpty(),
+  authController.verifyToken
+);
 
 module.exports = router;

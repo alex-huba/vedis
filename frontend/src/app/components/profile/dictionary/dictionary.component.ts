@@ -144,7 +144,6 @@ export class DictionaryComponent implements OnInit {
         this.dictionary$ = this.dictionaryService.getWholeDictionary();
         this.filteredDictionary$ = this.dictionary$.pipe(
           map((d) => {
-            debugger;
             let [dictionary] = d.filter(
               (d) => d.studentId === this.studentId.value
             );

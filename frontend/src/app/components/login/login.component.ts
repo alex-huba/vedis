@@ -38,7 +38,7 @@ export class LoginComponent {
     } else {
       this.awaitingResponse = true;
       this.authService.login(this.email.value, this.password.value).subscribe({
-        next: (event) => {
+        next: () => {
           this.awaitingResponse = false;
         },
         error: (event) => {
