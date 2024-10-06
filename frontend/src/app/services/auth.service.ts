@@ -93,7 +93,7 @@ export class AuthService {
   verifyToken() {
     return this.http
       .post<any>(
-        `${this.url}/verifyToken`,
+        `${this.url}/verification`,
         {
           token: localStorage.getItem('token'),
         },

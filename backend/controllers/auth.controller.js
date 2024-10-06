@@ -7,24 +7,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
 
 exports.signup = async (req, res, next) => {
-  // Check validation of request body for errors
-  const validationRes = validationResult(req);
-  if (!validationRes.isEmpty()) {
-    let resErrors = [];
-    validationRes.errors.forEach((e) => {
-      resErrors.push({
-        field: e.param,
-        error: e.msg,
-      });
-    });
-
-    return res
-      .status(400)
-      .json({ message: "Користувача не зареєстровано", errors: resErrors });
-  }
-
-  // Save a new user w/ hashed pwd to db
   try {
+    if (!validationResult(req).isEmpty()) {
+      const error = new Error("Користувача не зареєстровано");
+      error.statusCode = 400;
+      throw error;
+    }
+
     const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
     const userDetails = {
@@ -50,26 +39,23 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    // Check validation of request body for errors
-    const validationRes = validationResult(req);
-    if (!validationRes.isEmpty()) {
-      const error = new Error("Некоректні дані для логіну");
+    if (!validationResult(req).isEmpty()) {
+      const error = new Error("Некоректні дані для авторизації");
       error.statusCode = 400;
       throw error;
     }
 
     // Find user by email in db
-    const [user] = await User.findByEmail(req.body.email);
+    const [users] = await User.findByEmail(req.body.email);
 
-    // Check whether user is found. If not -> throw an error
-    if (user.length !== 1) {
-      const error = new Error("Профіль не знайдено");
+    if (users.length !== 1) {
+      const error = new Error("Користувача не знайдено");
       error.statusCode = 401;
       throw error;
     }
 
     // Extract user from db
-    const storedUser = user[0];
+    const [storedUser] = users;
 
     // Check whether stored and supplied passwords are equal
     const isEqual = await bcrypt.compare(
@@ -125,37 +111,38 @@ exports.login = async (req, res, next) => {
 
 // Check token on the start of the app in case user re-open tab
 exports.verifyToken = async (req, res, next) => {
-  // If jwt is not provided -> return 401 Unauthorized
-  if (!req.body.token) {
-    res.status(401).end();
-    return;
-  }
-
-  // Verify jwt
-  let decodedToken;
   try {
+    if (!validationResult(req).isEmpty()) {
+      const error = new Error("Токен не надано");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    // Verify jwt
+    let decodedToken;
     decodedToken = jwt.verify(req.body.token, process.env.JWT_SECRET);
+
+    // If jwt is not valid -> return 401 Unauthorized
+    if (!decodedToken) {
+      const error = new Error("Токен не дійсний");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    res.status(200).json({
+      user: {
+        id: decodedToken.id,
+        name: decodedToken.name,
+        email: decodedToken.email,
+        phoneNumber: decodedToken.phoneNumber,
+        role: decodedToken.role,
+        timezone: decodedToken.timezone,
+      },
+    });
   } catch (err) {
-    res.status(401).end();
-    return;
+    if (!err.statusCode) err.statusCode = 401;
+    next(err);
   }
-
-  // If jwt is not valid -> return 401 Unauthorized
-  if (!decodedToken) {
-    res.status(401).end();
-    return;
-  }
-
-  res.status(200).json({
-    user: {
-      id: decodedToken.id,
-      name: decodedToken.name,
-      email: decodedToken.email,
-      phoneNumber: decodedToken.phoneNumber,
-      role: decodedToken.role,
-      timezone: decodedToken.timezone,
-    },
-  });
 };
 
 // exports.generateLink = async (req, res, next) => {

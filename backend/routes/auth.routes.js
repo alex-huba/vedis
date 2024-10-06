@@ -36,29 +36,24 @@ router.post(
 router.post(
   "/login",
   [
-    body("email").trim().isEmail().withMessage("Некоректна електронна пошта"),
-    body("password").notEmpty().withMessage("Некоректий пароль"),
+    body("email").trim().isEmail().withMessage("Email недійсний"),
+    body("password")
+      .trim()
+      .isLength({ min: 8 })
+      .withMessage("Пароль має містити мінімум 8 символів")
+      .matches(/^(?=.*[A-Za-z])(?=.*[\d!@#_$%^&*])/)
+      .withMessage(
+        "Пароль має містити мінімум одну букву, одне число та один спеціальний символ"
+      ),
   ],
   authController.login
 );
 
 // used
-router.post("/verifyToken", authController.verifyToken);
-
-// router.post(
-//   "/forgot/password",
-//   body("email").trim().isEmail().withMessage("Некоректна електронна пошта"),
-//   authController.generateLink
-// );
-
-// router.post(
-//   "/reset/password/:id/:token",
-//   [
-//     param("id").notEmpty(),
-//     param("token").notEmpty(),
-//     body("password").notEmpty(),
-//   ],
-//   authController.resetPassword
-// );
+router.post(
+  "/verification",
+  body("token").notEmpty(),
+  authController.verifyToken
+);
 
 module.exports = router;
