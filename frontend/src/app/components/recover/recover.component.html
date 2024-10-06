@@ -1,0 +1,59 @@
+<section>
+  <div class="form-wrapper">
+    <form [formGroup]="recoverForm" (ngSubmit)="onSubmit()">
+      <legend>Вкажіть вашу пошту</legend>
+
+      <fieldset class="input-group has-validation">
+        <div class="input-container">
+          <div
+            [class.is-invalid]="email.invalid && (email.dirty || email.touched)"
+            class="form-floating"
+          >
+            <input
+              [class.is-invalid]="
+                email.invalid && (email.dirty || email.touched)
+              "
+              formControlName="email"
+              type="text"
+              class="form-control"
+              placeholder="Пошта"
+            />
+            <label>Пошта</label>
+          </div>
+          <div class="invalid-feedback">
+            <div *ngIf="email.hasError('required')">
+              <span>Email обов'язковий</span>
+            </div>
+            <div *ngIf="email.hasError('email')">
+              <span>Email недійсний</span>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div>
+        <button
+          *ngIf="!awaitingResponse; else loadingBtn"
+          [disabled]="
+            recoverForm.invalid && (recoverForm.dirty || recoverForm.touched)
+          "
+          type="submit"
+          class="cta"
+        >
+          Продовжити
+        </button>
+        <ng-template #loadingBtn>
+          <button class="cta" type="button" disabled>
+            <span
+              class="spinner-grow spinner-grow-sm"
+              aria-hidden="true"
+            ></span>
+            Зачекайте...
+          </button>
+        </ng-template>
+      </div>
+    </form>
+
+    <img src="../../../assets/recover/recover.svg" />
+  </div>
+</section>

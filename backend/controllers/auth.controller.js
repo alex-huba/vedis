@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { validationResult } = require("express-validator");
+const { sendEmail } = require("../middleware/email-sender");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -56,7 +57,7 @@ exports.login = async (req, res, next) => {
     // Extract user from db
     const [storedUser] = users;
 
-    // Check whether stored and supplied pwds are equal
+    // Check whether stored and supplied passwords are equal
     const isEqual = await bcrypt.compare(
       req.body.password,
       storedUser.password
@@ -143,3 +144,106 @@ exports.verifyToken = async (req, res, next) => {
     next(err);
   }
 };
+
+// exports.generateLink = async (req, res, next) => {
+//   // Check validation of request body for errors
+//   const validationRes = validationResult(req);
+//   if (!validationRes.isEmpty()) {
+//     let resErrors = [];
+//     validationRes.errors.forEach((e) => {
+//       resErrors.push({
+//         field: e.param,
+//         error: e.msg,
+//       });
+//     });
+
+//     return res.status(400).json({
+//       msg: "Електронну пошту не надано",
+//       errors: resErrors,
+//     });
+//   }
+
+//   // Find user by email in db
+//   try {
+//     const [user] = await User.findByEmail(req.body.email);
+
+//     // Check whether user is found. If not -> throw an error
+//     if (user.length !== 1) {
+//       const error = new Error(
+//         "Користувача з цією електронною поштою не знайдено"
+//       );
+//       error.statusCode = 404;
+//       throw error;
+//     }
+
+//     // Extract user from db
+//     const storedUser = user[0];
+
+//     // Create a one-time link
+//     const secret = process.env.JWT_SECRET + storedUser.password;
+//     const payload = {
+//       id: storedUser.id,
+//       email: storedUser.email,
+//     };
+
+//     const token = jwt.sign(payload, secret, {
+//       expiresIn: "15m",
+//     });
+
+//     const link = `http://localhost:3001/auth/reset/password/${storedUser.id}/${token}`;
+
+//     sendEmail(storedUser.email, link);
+
+//     res.status(200).end();
+//   } catch (err) {
+//     if (!err.statusCode) {
+//       err.statusCode = 500;
+//     }
+//     next(err);
+//   }
+// };
+
+// exports.resetPassword = async (req, res, next) => {
+//   // Check validation of request body for errors
+//   const validationRes = validationResult(req);
+//   if (!validationRes.isEmpty()) {
+//     let resErrors = [];
+//     validationRes.errors.forEach((e) => {
+//       resErrors.push({
+//         field: e.param,
+//         error: e.msg,
+//       });
+//     });
+
+//     return res.status(400).json({
+//       errors: resErrors,
+//     });
+//   }
+
+//   try {
+//     // Find user by id
+//     const [user] = await User.findById(req.params.id);
+
+//     if (user.length !== 1) {
+//       const error = new Error("Користувача не знайдено");
+//       error.statusCode = 404;
+//       throw error;
+//     }
+
+//     // Extract user from db
+//     const storedUser = user[0];
+
+//     const secret = process.env.JWT_SECRET + storedUser.password;
+
+//     const payload = jwt.verify(req.params.token, secret);
+
+//     const hashedPassword = await bcrypt.hash(req.body.password, 12);
+
+//     await User.changePassword(storedUser.id, hashedPassword);
+
+//     return res.status(204).end();
+//   } catch (err) {
+//     if (!err.statusCode) err.statusCode = 500;
+//     next(err);
+//   }
+// };
