@@ -40,6 +40,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 // Components
 import { AppComponent } from './app.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { EnglishTestComponent } from './components/landing-tests/english-test/english-test.component';
 import { GermanTestComponent } from './components/landing-tests/german-test/german-test.component';
 import { AboutComponent } from './components/landing/about/about.component';
@@ -54,23 +55,23 @@ import { LevelCheckComponent } from './components/landing/level-check/level-chec
 import { SocialMediaComponent } from './components/landing/social-media/social-media.component';
 import { LoginComponent } from './components/login/login.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
+import { ApplicationsComponent } from './components/profile/applications/applications.component';
 import { ClassOverviewComponent } from './components/profile/class-overview/class-overview.component';
+import { NewClassComponent } from './components/profile/class-overview/new-class/new-class.component';
 import { DictionaryComponent } from './components/profile/dictionary/dictionary.component';
-import { HomeworkDetailsDialogComponent } from './components/profile/tasks/homework-details-dialog/homework-details-dialog.component';
+import { NewWordComponent } from './components/profile/dictionary/new-word/new-word.component';
 import { LibraryComponent } from './components/profile/library/library.component';
+import { NewFileComponent } from './components/profile/library/new-file/new-file.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { ClassDetailsDialogComponent } from './components/profile/schedule/class-details-dialog/class-details-dialog.component';
 import { ScheduleComponent } from './components/profile/schedule/schedule.component';
-import { TasksComponent } from './components/profile/tasks/tasks.component';
-import { ApplicationsComponent } from './components/profile/applications/applications.component';
-import { NewClassComponent } from './components/profile/class-overview/new-class/new-class.component';
-import { NewTaskComponent } from './components/profile/tasks/new-task/new-task.component';
-import { NewWordComponent } from './components/profile/dictionary/new-word/new-word.component';
 import { StudentsComponent } from './components/profile/students/students.component';
+import { HomeworkDetailsDialogComponent } from './components/profile/tasks/homework-details-dialog/homework-details-dialog.component';
+import { NewTaskComponent } from './components/profile/tasks/new-task/new-task.component';
+import { TasksComponent } from './components/profile/tasks/tasks.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
+import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { NewFileComponent } from './components/profile/library/new-file/new-file.component';
-import { RecoverComponent } from './components/recover/recover.component';
 
 @NgModule({
   declarations: [
@@ -106,7 +107,8 @@ import { RecoverComponent } from './components/recover/recover.component';
     ClassOverviewComponent,
     LibraryComponent,
     NewFileComponent,
-    RecoverComponent,
+    ResetPasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

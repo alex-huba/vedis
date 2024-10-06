@@ -56,4 +56,21 @@ router.post(
   authController.verifyToken
 );
 
+// used
+router.post(
+  "/forgot/password",
+  body("email").isEmail(),
+  authController.generateLink
+);
+
+router.post(
+  "/reset/password/:id/:token",
+  [
+    param("id").notEmpty(),
+    param("token").notEmpty(),
+    body("password").notEmpty(),
+  ],
+  authController.resetPassword
+);
+
 module.exports = router;

@@ -32,7 +32,7 @@ export class InterceptorService implements HttpInterceptor {
     // Handle the request and catch errors
     return next.handle(clonedReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.status == 401) {
+        if (error.status == 401 && localStorage.getItem("token")) {
           // Token is expired or invalid
           this.authService.signOut();
           this.router.navigate(['/login']);

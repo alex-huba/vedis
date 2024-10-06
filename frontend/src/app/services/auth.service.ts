@@ -6,14 +6,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  BehaviorSubject,
-  catchError,
-  first,
-  Observable,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -120,8 +113,31 @@ export class AuthService {
     this.userSubject.next(details);
   }
 
+  forgotPassword(email): Observable<any> {
+    return this.http.post<any>(
+      `${this.url}/forgot/password`,
+      { email },
+      {
+        ...this.httpOptions,
+        reportProgress: true,
+      }
+    );
+  }
+
+  resetPassword(id, token, password) {
+    return this.http.post<any>(
+      `${this.url}/reset/password/${id}/${token}`,
+      {
+        password,
+      },
+      {
+        ...this.httpOptions,
+        reportProgress: true,
+      }
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
-    debugger
     let errorMessage = 'Unknown error occurred!';
     if (error.error instanceof ErrorEvent) {
       // Client-side error

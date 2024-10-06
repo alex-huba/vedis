@@ -145,105 +145,75 @@ exports.verifyToken = async (req, res, next) => {
   }
 };
 
-// exports.generateLink = async (req, res, next) => {
-//   // Check validation of request body for errors
-//   const validationRes = validationResult(req);
-//   if (!validationRes.isEmpty()) {
-//     let resErrors = [];
-//     validationRes.errors.forEach((e) => {
-//       resErrors.push({
-//         field: e.param,
-//         error: e.msg,
-//       });
-//     });
+exports.generateLink = async (req, res, next) => {
+  try {
+    if (!validationResult(req).isEmpty()) {
+      const error = new Error("Email недійсний");
+      error.statusCode = 400;
+      throw error;
+    }
 
-//     return res.status(400).json({
-//       msg: "Електронну пошту не надано",
-//       errors: resErrors,
-//     });
-//   }
+    const [users] = await User.findByEmail(req.body.email);
 
-//   // Find user by email in db
-//   try {
-//     const [user] = await User.findByEmail(req.body.email);
+    if (users.length !== 1) {
+      const error = new Error("Профіль не знайдено");
+      error.statusCode = 404;
+      throw error;
+    }
 
-//     // Check whether user is found. If not -> throw an error
-//     if (user.length !== 1) {
-//       const error = new Error(
-//         "Користувача з цією електронною поштою не знайдено"
-//       );
-//       error.statusCode = 404;
-//       throw error;
-//     }
+    const [storedUser] = users;
 
-//     // Extract user from db
-//     const storedUser = user[0];
+    // Create a one-time link
+    const secret = process.env.JWT_SECRET + storedUser.password;
+    const payload = {
+      id: storedUser.id,
+      email: storedUser.email,
+    };
 
-//     // Create a one-time link
-//     const secret = process.env.JWT_SECRET + storedUser.password;
-//     const payload = {
-//       id: storedUser.id,
-//       email: storedUser.email,
-//     };
+    const token = jwt.sign(payload, secret, {
+      expiresIn: "15m",
+    });
 
-//     const token = jwt.sign(payload, secret, {
-//       expiresIn: "15m",
-//     });
+    const link = `http://localhost:4200/reset/password/${storedUser.id}/${token}`;
 
-//     const link = `http://localhost:3001/auth/reset/password/${storedUser.id}/${token}`;
+    sendEmail(storedUser.email, link);
 
-//     sendEmail(storedUser.email, link);
+    res.status(200).end();
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
 
-//     res.status(200).end();
-//   } catch (err) {
-//     if (!err.statusCode) {
-//       err.statusCode = 500;
-//     }
-//     next(err);
-//   }
-// };
+exports.resetPassword = async (req, res, next) => {
+  try {
+    if (!validationResult(req).isEmpty()) {
+      const error = new Error("Пароль недійсний");
+      error.statusCode = 400;
+      throw error;
+    }
 
-// exports.resetPassword = async (req, res, next) => {
-//   // Check validation of request body for errors
-//   const validationRes = validationResult(req);
-//   if (!validationRes.isEmpty()) {
-//     let resErrors = [];
-//     validationRes.errors.forEach((e) => {
-//       resErrors.push({
-//         field: e.param,
-//         error: e.msg,
-//       });
-//     });
+    const [users] = await User.findById(req.params.id);
 
-//     return res.status(400).json({
-//       errors: resErrors,
-//     });
-//   }
+    if (users.length !== 1) {
+      const error = new Error("Користувача не знайдено");
+      error.statusCode = 404;
+      throw error;
+    }
 
-//   try {
-//     // Find user by id
-//     const [user] = await User.findById(req.params.id);
+    const [storedUser] = users;
 
-//     if (user.length !== 1) {
-//       const error = new Error("Користувача не знайдено");
-//       error.statusCode = 404;
-//       throw error;
-//     }
+    const secret = process.env.JWT_SECRET + storedUser.password;
 
-//     // Extract user from db
-//     const storedUser = user[0];
+    const payload = jwt.verify(req.params.token, secret);
 
-//     const secret = process.env.JWT_SECRET + storedUser.password;
+    const newHashedPassword = await bcrypt.hash(req.body.password, 12);
 
-//     const payload = jwt.verify(req.params.token, secret);
+    await User.changePassword(storedUser.id, newHashedPassword);
 
-//     const hashedPassword = await bcrypt.hash(req.body.password, 12);
-
-//     await User.changePassword(storedUser.id, hashedPassword);
-
-//     return res.status(204).end();
-//   } catch (err) {
-//     if (!err.statusCode) err.statusCode = 500;
-//     next(err);
-//   }
-// };
+    return res.status(204).end();
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 400;
+    next(err);
+  }
+};

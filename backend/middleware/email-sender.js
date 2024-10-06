@@ -28,9 +28,7 @@ const sendEmail = (name, link) => {
       };
 
       transport.sendMail(mailOptions, (error, info) => {
-        if (error) {
-          return console.log(error);
-        }
+        if (error) return console.log(error);
         console.log("Message sent: %s", info.messageId);
       });
     }
