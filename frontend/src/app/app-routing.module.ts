@@ -13,6 +13,7 @@ import { ScheduleComponent } from './components/profile/schedule/schedule.compon
 import { StudentsComponent } from './components/profile/students/students.component';
 import { TasksComponent } from './components/profile/tasks/tasks.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
+import { RecoverComponent } from './components/recover/recover.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'german-test', component: GermanTestComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
+  { path: 'recover', component: RecoverComponent },
   {
     path: 'home',
     canActivate: [AuthGuardService],

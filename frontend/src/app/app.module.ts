@@ -70,6 +70,7 @@ import { StudentsComponent } from './components/profile/students/students.compon
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { NewFileComponent } from './components/profile/library/new-file/new-file.component';
+import { RecoverComponent } from './components/recover/recover.component';
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import { NewFileComponent } from './components/profile/library/new-file/new-file
     ClassOverviewComponent,
     LibraryComponent,
     NewFileComponent,
+    RecoverComponent,
   ],
   imports: [
     BrowserModule,

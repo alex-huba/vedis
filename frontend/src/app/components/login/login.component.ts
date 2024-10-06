@@ -24,14 +24,6 @@ export class LoginComponent {
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
 
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
-
   onSubmit() {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
@@ -48,5 +40,12 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+  get password() {
+    return this.loginForm.get('password');
   }
 }

@@ -49,6 +49,10 @@ module.exports = class User {
     );
   }
 
+  static changePassword(id, pwd) {
+    return db.execute("UPDATE users SET password =  ? WHERE id = ?", [pwd, id]);
+  }
+
   static changeRole(id, role) {
     return db.execute("UPDATE users SET role = ? WHERE id = ?", [role, id]);
   }

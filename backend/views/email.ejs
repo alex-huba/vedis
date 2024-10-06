@@ -1,0 +1,31 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h3 {
+        text-align: center;
+        color: darkblue;
+      }
+      .recover-link {
+        padding: 10px;
+        background-color: rgb(88, 94, 255);
+        border-radius: 10px;
+        color: white;
+        text-decoration: none;
+        border: 2px solid blue;
+      }
+      .recover-link:hover {
+        background-color: rgb(67, 73, 235);
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Password recover</h3>
+    <br />
+    <p>Hello <%= name %>!</p>
+    <p>To recover your password click on the link below</p>
+    <a class="recover-link" href="<%= link %>">Click</a>
+  </body>
+</html>

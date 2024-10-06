@@ -1,7 +1,19 @@
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpRequest,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, first, Observable, tap } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  first,
+  Observable,
+  tap,
+  throwError,
+} from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -46,13 +58,13 @@ export class AuthService {
         }
       )
       .pipe(
-        first(),
         tap((res: any) => {
           localStorage.setItem('token', res.token);
           this.loginStatus$.next('success');
           this.userSubject.next(res.user);
           this.router.navigate(['/home']);
-        })
+        }),
+        catchError(this.handleError)
       );
   }
 
@@ -106,5 +118,18 @@ export class AuthService {
 
   updateUserDetails(details) {
     this.userSubject.next(details);
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    debugger
+    let errorMessage = 'Unknown error occurred!';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = error.error.message || 'Error occurred on the server';
+    }
+    return throwError(() => new Error(errorMessage));
   }
 }

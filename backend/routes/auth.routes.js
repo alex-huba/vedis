@@ -1,5 +1,5 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const authController = require("../controllers/auth.controller");
 
 const router = express.Router();
@@ -37,19 +37,28 @@ router.post(
   "/login",
   [
     body("email").trim().isEmail().withMessage("Некоректна електронна пошта"),
-    body("password")
-      .trim()
-      .isLength({ min: 8 })
-      .withMessage("Пароль має містити мінімум 8 символів")
-      .matches(/^(?=.*[A-Za-z])(?=.*[\d!@#_$%^&*])/)
-      .withMessage(
-        "Пароль має містити мінімум одну букву, одне число та один спеціальний символ"
-      ),
+    body("password").notEmpty().withMessage("Некоректий пароль"),
   ],
   authController.login
 );
 
 // used
 router.post("/verifyToken", authController.verifyToken);
+
+// router.post(
+//   "/forgot/password",
+//   body("email").trim().isEmail().withMessage("Некоректна електронна пошта"),
+//   authController.generateLink
+// );
+
+// router.post(
+//   "/reset/password/:id/:token",
+//   [
+//     param("id").notEmpty(),
+//     param("token").notEmpty(),
+//     body("password").notEmpty(),
+//   ],
+//   authController.resetPassword
+// );
 
 module.exports = router;
