@@ -21,8 +21,8 @@ import { TeacherGuardService } from './services/teacher-guard.service';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
-  { path: 'english-test', component: EnglishTestComponent },
-  { path: 'german-test', component: GermanTestComponent },
+  { path: 'test/english', component: EnglishTestComponent },
+  { path: 'test/german', component: GermanTestComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'forgot/password', component: ForgotPasswordComponent },

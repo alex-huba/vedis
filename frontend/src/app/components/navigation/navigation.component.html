@@ -23,8 +23,7 @@
         </li>
         <li>
           <button
-            data-bs-toggle="modal"
-            data-bs-target="#testModal"
+            (click)="scrollToSection('lang-lvl-wrapper')"
             class="nav-link custom-link underscore-link"
             type="button"
           >
@@ -210,10 +209,10 @@
       </li>
       <li>
         <button
-          (click)="scrollToSection('lang-wrapper')"
           data-bs-dismiss="offcanvas"
+          (click)="scrollToSection('lang-lvl-wrapper')"
+          class="nav-link offcanvas-link mb-2 w-100"
           type="button"
-          class="nav-link offcanvas-link w-100 mb-2"
         >
           Тест рівня
         </button>

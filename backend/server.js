@@ -40,7 +40,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/auth", authRoutes);
-app.use("/api/tests", testRoutes);
+app.use("/api/test", testRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/classes", classRoutes);
 app.use("/api/homework", homeworkRoutes);

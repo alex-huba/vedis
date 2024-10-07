@@ -72,6 +72,7 @@ import { TasksComponent } from './components/profile/tasks/tasks.component';
 import { UserSettingsComponent } from './components/profile/user-settings/user-settings.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 @NgModule({
   declarations: [
@@ -109,6 +110,7 @@ import { SignupComponent } from './components/signup/signup.component';
     NewFileComponent,
     ResetPasswordComponent,
     ForgotPasswordComponent,
+    QuizComponent,
   ],
   imports: [
     BrowserModule,

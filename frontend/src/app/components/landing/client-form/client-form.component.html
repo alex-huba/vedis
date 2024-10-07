@@ -1,4 +1,8 @@
-<section style="background-color: #fff" class="section-wrapper">
+<section
+  id="contact-section"
+  style="background-color: #fff"
+  class="section-wrapper"
+>
   <div id="contact-form-section">
     <div id="contact-card">
       <div id="contact-background">
@@ -6,10 +10,7 @@
           Ваш шлях до C1 починається тут!
         </h3>
 
-        <form
-          [formGroup]="contactForm"
-          (ngSubmit)="onSubmit()"
-        >
+        <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
           <!-- Name field -->
           <fieldset class="input-group has-validation">
             <div

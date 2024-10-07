@@ -1,7 +1,7 @@
 import { HttpEventType } from '@angular/common/http';
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import * as confetti from 'canvas-confetti';
+import { englishQuiz } from 'src/app/models/english-questions';
 import { LangTestService } from 'src/app/services/lang-test.service';
 import { ScrollService } from 'src/app/services/scroll.service';
 
@@ -10,7 +10,7 @@ import { ScrollService } from 'src/app/services/scroll.service';
   templateUrl: './english-test.component.html',
   styleUrls: ['./english-test.component.css'],
 })
-export class EnglishTestComponent implements AfterViewInit {
+export class EnglishTestComponent implements AfterViewInit, OnInit {
   questions = this.fb.group({
     q1: ['', Validators.required],
     q2: ['', Validators.required],
@@ -52,9 +52,27 @@ export class EnglishTestComponent implements AfterViewInit {
 
   // Will be populated with server response
   testResult = {
-    level: 'С2',
-    score: '100',
+    level: 'C1: Advanced',
+    score: '100 / 100',
+    description:
+      'Ти вільно говориш і розумієш майже все. Можеш обговорювати складні теми та висловлювати свої думки без зусиль.',
   };
+
+  isQuizStarted = false;
+
+  formLength = 0;
+
+  languageToTest = 'англійської';
+
+  questionIndex = 1;
+
+  question = [];
+
+  answers = [];
+
+  isQuizFinished = false;
+
+  formField = '';
 
   constructor(
     private fb: FormBuilder,
@@ -62,71 +80,62 @@ export class EnglishTestComponent implements AfterViewInit {
     private ss: ScrollService
   ) {}
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     window.scrollTo(0, 0);
   }
 
-  onSubmit() {
-    if (this.questions.invalid) {
-      this.questions.markAllAsTouched();
-    } else {
-      this.ls.checkLvl(this.questions.value, "eng").subscribe({
-        next: (event) => {
-          switch (event.type) {
-            case HttpEventType.Sent:
-              this.awaitingResponse = true;
-              break;
-            case HttpEventType.Response:
-              this.awaitingResponse = false;
-              this.testResult.level = (event.body as any).level;
-              this.testResult.score = (event.body as any).score;
-              this.isTestSolved = true;
-              this.surprise();
-              break;
-          }
-        },
-        error: (err) => {
-          this.awaitingResponse = false;
-        },
-      });
-    }
-  }
-
-  surprise(): void {
-    const testElem = document.getElementById('test');
-    testElem.scrollIntoView({ behavior: 'smooth' });
-
-    let canvas = document.createElement('canvas');
-    canvas.style.position = 'absolute';
-    canvas.style.left = '50%';
-    canvas.style.transform = 'translateX(-50%)';
-
-    let vw = Math.max(
-      document.documentElement.clientWidth || 0,
-      window.innerWidth || 0
-    );
-    if (vw < 770) {
-      canvas.style.top = '5%';
-      canvas.style.width = '80%';
-    } else {
-      canvas.style.top = '10%';
-      canvas.style.width = '50%';
-    }
-
-    testElem.appendChild(canvas);
-
-    const myConfetti = confetti.create(canvas, {
-      resize: true,
-    });
-
-    myConfetti({
-      particleCount: 300,
-      startVelocity: 30,
-      spread: 80,
-    });
+  ngOnInit() {
+    const currentTask = englishQuiz.find((q) => q.index == this.questionIndex);
+    this.question = currentTask.question;
+    this.answers = currentTask.answers;
+    this.formField = currentTask.field;
+    this.formLength = englishQuiz.length;
   }
 
   registerForClasses() {
     this.ss.navigateAndScroll('', 'contact-section');
+  }
+
+  startQuiz() {
+    this.isQuizStarted = true;
+  }
+
+  processAnswer(event: { field: string; answer: string }) {
+    const control = this.questions.get(event.field);
+    if (control) control.patchValue(event.answer);
+
+    this.questionIndex++;
+    if (this.questionIndex > this.formLength) {
+      this.questionIndex--;
+      this.isQuizFinished = true;
+      if (this.questions.invalid) {
+        this.questions.markAllAsTouched();
+      } else {
+        this.ls.checkLvl(this.questions.value, 'eng').subscribe({
+          next: (event) => {
+            switch (event.type) {
+              case HttpEventType.Sent:
+                this.awaitingResponse = true;
+                break;
+              case HttpEventType.Response:
+                this.awaitingResponse = false;
+                this.testResult.level = (event.body as any).level;
+                this.testResult.score = (event.body as any).score;
+                this.testResult.description = (event.body as any).description;
+                this.isTestSolved = true;
+                break;
+            }
+          },
+          error: () => {
+            this.awaitingResponse = false;
+          },
+        });
+      }
+    } else {
+      const task = englishQuiz.find((q) => q.index == this.questionIndex);
+      this.question = task.question;
+      this.answers = task.answers;
+      this.formField = task.field;
+    }
   }
 }

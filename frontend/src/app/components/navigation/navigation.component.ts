@@ -50,7 +50,11 @@ export class NavigationComponent implements OnInit {
   }
 
   scrollToSection(section: string) {
-    this.ss.scrollToElement(section);
+    if (this.router.url === '') {
+      this.ss.scrollToElement(section);
+    } else {
+      this.ss.navigateAndScroll('', section);
+    }
   }
 
   openModal() {

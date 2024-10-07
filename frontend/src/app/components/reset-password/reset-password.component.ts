@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  ValidationErrors,
-  ValidatorFn,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -55,9 +53,8 @@ export class ResetPasswordComponent implements OnInit {
             this.snackBar.open('Пароль змінено', '👍', { duration: 5000 });
             this.router.navigate(['/login']);
           },
-          error: (err) => {
+          error: () => {
             this.awaitingResponse = false;
-            debugger;
             this.snackBar.open('Помилка', '👍', {
               duration: 5000,
             });
