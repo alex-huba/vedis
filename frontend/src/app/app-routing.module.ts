@@ -18,6 +18,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import { SignupComponent } from './components/signup/signup.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TeacherGuardService } from './services/teacher-guard.service';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 
 const routes: Routes = [
   { path: '', component: LandingComponent },
@@ -27,6 +28,10 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'forgot/password', component: ForgotPasswordComponent },
   { path: 'reset/password/:id/:token', component: ResetPasswordComponent },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+  },
   {
     path: 'home',
     canActivate: [AuthGuardService],

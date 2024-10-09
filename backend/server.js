@@ -43,7 +43,6 @@ app.use((req, res, next) => {
 
 // Create custom Morgan tokens for request params and body
 morgan.token("params", (req) => JSON.stringify(req.params));
-morgan.token("body", (req) => JSON.stringify(req.body));
 
 // Create a stream object for Morgan that writes into Winston's logger
 const morganStream = {
@@ -52,7 +51,7 @@ const morganStream = {
 
 // Use Morgan to log HTTP requests with custom tokens
 app.use(
-  morgan(":method :url :status - params: :params - body: :body", {
+  morgan(":method :url :status - params: :params", {
     stream: morganStream,
   })
 );
