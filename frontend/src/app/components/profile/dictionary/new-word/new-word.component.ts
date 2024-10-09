@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { DictionaryService } from 'src/app/services/dictionary.service';
-import { SchoolService } from 'src/app/services/school.service';
+import { StudentService } from 'src/app/services/student.service';
 
 @Component({
   selector: 'app-new-word',
@@ -25,12 +25,12 @@ export class NewWordComponent implements OnInit {
   awaitingResponse = false;
 
   ngOnInit() {
-    this.students$ = this.ss.getAllStudents();
+    this.students$ = this.studentService.getAllValidStudents();
   }
 
   constructor(
     private fb: FormBuilder,
-    private ss: SchoolService,
+    private studentService: StudentService,
     private snackBar: MatSnackBar,
     private dictionaryService: DictionaryService,
     private dialogRef: MatDialogRef<NewWordComponent>

@@ -36,31 +36,27 @@ export class ClientFormComponent {
 
   constructor(private fb: FormBuilder, private cs: ContactService) {}
 
-  get name() {
-    return this.contactForm.get('name');
-  }
-
-  get email() {
-    return this.contactForm.get('email');
-  }
-
-  get language() {
-    return this.contactForm.get('language');
-  }
-
-  get phone() {
-    return this.contactForm.get('phone');
-  }
-
-  get contactOption() {
-    return this.contactForm.get('contactOption');
-  }
-
   onSubmit() {
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
     } else {
       this.cs.sendData(this.contactForm.value as ContactInfo).subscribe();
     }
+  }
+
+  get name() {
+    return this.contactForm.get('name');
+  }
+  get email() {
+    return this.contactForm.get('email');
+  }
+  get language() {
+    return this.contactForm.get('language');
+  }
+  get phone() {
+    return this.contactForm.get('phone');
+  }
+  get contactOption() {
+    return this.contactForm.get('contactOption');
   }
 }
