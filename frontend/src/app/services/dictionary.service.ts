@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DictionaryService {
-  private url = 'http://localhost:3001/api';
+  private url = 'http://localhost:3001/api/dictionary';
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,7 +22,7 @@ export class DictionaryService {
     translation
   ): Observable<any> {
     return this.http.post<any>(
-      `${this.url}/dictionary`,
+      `${this.url}`,
       {
         studentId,
         dueDate,
@@ -32,30 +32,29 @@ export class DictionaryService {
       },
       {
         ...this.httpOptions,
-        reportProgress: true,
       }
     );
   }
 
   getWholeDictionary(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/dictionary`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get<any[]>(`${this.url}`, this.httpOptions);
+  }
+
+  getAmountById(studentId): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/amount/${studentId}`,
+      this.httpOptions
+    );
   }
 
   deleteWord(id) {
-    return this.http.delete<any>(`${this.url}/dictionary`, {
+    return this.http.delete<any>(`${this.url}`, {
       ...this.httpOptions,
-      reportProgress: true,
       body: { id },
     });
   }
 
   getDictionaryById(id): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/dictionary/${id}`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get<any[]>(`${this.url}/${id}`, this.httpOptions);
   }
 }

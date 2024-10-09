@@ -1,6 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
+const logger = require("./util/logger")
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -39,6 +41,22 @@ app.use((req, res, next) => {
   next();
 });
 
+// Create custom Morgan tokens for request params and body
+morgan.token("params", (req) => JSON.stringify(req.params));
+morgan.token("body", (req) => JSON.stringify(req.body));
+
+// Create a stream object for Morgan that writes into Winston's logger
+const morganStream = {
+  write: (message) => logger.info(message.trim()),
+};
+
+// Use Morgan to log HTTP requests with custom tokens
+app.use(
+  morgan(":method :url :status - params: :params - body: :body", {
+    stream: morganStream,
+  })
+);
+
 app.use("/auth", authRoutes);
 app.use("/api/test", testRoutes);
 app.use("/api/students", studentRoutes);
@@ -52,4 +70,4 @@ app.use("/api/library", libraryRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => logger.info(`🚀 @ http://localhost:${port}`));

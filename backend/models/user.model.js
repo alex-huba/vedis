@@ -23,14 +23,6 @@ module.exports = class User {
     );
   }
 
-  static getPendingStudents() {
-    return db.execute("SELECT * FROM users WHERE role = 'pending'");
-  }
-
-  static getTitleById(id) {
-    return db.execute("SELECT name FROM users WHERE id = ?", [id]);
-  }
-
   static save(user) {
     return db.execute(
       "INSERT INTO users (id, name, email, password, phoneNumber, timezone) VALUES (UUID(),?,?,?,?,?)",

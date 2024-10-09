@@ -3,11 +3,12 @@
   <p class="text-center" style="font-family: montserrat-bold; font-size: 20px">
     Ваше фото
   </p>
+  <div *ngIf="!isLoaded.userPhoto" class="placeholder-img-glow"></div>
   <img
+    *ngIf="isLoaded.userPhoto"
     style="height: 150px !important; width: 150px !important"
     class="avatar mb-3"
     [src]="photoUrl"
-    alt=""
   />
   <div id="avatar-actions">
     <button (click)="deletePhoto()" class="delete-btn">

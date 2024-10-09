@@ -48,10 +48,17 @@ module.exports = class Homework {
     return db.execute("SELECT * FROM homework WHERE done = false");
   }
 
-  static countUnfinished() {
-    return db.execute(
-      "select count(id) as amount from homework where done = false"
-    );
+  static countUnfinished(role, userId) {
+    if (role === "teacher") {
+      return db.execute(
+        "select count(id) as amount from homework where done = false"
+      );
+    } else {
+      return db.execute(
+        "select count(id) as amount from homework where done = false and studentId = ?",
+        [userId]
+      );
+    }
   }
 
   static deleteById(id) {

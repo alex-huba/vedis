@@ -6,7 +6,6 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-// used
 router.get("/", authMiddleware, studentController.getAll);
 
 router.get(
@@ -15,11 +14,9 @@ router.get(
   studentController.getStudentsUnfiltered
 );
 
-router.get("/pending", authMiddleware, studentController.getPendingStudents);
-
 router.delete(
   "/",
-  [authMiddleware, body("id").trim().not().isEmpty()],
+  [authMiddleware, body("id").trim().notEmpty()],
   studentController.deleteStudent
 );
 
@@ -27,8 +24,8 @@ router.put(
   "/",
   [
     authMiddleware,
-    body("id").trim().not().isEmpty(),
-    body("role").trim().not().isEmpty(),
+    body("id").trim().notEmpty(),
+    body("role").trim().notEmpty(),
   ],
   studentController.changeRole
 );

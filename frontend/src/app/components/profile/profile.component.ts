@@ -24,11 +24,13 @@ import { CalendarOptions } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import timeGridPlugin from '@fullcalendar/timegrid';
+import { DateTime } from 'luxon';
 import { map, Observable } from 'rxjs';
 import { AnalyticsService } from 'src/app/services/analytics.service';
 import { ApplicationService } from 'src/app/services/application.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClassesService } from 'src/app/services/classes.service';
+import { DictionaryService } from 'src/app/services/dictionary.service';
 import { HomeworkService } from 'src/app/services/homework.service';
 import { UserService } from 'src/app/services/user.service';
 
@@ -39,19 +41,23 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ProfileComponent implements OnInit, AfterViewInit {
   revenueData$: Observable<any>;
-  amountOfClassesForCurrentWeek$: Observable<any>;
-  amountOfUnfinishedHomework$: Observable<any>;
-  amountOfApplications$: Observable<any>;
+  amountOfClassesForCurrentWeek = 0;
+  amountOfUnfinishedHomework: 0;
+  amountOfNewApplications = 0;
+  dictionaryLength = 0;
 
   // User details
-  isTeacher = false;
-  username = '';
-
-  // User photo
-  photoUrl: any;
+  userDetail = {
+    isTeacher: false,
+    username: '',
+    timezone: '',
+    photoUrl: null,
+  };
 
   // Hides content in home-page when offcanvas is opened on mobile
   @ViewChild('homeContent', { static: true }) homeContent!: ElementRef;
+  @ViewChild('homeContentStudent', { static: true })
+  homeContentStudent!: ElementRef;
 
   // Icons
   icons = {
@@ -80,9 +86,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       center: 'title',
       right: '',
     },
+    editable: false,
     initialView: 'timeGridDay',
     locale: 'uk',
-    firstDay: 1,
     titleFormat: { day: 'numeric', month: 'long' },
     allDaySlot: false,
     slotMinTime: '08:00:00',
@@ -90,6 +96,30 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     nowIndicator: true,
     slotDuration: '01:00:00',
     height: 'auto',
+    eventContent: function (arg) {
+      // Create new Date objects for the event's start and end times
+      const startDate = new Date(arg.event.start);
+      const endDate = new Date(arg.event.end);
+
+      // Format the start time as HH:MM
+      const startHours = String(startDate.getHours()).padStart(2, '0'); // Pad with leading 0
+      const startMinutes = String(startDate.getMinutes()).padStart(2, '0'); // Pad with leading 0
+      const formattedStartTime = `${startHours}:${startMinutes}`;
+
+      // Format the end time as HH:MM
+      const endHours = String(endDate.getHours()).padStart(2, '0'); // Pad with leading 0
+      const endMinutes = String(endDate.getMinutes()).padStart(2, '0'); // Pad with leading 0
+      const formattedEndTime = `${endHours}:${endMinutes}`;
+
+      // Customize the display of the event
+      let title = arg.event._def.extendedProps['isUserTeacher']
+        ? `<b>${formattedStartTime} - ${formattedEndTime}</b> ${arg.event._def.extendedProps['studentName']}`
+        : `<b>${formattedStartTime} - ${formattedEndTime}</b>`;
+
+      return {
+        html: title,
+      };
+    },
   };
 
   // Chart settings
@@ -113,7 +143,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     },
     title: {
       text: 'Дохід школи',
-      align: 'left',
+      align: 'center',
     },
     xaxis: {
       type: 'category',
@@ -143,17 +173,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     },
   };
 
+  isLoaded = {
+    userPhoto: false,
+    newApplications: false,
+    classesOnThisWeek: false,
+    dueHomework: false,
+    dictionaryLength: false,
+  };
+
+  events$: Observable<any[]>;
+
   constructor(
     private authService: AuthService,
     private analyticsService: AnalyticsService,
     private applicationService: ApplicationService,
     private classesService: ClassesService,
     private homeworkService: HomeworkService,
+    private dictionaryService: DictionaryService,
     private userService: UserService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     setTimeout(function () {
       window.dispatchEvent(new Event('resize'));
     }, 1);
@@ -163,14 +204,13 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
 
     this.authService.currentUser$.subscribe((user) => {
-      // Check user role
-      if (user.role === 'teacher') {
-        this.isTeacher = true;
-        this.revenueData$ =
-          this.analyticsService.generateMonthlyRevenueReport();
+      this.userDetail.isTeacher = user.role == 'teacher';
+      this.userDetail.timezone = user.timezone;
 
-        // Transform revenue data
-        this.revenueData$
+      if (user.role === 'teacher') {
+        // Get revenue data
+        this.analyticsService
+          .generateMonthlyRevenueReport()
           .pipe(
             map((sales) =>
               sales.map((sale: any) => ({
@@ -183,29 +223,64 @@ export class ProfileComponent implements OnInit, AfterViewInit {
             this.chartOptions.series[0].data = transformedData;
           });
 
-        this.amountOfApplications$ =
-          this.applicationService.countAllApplications();
-        this.amountOfClassesForCurrentWeek$ =
-          this.classesService.countClassesForCurrentWeek();
-        this.amountOfUnfinishedHomework$ =
-          this.homeworkService.countUnfinishedHomework();
+        // Get amount of new applications
+        this.applicationService.countAllApplications().subscribe((amount) => {
+          this.amountOfNewApplications = amount;
+          this.isLoaded.newApplications = true;
+        });
       } else {
-        this.isTeacher = false;
+        // Get amount of words in dictionary
+        this.dictionaryService.getAmountById(user.id).subscribe((data) => {
+          this.dictionaryLength = data;
+          this.isLoaded.dictionaryLength = true;
+        });
       }
 
+      // Get classes for today
+      this.events$ = this.classesService.getAllClassesForToday(user.id).pipe(
+        map((events) =>
+          events.map((event) => ({
+            ...event,
+            start: DateTime.fromISO(event.start, { zone: event.timezone }) // Parse the time in student's timezone
+              .setZone(user.timezone, { keepLocalTime: false }) // Convert to teacher's timezone
+              .toISO(),
+            end: DateTime.fromISO(event.end, { zone: event.timezone }) // Parse the time in student's timezone
+              .setZone(user.timezone, { keepLocalTime: false }) // Convert to teacher's timezone
+              .toISO(),
+            isUserTeacher: this.userDetail.isTeacher,
+          }))
+        )
+      );
+
+      // Get amount of unfinished homework
+      this.homeworkService
+        .countUnfinishedHomework(user.id)
+        .subscribe((amount) => {
+          this.amountOfUnfinishedHomework = amount;
+          this.isLoaded.dueHomework = true;
+        });
+
+      // Get amount of classes for current week
+      this.classesService
+        .countClassesForCurrentWeek(user.id)
+        .subscribe((amount) => {
+          this.amountOfClassesForCurrentWeek = amount;
+          this.isLoaded.classesOnThisWeek = true;
+        });
+
+      // Get user photo
       this.userService.photoUrl$.subscribe((photoUrl) => {
-        this.photoUrl = photoUrl;
+        if (photoUrl) {
+          this.userDetail.photoUrl = photoUrl;
+          this.isLoaded.userPhoto = true;
+        }
       });
 
-      // Load the current photo
-      this.userService.getPhoto();
-
-      // Get username
-      this.username = user.name;
+      this.userDetail.username = user.name;
     });
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit() {
     // Create a ResizeObserver instance
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -214,16 +289,28 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         // Check if width is below a threshold, e.g., 400px
         if (width < 200) {
           // Perform actions when width is too small, e.g., apply styles to blend child elements
-          this.homeContent.nativeElement.style.visibility = 'hidden';
+          if (this.homeContent)
+            this.homeContent.nativeElement.style.visibility = 'hidden';
+
+          if (this.homeContentStudent)
+            this.homeContentStudent.nativeElement.style.visibility = 'hidden';
         } else {
           // Reset styles when width is above the threshold
-          this.homeContent.nativeElement.style.visibility = 'visible';
+          if (this.homeContent)
+            this.homeContent.nativeElement.style.visibility = 'visible';
+
+          if (this.homeContentStudent)
+            this.homeContentStudent.nativeElement.style.visibility = 'visible';
         }
       }
     });
 
     // Start observing the target div
-    resizeObserver.observe(this.homeContent.nativeElement);
+    if (this.homeContent)
+      resizeObserver.observe(this.homeContent.nativeElement);
+
+    if (this.homeContentStudent)
+      resizeObserver.observe(this.homeContentStudent.nativeElement);
   }
 
   signOut() {

@@ -21,7 +21,6 @@ mat-drawer {
   width: 100%;
   height: 100%;
 }
-
 .sidenav-links a,
 .sidenav-links button {
   display: flex;
@@ -51,7 +50,6 @@ mat-drawer {
 .sidenav-links button:hover {
   background-color: #e7e7e7;
 }
-
 .is-active {
   background-color: var(--purple) !important;
 }
@@ -105,6 +103,31 @@ full-calendar {
   box-shadow: var(--shadow);
 }
 
+.student-greeting {
+  padding: 15px;
+  color: white;
+  font-family: montserrat-bold;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 15px;
+  background-color: var(--new-blue);
+}
+
+.student-links {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.student-links a {
+  font-family: nunito;
+  color: white;
+  text-decoration: none;
+  transition: all 0.5s;
+}
+.student-links a:hover {
+  color: #c1c0c0;
+}
+
 #avatar-and-greeting {
   display: flex;
   align-items: flex-start;
@@ -132,6 +155,26 @@ full-calendar {
   display: block !important;
 }
 
+.placeholder-img-glow {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #c0a5f6;
+  background-color: #e9ecef;
+  animation: glow 1.5s ease-in-out infinite;
+}
+@keyframes glow {
+  0% {
+    background-color: #cccccc; /* Light gray */
+  }
+  50% {
+    background-color: #e8e7e7; /* Lighter gray */
+  }
+  100% {
+    background-color: #cccccc; /* Light gray */
+  }
+}
+
 @media screen and (max-width: 1310px) {
   #avatar-and-greeting {
     justify-content: center;
@@ -141,8 +184,8 @@ full-calendar {
     gap: 20px;
     align-items: center;
   }
-  #search-form {
-    width: 30%;
+  full-calendar {
+    width: 80%;
   }
 }
 
@@ -151,19 +194,35 @@ full-calendar {
     flex-direction: column;
     width: 100%;
   }
-  .info-card {
-    width: 85%;
-  }
   #wrapper {
     width: 95%;
   }
-  #search-form {
-    width: 40%;
+}
+
+@media screen and (max-width: 740px) {
+  .student-greeting {
+    text-align: center;
+  }
+  .student-links {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    gap: 5px;
+    font-size: smaller;
   }
 }
 
 @media screen and (max-width: 635px) {
   .breadcrumb {
     display: none;
+  }
+}
+
+@media screen and (max-width: 482px) {
+  .student-greeting {
+    flex-direction: column;
+    align-items: center;
+  }
+  .student-greeting img {
+    width: 50%;
   }
 }

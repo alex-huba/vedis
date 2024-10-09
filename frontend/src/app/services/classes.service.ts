@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,100 +6,72 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ClassesService {
-  private url = 'http://localhost:3001/api';
+  private url = 'http://localhost:3001/api/classes';
 
-  httpOptions: { headers: HttpHeaders } = {
+  httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   constructor(private http: HttpClient) {}
 
-  countClassesForCurrentWeek() {
-    return this.http.get<any>(`${this.url}/classes/current-week/amount`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+  countClassesForCurrentWeek(userId) {
+    return this.http.get<any>(
+      `${this.url}/current/week/amount/${userId}`,
+      this.httpOptions
+    );
   }
 
   getAllClasses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/classes`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get<any[]>(`${this.url}`, this.httpOptions);
+  }
+
+  getAllRecentClasses(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.url}/recent`, this.httpOptions);
+  }
+
+  getAllClassesForToday(userId): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.url}/today/${userId}`,
+      this.httpOptions
+    );
   }
 
   getClassesById(studentId): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/classes/${studentId}`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get<any[]>(`${this.url}/${studentId}`, this.httpOptions);
   }
 
   createClass(studentId, start, end, price): Observable<any> {
     return this.http.post<any>(
-      `${this.url}/classes`,
+      `${this.url}`,
       { studentId, start, end, price },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
+      this.httpOptions
     );
   }
 
   deleteClass(id) {
-    return this.http.delete<any>(`${this.url}/classes`, {
+    return this.http.delete<any>(`${this.url}`, {
       ...this.httpOptions,
-      reportProgress: true,
       body: { id },
     });
   }
 
-  updateClass(
-    id,
-    cancelled,
-    studentId,
-    start,
-    end,
-    price,
-    isPaid,
-    studentTimezone
-  ) {
-    start = `${start}:00${studentTimezone}`;
-    end = `${end}:00${studentTimezone}`;
-
-    return this.http.put<any>(
-      `${this.url}/classes/${id}`,
-      { cancelled, studentId, start, end, price, isPaid },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
-    );
-  }
-
   updateStatus(id, status) {
     return this.http.put<any>(
-      `${this.url}/classes/${id}/cancellation`,
+      `${this.url}/${id}/cancellation`,
       {
         isCancelled: status,
       },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
+      this.httpOptions
     );
   }
 
   updatePaymentStatus(id, isPaid) {
     return this.http.put<any>(
-      `${this.url}/classes/${id}/payment`,
+      `${this.url}/${id}/payment`,
       {
         isPaid,
       },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
+      this.httpOptions
     );
   }
 }

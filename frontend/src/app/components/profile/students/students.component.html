@@ -9,19 +9,38 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Ім'я</th>
+            <th scope="col">Фото</th>
             <th scope="col">Пошта</th>
             <th scope="col">Телефон</th>
             <th scope="col">Статус</th>
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody *ngIf="!areStudentsLoaded">
+          <tr>
+            <td colspan="9" class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="areStudentsLoaded">
           <tr *ngIf="(students$ | async)?.length == 0">
-            <td colspan="8" class="text-center">Всі заявки оброблено 😎</td>
+            <td colspan="9" class="text-center">Всі заявки оброблено 😎</td>
           </tr>
           <tr *ngFor="let s of students$ | async; let i = index">
-            <th scope="row">{{ i + 1 }}</th>
-            <td>{{ s.name }}</td>
+            <td scope="row">{{ i + 1 }}</td>
+            <td>
+              {{ s.name }}
+            </td>
+            <td>
+              <img
+                style="height: 50px !important; width: 50px !important"
+                class="avatar mb-3"
+                [src]="s.photoUrl"
+              />
+            </td>
             <td>{{ s.email }}</td>
             <td>{{ s.phoneNumber }}</td>
             <td>

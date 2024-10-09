@@ -13,11 +13,11 @@ export class HomeworkService {
 
   constructor(private http: HttpClient) {}
 
-  countUnfinishedHomework() {
-    return this.http.get<any>(`${this.url}/homework/unfinished/amount`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+  countUnfinishedHomework(userId) {
+    return this.http.get<any>(
+      `${this.url}/unfinished/amount/${userId}`,
+      this.httpOptions
+    );
   }
 
   createHomework(studentId, dueDate, content): Observable<any> {
@@ -30,43 +30,30 @@ export class HomeworkService {
         dueDate,
         content,
       },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
+      this.httpOptions
     );
   }
 
   getAllHomework(): Observable<any> {
-    return this.http.get(`${this.url}`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get(`${this.url}`, this.httpOptions);
   }
 
   updateTaskStatus(id, done) {
     return this.http.put<any>(
       `${this.url}/${id}`,
       { done: done },
-      {
-        ...this.httpOptions,
-        reportProgress: true,
-      }
+      this.httpOptions
     );
   }
 
   deleteHomework(id) {
     return this.http.delete<any>(`${this.url}`, {
       ...this.httpOptions,
-      reportProgress: true,
       body: { id },
     });
   }
 
   getHomeworkById(id): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${id}`, {
-      ...this.httpOptions,
-      reportProgress: true,
-    });
+    return this.http.get<any[]>(`${this.url}/${id}`, this.httpOptions);
   }
 }

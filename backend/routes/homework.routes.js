@@ -6,41 +6,36 @@ const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-// used
 router.post(
   "/",
   [
     authMiddleware,
-    body("studentId").trim().not().isEmpty(),
-    body("dueDate").trim().not().isEmpty(),
-    body("content").trim().not().isEmpty(),
+    body("studentId").trim().notEmpty(),
+    body("dueDate").trim().notEmpty(),
+    body("content").trim().notEmpty(),
   ],
   homeworkController.create
 );
 
 router.get(
-  "/unfinished/amount",
-  authMiddleware,
+  "/unfinished/amount/:userId",
+  [authMiddleware, param("userId").trim().notEmpty()],
   homeworkController.countUnfinished
 );
 
 router.get("/unfinished", authMiddleware, homeworkController.fetchUnfinished);
 
-// used
 router.get(
   "/:studentId",
-  authMiddleware,
-  param("studentId").trim().not().isEmpty(),
+  [authMiddleware, param("studentId").trim().notEmpty()],
   homeworkController.fetchByStudentId
 );
 
-// used
 router.get("/", authMiddleware, homeworkController.fetchAll);
 
-// used
 router.delete(
   "/",
-  [authMiddleware, body("id").trim().not().isEmpty()],
+  [authMiddleware, body("id").trim().notEmpty()],
   homeworkController.delete
 );
 
@@ -48,7 +43,7 @@ router.put(
   "/:id",
   [
     authMiddleware,
-    param("id").trim().not().isEmpty(),
+    param("id").trim().notEmpty(),
     body("done").isBoolean().toBoolean(),
   ],
   homeworkController.updateStatus

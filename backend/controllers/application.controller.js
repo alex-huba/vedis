@@ -2,7 +2,6 @@ const { validationResult } = require("express-validator");
 const Application = require("../models/application.model");
 
 exports.fetchAll = async (req, res, next) => {
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
   // Get all applications
@@ -16,11 +15,8 @@ exports.fetchAll = async (req, res, next) => {
 };
 
 exports.create = async (req, res, next) => {
-  // Check whether all application details are supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Create a new application
   try {
     await Application.save(
       req.body.name,
@@ -42,10 +38,8 @@ exports.create = async (req, res, next) => {
 };
 
 exports.fetchNumberOfApplications = async (req, res, next) => {
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
-  // Get total amount of applications
   try {
     const [row] = await Application.countAll();
     return res.status(200).json(row[0].amount);
@@ -56,14 +50,11 @@ exports.fetchNumberOfApplications = async (req, res, next) => {
 };
 
 exports.deleteByEmail = async (req, res, next) => {
-  // Check whether all application details are supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty())
+  if (!validationResult(req).isEmpty())
     return res
       .status(400)
       .json({ message: "Неправильний формат електронної пошти" });
 
-  // Delete application by email
   try {
     await Application.deleteByEmail(req.body.email);
     res.status(200).end();

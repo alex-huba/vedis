@@ -28,6 +28,8 @@ export class DictionaryComponent implements OnInit {
     add: faPlus,
   };
 
+  isDictLoaded = false;
+
   constructor(
     private snackBar: MatSnackBar,
     private authService: AuthService,
@@ -44,6 +46,9 @@ export class DictionaryComponent implements OnInit {
         this.dictionary$ = this.dictionaryService.getWholeDictionary();
       } else {
         this.dictionary$ = this.dictionaryService.getDictionaryById(user.id);
+        this.dictionary$.subscribe((data) => {
+          if (data) this.isDictLoaded = true;
+        });
         this.filteredDictionary$ = this.dictionary$;
       }
     });

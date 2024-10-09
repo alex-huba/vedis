@@ -14,7 +14,9 @@ export class ApplicationsComponent implements OnInit {
     delete: faTrashCan,
   };
 
-  applications$: Observable<any>;
+  applications;
+
+  areApplicationsLoaded = false;
 
   constructor(
     private applicationService: ApplicationService,
@@ -22,7 +24,10 @@ export class ApplicationsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.applications$ = this.applicationService.getAllApplications();
+    this.applicationService.getAllApplications().subscribe((data) => {
+      this.applications = data;
+      this.areApplicationsLoaded = true;
+    });
   }
 
   deleteApplication(email) {

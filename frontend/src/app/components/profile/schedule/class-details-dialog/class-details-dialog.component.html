@@ -119,12 +119,12 @@
           <span *ngIf="isCancelled.value">Відновити заняття</span>
         </button>
       </div>
+      <p class="text-danger text-center" style="font-size: 13px">
+        Скасувати заняття можливо не пізніше, ніж за 12 год
+      </p>
 
       <div *ngIf="isUserTeacher">
         <hr />
-        <p class="text-danger text-center" style="font-size: 13px">
-          Скасувати заняття можливо не пізніше, ніж за 12 год
-        </p>
         <!--Delete class btn  -->
         <button
           (click)="deleteClass()"

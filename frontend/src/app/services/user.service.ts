@@ -10,7 +10,6 @@ export class UserService {
   constructor(private http: HttpClient, private sanitizer: DomSanitizer) {}
 
   private photoUrlSubject = new BehaviorSubject<any>(null);
-  // Observable for components to subscribe to
   photoUrl$ = this.photoUrlSubject.asObservable();
 
   url = 'http://localhost:3001/api/user';
@@ -18,16 +17,16 @@ export class UserService {
   // Update user data
   updateProfileData(data) {
     data.phoneNumber = data.phone.e164Number;
-    return this.http.put<any>('http://localhost:3001/api/user', data);
+    return this.http.put<any>(this.url, data);
   }
 
   uploadPhoto(photo) {
     return this.http.post<any>(`${this.url}/photo`, photo);
   }
 
-  getPhoto() {
+  getPhoto(userId) {
     return this.http
-      .get(`${this.url}/photo`, {
+      .get(`${this.url}/photo/${userId}`, {
         responseType: 'blob',
       })
       .subscribe({

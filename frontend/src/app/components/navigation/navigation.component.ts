@@ -31,7 +31,7 @@ export class NavigationComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.authService.isUserLoggedIn$.subscribe((res) => {
       if (res === 'success') {
         this.isLoggedIn = true;
@@ -42,7 +42,9 @@ export class NavigationComponent implements OnInit {
         });
 
         // Load the current photo
-        this.userService.getPhoto();
+        this.authService.currentUser$.subscribe((user) => {
+          if (user && user.id) this.userService.getPhoto(user.id);
+        });
       } else {
         this.isLoggedIn = false;
       }

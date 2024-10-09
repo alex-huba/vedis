@@ -5,7 +5,7 @@ const testController = require("../controllers/test.controller");
 
 const router = express.Router();
 
-router.post("/eng", [body("answers").not().isEmpty()], testController.eng);
-router.post("/deu", [body("answers").not().isEmpty()], testController.deu);
+router.post("/eng", [body("answers").notEmpty()], testController.eng);
+router.post("/deu", [body("answers").notEmpty()], testController.deu);
 
 module.exports = router;

@@ -26,6 +26,10 @@ export class UserSettingsComponent implements OnInit {
     done: faCircleCheck,
   };
 
+  isLoaded = {
+    userPhoto: false,
+  };
+
   preferredCountries: CountryISO[] = preferredCountries;
 
   // Form fields w/ user info
@@ -59,6 +63,8 @@ export class UserSettingsComponent implements OnInit {
   // List of 24 major timezones
   timezones = timezones;
 
+  userId = '';
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -66,7 +72,7 @@ export class UserSettingsComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.detailsForm.disable();
     this.authService.currentUser$.subscribe((user) => {
       this.detailsForm.patchValue({
@@ -76,35 +82,16 @@ export class UserSettingsComponent implements OnInit {
         role: user.role,
         timezone: user.timezone,
       });
+      this.userId = user.id;
     });
 
     // Subscribe to photo updates
     this.userService.photoUrl$.subscribe((photoUrl) => {
-      this.photoUrl = photoUrl;
+      if (photoUrl) {
+        this.photoUrl = photoUrl;
+        this.isLoaded.userPhoto = true;
+      }
     });
-
-    // Load the current photo
-    this.userService.getPhoto();
-  }
-
-  get name() {
-    return this.detailsForm.get('name');
-  }
-
-  get email() {
-    return this.detailsForm.get('email');
-  }
-
-  get phone() {
-    return this.detailsForm.get('phone');
-  }
-
-  get role() {
-    return this.detailsForm.get('role');
-  }
-
-  get timezone() {
-    return this.detailsForm.get('timezone');
   }
 
   changeEditMode() {
@@ -146,10 +133,12 @@ export class UserSettingsComponent implements OnInit {
 
       this.userService.uploadPhoto(formData).subscribe({
         next: () => {
-          this.userService.getPhoto();
-          this.snackBar.open('Фото оновлено', '👍', {
-            duration: 15000,
-          });
+          if (this.userId) {
+            this.userService.getPhoto(this.userId);
+            this.snackBar.open('Фото оновлено', '👍', {
+              duration: 15000,
+            });
+          }
         },
         error: () => {
           this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
@@ -165,10 +154,12 @@ export class UserSettingsComponent implements OnInit {
   deletePhoto() {
     this.userService.deletePhoto().subscribe({
       next: () => {
-        this.userService.getPhoto();
-        this.snackBar.open('Фото видалено', '👍', {
-          duration: 15000,
-        });
+        if (this.userId) {
+          this.userService.getPhoto(this.userId);
+          this.snackBar.open('Фото видалено', '👍', {
+            duration: 15000,
+          });
+        }
       },
       error: () => {
         this.snackBar.open('Щось пішло не так. Спробуйте ще раз', '👍', {
@@ -176,5 +167,21 @@ export class UserSettingsComponent implements OnInit {
         });
       },
     });
+  }
+
+  get name() {
+    return this.detailsForm.get('name');
+  }
+  get email() {
+    return this.detailsForm.get('email');
+  }
+  get phone() {
+    return this.detailsForm.get('phone');
+  }
+  get role() {
+    return this.detailsForm.get('role');
+  }
+  get timezone() {
+    return this.detailsForm.get('timezone');
   }
 }

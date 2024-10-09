@@ -2,14 +2,10 @@ const { validationResult } = require("express-validator");
 const Homework = require("../models/homework.model");
 
 exports.create = async (req, res, next) => {
-  // Check whether all homework details are supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
-  // Create a new homework
   try {
     await Homework.save(
       req.body.studentId,
@@ -25,28 +21,23 @@ exports.create = async (req, res, next) => {
 };
 
 exports.fetchByStudentId = async (req, res, next) => {
-  // Check whether studentId is supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
-  if (req.role == "teacher" || req.userId == req.params.studentId) {
-    // Fetch all homework for a specific student
-    try {
-      const [homework] = await Homework.getByStudentId(req.params.studentId);
-      res.status(200).json(homework);
-    } catch (err) {
-      if (!err.statusCode) err.statusCode = 500;
-      next(err);
-    }
-  } else return res.status(401).end();
+  if (req.role !== "teacher" && req.userId !== req.params.studentId)
+    return res.status(401).end();
+
+  try {
+    const [homework] = await Homework.getByStudentId(req.params.studentId);
+    res.status(200).json(homework);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
 exports.fetchAll = async (req, res, next) => {
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
-  // Fetch all homework
   try {
     let [homework] = await Homework.getAll();
     homework = homework.map((elem) => {
@@ -69,7 +60,6 @@ exports.fetchAll = async (req, res, next) => {
 };
 
 exports.fetchUnfinished = async (req, res, next) => {
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
   try {
@@ -82,12 +72,13 @@ exports.fetchUnfinished = async (req, res, next) => {
 };
 
 exports.countUnfinished = async (req, res, next) => {
-  // Check whether user has sufficient rights
-  if (req.role != "teacher") return res.status(401).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Get total amount of unfinished homework
+  if (req.role != "teacher" && req.userId !== req.params.userId)
+    return res.status(401).end();
+
   try {
-    const [row] = await Homework.countUnfinished();
+    const [row] = await Homework.countUnfinished(req.role, req.userId);
     res.status(200).json(row[0].amount);
   } catch (err) {
     if (!err.statusCode) err.statusCode = 500;
@@ -96,14 +87,10 @@ exports.countUnfinished = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-  // Check for errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
-  // Delete homework by id
   try {
     await Homework.deleteById(req.body.id);
     res.status(204).end();
@@ -114,21 +101,18 @@ exports.delete = async (req, res, next) => {
 };
 
 exports.updateStatus = async (req, res, next) => {
-  // Check whether homework is supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
   const [homeworkToChange] = await Homework.getById(req.params.id);
 
-  // Check whether user has sufficient rights
-  if (req.role == "teacher" || req.userId == homeworkToChange[0].studentId) {
-    // Update status of a specific homework
-    try {
-      await Homework.updateStatus(req.params.id, req.body.done);
-      res.status(204).end();
-    } catch (err) {
-      if (!err.statusCode) err.statusCode = 500;
-      next(err);
-    }
-  } else return res.status(401).end();
+  if (req.role !== "teacher" && req.userId !== homeworkToChange[0].studentId)
+    return res.status(401).end();
+
+  try {
+    await Homework.updateStatus(req.params.id, req.body.done);
+    res.status(204).end();
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };

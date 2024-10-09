@@ -22,7 +22,7 @@ export class StudentService {
   }
 
   getAllStudentUnfiltered() {
-    return this.http.get(`${this.url}/unfiltered`, {
+    return this.http.get<any>(`${this.url}/unfiltered`, {
       ...this.httpOptions,
       reportProgress: true,
     });

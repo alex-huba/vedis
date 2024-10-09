@@ -27,6 +27,8 @@ export class LibraryComponent implements OnInit {
     add: faPlus,
   };
 
+  isLibLoaded = false;
+
   constructor(
     private authService: AuthService,
     private libraryService: LibraryService,
@@ -42,6 +44,9 @@ export class LibraryComponent implements OnInit {
         this.generalCount$ = this.libraryService.getCountOfFiles();
       } else {
         this.files$ = this.libraryService.getFileNamesByStudentId(user.id);
+        this.files$.subscribe((data) => {
+          if (data) this.isLibLoaded = true;
+        });
       }
     });
   }

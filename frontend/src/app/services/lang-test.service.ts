@@ -12,7 +12,6 @@ export class LangTestService {
 
   private options = {
     ...this.httpOptions,
-    reportProgress: true,
   };
 
   constructor(private http: HttpClient) {}

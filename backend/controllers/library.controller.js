@@ -12,7 +12,6 @@ exports.uploadFile = async (req, res, next) => {
 };
 
 exports.countFilesPerStudent = async (req, res, next) => {
-  // Check whether the user has sufficient rights
   if (req.role !== "teacher") return res.status(401).end();
 
   try {
@@ -68,7 +67,6 @@ exports.countFilesPerStudent = async (req, res, next) => {
 };
 
 exports.getAllFilenames = async (req, res, next) => {
-  // Check whether user has sufficient right
   if (req.role != "teacher" && req.userId != req.params.studentId)
     return res.status(401).end();
 
@@ -123,7 +121,6 @@ exports.getFile = async (req, res, next) => {
     req.params.fileName
   );
 
-  // Serve the file securely
   res.sendFile(filePath, (err) => {
     if (err) {
       return res.status(404).json({ error: "File not found" });

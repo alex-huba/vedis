@@ -114,7 +114,16 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="!isDictLoaded">
+            <tr>
+              <td colspan="5" class="text-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="isDictLoaded">
             <tr *ngIf="(dictionary$ | async)?.length == 0">
               <td colspan="5" class="text-center">
                 Ваш вчитель поки що не додав нових слів 🥳

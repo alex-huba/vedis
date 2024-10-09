@@ -30,6 +30,10 @@
   background-color: #ededed;
 }
 
+.table td {
+  vertical-align: middle;
+}
+
 #delete-btn {
   border: 1px solid red !important;
   background-color: #fff;

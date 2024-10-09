@@ -19,12 +19,7 @@ function calculateScore(submittedAnswers, correctAnswers) {
 }
 
 exports.eng = (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(400).json({ msg: "invalid request" });
-    return;
-  }
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
   const correctAnswers = {
     q1: "b",
@@ -95,12 +90,7 @@ exports.eng = (req, res, next) => {
 };
 
 exports.deu = (req, res, next) => {
-  const errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    res.status(400).json({ msg: "invalid request" });
-    return;
-  }
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
   const correctAnswers = {
     q1: "a",

@@ -22,16 +22,16 @@ router.post(
       .matches(/.*(?:(?!\s|')[a-zA-Zа-яА-ЯїЇіІєЄґҐ']).*/)
       .withMessage("Ім'я містить недопустимі символи або занадто коротке"),
     body("email").trim().isEmail(),
-    body("course").trim().not().isEmpty(),
-    body("phoneNumber").trim().not().isEmpty(),
-    body("howToConnect").trim().not().isEmpty(),
+    body("course").trim().notEmpty(),
+    body("phoneNumber").trim().notEmpty(),
+    body("howToConnect").trim().notEmpty(),
   ],
   applicationController.create
 );
 
 router.delete(
   "/",
-  [authMiddleware, body("email").trim().not().isEmpty().isEmail()],
+  [authMiddleware, body("email").trim().isEmail()],
   applicationController.deleteByEmail
 );
 

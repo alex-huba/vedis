@@ -30,6 +30,8 @@ export class TasksComponent implements OnInit {
     add: faPlus,
   };
 
+  areTasksLoaded = false;
+
   constructor(
     private fb: FormBuilder,
     private matDialog: MatDialog,
@@ -57,6 +59,9 @@ export class TasksComponent implements OnInit {
           });
       } else {
         this.homework$ = this.homeworkService.getHomeworkById(user.id);
+        this.homework$.subscribe((data) => {
+          if (data) this.areTasksLoaded = true;
+        });
         this.userId = user.id;
       }
     });

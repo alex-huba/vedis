@@ -136,6 +136,10 @@ export class ClassDetailsDialogComponent implements OnInit {
    * @returns true when there are more than 12 hours before cancellation
    */
   cancellationPolicy() {
+    if (this.isUserTeacher) {
+      return true;
+    }
+
     const timestampDate = new Date(this.start.value);
     const currentDate = new Date();
     const timeDifference = timestampDate.getTime() - currentDate.getTime();

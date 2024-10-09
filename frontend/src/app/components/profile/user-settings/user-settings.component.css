@@ -57,3 +57,34 @@
 #photo-input {
   display: none;
 }
+
+.placeholder-img-glow {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px solid #c0a5f6;
+  background-color: #e9ecef;
+  animation: glow 1.5s ease-in-out infinite;
+}
+@keyframes glow {
+  0% {
+    background-color: #cccccc; /* Light gray */
+  }
+  50% {
+    background-color: #e8e7e7; /* Lighter gray */
+  }
+  100% {
+    background-color: #cccccc; /* Light gray */
+  }
+}
+
+@media screen and (max-width: 840px) {
+  :host {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #data-setting {
+    width: 100%;
+  }
+}

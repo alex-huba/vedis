@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class ApplicationService {
-  private url = 'http://localhost:3001/api';
+  private url = 'http://localhost:3001/api/applications';
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -14,23 +14,20 @@ export class ApplicationService {
   constructor(private http: HttpClient) {}
 
   getAllApplications() {
-    return this.http.get(`${this.url}/applications`, {
+    return this.http.get(`${this.url}`, {
       ...this.httpOptions,
-      reportProgress: true,
     });
   }
 
   countAllApplications() {
-    return this.http.get<any>(`${this.url}/applications/amount`, {
+    return this.http.get<any>(`${this.url}/amount`, {
       ...this.httpOptions,
-      reportProgress: true,
     });
   }
 
   deleteApplicationByEmail(email) {
-    return this.http.delete(`${this.url}/applications`, {
+    return this.http.delete(`${this.url}`, {
       ...this.httpOptions,
-      reportProgress: true,
       body: {
         email: email,
       },

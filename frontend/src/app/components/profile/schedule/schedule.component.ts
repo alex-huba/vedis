@@ -134,7 +134,7 @@ export class ScheduleComponent implements OnInit {
     this.authService.currentUser$.subscribe((user) => {
       if (user.role === 'teacher') {
         this.isUserTeacher = true;
-        this.events$ = this.classesService.getAllClasses().pipe(
+        this.events$ = this.classesService.getAllRecentClasses().pipe(
           map((events) =>
             events.map((event) => ({
               ...event,

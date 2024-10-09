@@ -3,7 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ClassesService } from 'src/app/services/classes.service';
 import { StudentService } from 'src/app/services/student.service';
@@ -31,6 +31,8 @@ export class ClassOverviewComponent implements OnInit {
     add: faPlus,
   };
 
+  areClassesLoaded = false;
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -46,7 +48,7 @@ export class ClassOverviewComponent implements OnInit {
       this.isUserTeacher = user.role === 'teacher';
 
       if (this.isUserTeacher) {
-        this.classes$ = this.classes$ = this.classService.getAllClasses().pipe(
+        this.classes$ = this.classService.getAllClasses().pipe(
           map((classes) => {
             return classes.map((c) => ({
               ...c,
@@ -65,6 +67,9 @@ export class ClassOverviewComponent implements OnInit {
             }));
           })
         );
+        this.classes$.subscribe((data) => {
+          if (data) this.areClassesLoaded = true;
+        });
         this.filteredClasses$ = this.classes$;
       }
     });
@@ -180,7 +185,7 @@ export class ClassOverviewComponent implements OnInit {
         );
       });
 
-      this.currentPage = 1;
+    this.currentPage = 1;
   }
 
   get studentId() {

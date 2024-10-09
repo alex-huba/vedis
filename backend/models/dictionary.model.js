@@ -15,6 +15,12 @@ module.exports = class Dictionary {
     );
   }
 
+  static getAmountById(studentId) {
+    return db.execute("SELECT COUNT(id) AS amount FROM dictionary WHERE studentId = ?", [
+      studentId,
+    ]);
+  }
+
   static getAll() {
     return db.execute(`
       SELECT

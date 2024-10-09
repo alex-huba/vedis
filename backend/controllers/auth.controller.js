@@ -1,6 +1,6 @@
 require("dotenv").config();
 const { validationResult } = require("express-validator");
-const { sendEmail } = require("../middleware/email-sender");
+const { sendEmail } = require("../util/email-sender");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 

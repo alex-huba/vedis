@@ -136,7 +136,16 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
+          <tbody *ngIf="!areClassesLoaded">
+            <tr>
+              <td colspan="6" class="text-center">
+                <div class="spinner-border" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="areClassesLoaded">
             <tr
               *ngFor="
                 let c of filteredClasses$

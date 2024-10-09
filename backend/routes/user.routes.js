@@ -1,5 +1,5 @@
 const express = require("express");
-const { body } = require("express-validator");
+const { body, param } = require("express-validator");
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middleware/auth.middleware");
 const uploadAvatarMiddleware = require("../middleware/uploadAvatar.middleware");
@@ -32,7 +32,11 @@ router.post(
   userController.uploadPhoto
 );
 
-router.get("/photo", authMiddleware, userController.getPhoto);
+router.get(
+  "/photo/:userId",
+  [authMiddleware, param("userId").trim().notEmpty()],
+  userController.getPhoto
+);
 
 router.delete("/photo", authMiddleware, userController.deletePhoto);
 

@@ -6,14 +6,11 @@ const User = require("../models/user.model");
 const jwt = require("jsonwebtoken");
 
 exports.update = async (req, res, next) => {
-  // Check whether all user details are supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
   // Check whether user has sufficient rights
   if (!req.userId) return res.status(401).end();
 
-  // Update user profile
   try {
     await User.update(
       req.userId,
@@ -60,7 +57,12 @@ exports.uploadPhoto = async (req, res, next) => {
 };
 
 exports.getPhoto = async (req, res, next) => {
-  let fileName = req.userId + ".png";
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
+
+  if (req.role !== "teacher" && req.userId !== req.params.userId)
+    return res.status(401).end();
+
+  let fileName = req.params.userId + ".png";
   let filePath = path.join(__dirname, "../uploads/avatars", fileName);
 
   // Check if the file exists

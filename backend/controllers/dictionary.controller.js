@@ -2,28 +2,23 @@ const { validationResult } = require("express-validator");
 const Dictionary = require("../models/dictionary.model");
 
 exports.fetchByStudentId = async (req, res, next) => {
-  // Check whether studentId is supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
-  if (req.role == "teacher" || req.userId == req.params.studentId) {
-    // Fetch whole dictionary for a specific student
-    try {
-      const [dictionary] = await Dictionary.getById(req.params.studentId);
-      res.status(200).json(dictionary);
-    } catch (err) {
-      if (!err.statusCode) err.statusCode = 500;
-      next(err);
-    }
-  } else return res.status(401).end();
+  if (req.role !== "teacher" && req.userId !== req.params.studentId)
+    return res.status(401).end();
+
+  try {
+    const [dictionary] = await Dictionary.getById(req.params.studentId);
+    res.status(200).json(dictionary);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
 };
 
 exports.fetchAll = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
   try {
@@ -43,15 +38,26 @@ exports.fetchAll = async (req, res, next) => {
   }
 };
 
-exports.create = async (req, res, next) => {
-  // Check whether all word details are supplied
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+exports.fetchAmountByStudentId = async (req, res, next) => {
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
+  if (req.role !== "teacher" && req.userId !== req.params.studentId)
+    return res.status(401).end();
+
+  try {
+    const [rows] = await Dictionary.getAmountById(req.params.studentId);
+    res.status(200).json(rows[0].amount);
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};
+
+exports.create = async (req, res, next) => {
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
+
   if (req.role != "teacher") return res.status(401).end();
 
-  // Add a new word to the dictionary
   try {
     await Dictionary.save(
       req.body.studentId,
@@ -68,14 +74,10 @@ exports.create = async (req, res, next) => {
 };
 
 exports.delete = async (req, res, next) => {
-  // Check for errors
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) return res.status(400).end();
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
 
-  // Check whether user has sufficient rights
   if (req.role != "teacher") return res.status(401).end();
 
-  // Deleting word by id
   try {
     await Dictionary.deleteById(req.body.id);
     res.status(204).end();

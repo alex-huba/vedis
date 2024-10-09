@@ -27,30 +27,96 @@ module.exports = class Class {
     `);
   }
 
-  static getClassesForCurrentWeek() {
-    return db.execute(
-      `
-        SELECT *
-        FROM vedis.classes
-        WHERE
-          cancelled = false
-          AND YEAR(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s')) = YEAR(CURDATE())
-          AND WEEK(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s'), 1) = WEEK(CURDATE(), 1);
-      `
-    );
+  static getAllRecent() {
+    return db.execute(`SELECT c.id,
+      c.isCancelled,
+      c.start,
+      c.end,
+      c.studentId,
+      u.name AS studentName,
+      c.price,
+      c.isPaid,
+      u.timezone
+      FROM vedis.classes c
+      INNER JOIN vedis.users u ON c.studentId = u.id
+      WHERE c.start >= NOW() - INTERVAL 1 MONTH;
+    `);
   }
 
-  static countClassesForCurrentWeek() {
-    return db.execute(
-      `
-        SELECT count(id) as amount
-        FROM vedis.classes
-        WHERE
-          cancelled = false
-          AND YEAR(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s')) = YEAR(CURDATE())
-          AND WEEK(STR_TO_DATE(start, '%Y-%m-%dT%H:%i:%s'), 1) = WEEK(CURDATE(), 1);
-      `
-    );
+  static getAllForToday(role, userId) {
+    if (role === "teacher") {
+      return db.execute(
+        `
+        SELECT 
+        c.id,
+        c.isCancelled,
+        c.start,
+        c.end,
+        c.studentId,
+        u.name AS studentName,
+        c.price,
+        c.isPaid,
+        u.timezone
+        FROM 
+          vedis.classes c
+        INNER JOIN 
+          vedis.users u ON c.studentId = u.id
+        WHERE 
+          DATE(c.start) = CURDATE(); 
+        `
+      );
+    } else {
+      return db.execute(
+        `
+        SELECT 
+        c.id,
+        c.isCancelled,
+        c.start,
+        c.end,
+        c.studentId,
+        u.name AS studentName,
+        c.price,
+        c.isPaid,
+        u.timezone
+        FROM 
+          vedis.classes c
+        INNER JOIN 
+          vedis.users u ON c.studentId = u.id
+        WHERE 
+          DATE(c.start) = CURDATE()
+          AND c.studentId = ?; 
+        `,
+        [userId]
+      );
+    }
+  }
+
+  static countClassesForCurrentWeek(role, userId) {
+    if (role === "teacher") {
+      return db.execute(
+        `
+          SELECT COUNT(id) AS amount
+          FROM vedis.classes
+          WHERE
+            isCancelled = false
+            AND YEAR(start) = YEAR(CURDATE())
+            AND WEEK(start, 1) = WEEK(CURDATE(), 1);
+        `
+      );
+    } else {
+      return db.execute(
+        `
+          SELECT COUNT(id) AS amount
+          FROM vedis.classes
+          WHERE
+            studentId = ?
+            AND isCancelled = false
+            AND YEAR(start) = YEAR(CURDATE())
+            AND WEEK(start, 1) = WEEK(CURDATE(), 1);
+        `,
+        [userId]
+      );
+    }
   }
 
   static getByStudentId(studentId) {
@@ -61,32 +127,11 @@ module.exports = class Class {
     return db.execute("DELETE FROM classes WHERE id = ?", [id]);
   }
 
-  static changeStudent(studentId, id) {
-    return db.execute("UPDATE classes SET studentId = ? WHERE id = ?", [
-      studentId,
-      id,
-    ]);
-  }
-
-  static changeTime(start, end, id) {
-    return db.execute(
-      "UPDATE classes SET `start` = ?, `end` = ? WHERE id = ?",
-      [start, end, id]
-    );
-  }
-
   static changeStatus(cancelled, id) {
     return db.execute("UPDATE classes SET isCancelled = ? WHERE id = ?", [
       cancelled,
       id,
     ]);
-  }
-
-  static update(id, cancelled, studentId, start, end, price, isPaid) {
-    return db.execute(
-      "UPDATE classes SET cancelled = ?, studentId = ?, start = ?, end = ?, price = ?, isPaid = ? WHERE id = ?",
-      [cancelled, studentId, start, end, price, isPaid, id]
-    );
   }
 
   static updatePaymentStatus(id, isPaid) {

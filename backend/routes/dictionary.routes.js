@@ -10,19 +10,24 @@ router.post(
   "/",
   [
     authMiddleware,
-    body("studentId").trim().not().isEmpty(),
-    body("dueDate").trim().not().isEmpty(),
-    body("word").trim().not().isEmpty(),
-    body("transcription").trim().not().isEmpty(),
-    body("translation").trim().not().isEmpty(),
+    body("studentId").trim().notEmpty(),
+    body("dueDate").trim().notEmpty(),
+    body("word").trim().notEmpty(),
+    body("transcription").trim().notEmpty(),
+    body("translation").trim().notEmpty(),
   ],
   dictionaryController.create
 );
 
 router.get(
+  "/amount/:studentId",
+  [authMiddleware, param("studentId").trim().notEmpty()],
+  dictionaryController.fetchAmountByStudentId
+);
+
+router.get(
   "/:studentId",
-  authMiddleware,
-  param("studentId").trim().not().isEmpty(),
+  [authMiddleware, param("studentId").trim().notEmpty()],
   dictionaryController.fetchByStudentId
 );
 
@@ -30,7 +35,7 @@ router.get("/", authMiddleware, dictionaryController.fetchAll);
 
 router.delete(
   "/",
-  [authMiddleware, body("id").trim().not().isEmpty()],
+  [authMiddleware, body("id").trim().notEmpty()],
   dictionaryController.delete
 );
 

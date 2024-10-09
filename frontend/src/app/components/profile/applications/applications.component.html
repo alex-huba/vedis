@@ -17,11 +17,20 @@
             <th scope="col"></th>
           </tr>
         </thead>
-        <tbody>
-          <tr *ngIf="(applications$ | async)?.length == 0">
+        <tbody *ngIf="!areApplicationsLoaded">
+          <tr>
+            <td colspan="8" class="text-center">
+              <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="areApplicationsLoaded">
+          <tr *ngIf="applications.length == 0">
             <td colspan="8" class="text-center">Всі заявки оброблено 😎</td>
           </tr>
-          <tr *ngFor="let s of applications$ | async; let i = index">
+          <tr *ngFor="let s of applications; let i = index">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ s.name }}</td>
             <td>{{ s.email }}</td>

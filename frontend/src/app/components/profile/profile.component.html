@@ -26,14 +26,14 @@
           <fa-icon [icon]="icons.library"></fa-icon> <span>Бібліотека</span>
         </a>
         <a
-          *ngIf="isTeacher"
+          *ngIf="userDetail.isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/students"
         >
           <fa-icon [icon]="icons.students"></fa-icon> <span>Учні</span>
         </a>
         <a
-          *ngIf="isTeacher"
+          *ngIf="userDetail.isTeacher"
           routerLinkActive="is-active"
           routerLink="/home/applications"
         >
@@ -52,6 +52,7 @@
     </div>
   </mat-drawer>
 
+  <!-- Navbar w/ breadcrumb -->
   <div
     style="
       background: #fff;
@@ -110,36 +111,30 @@
     </nav>
   </div>
 
-  <div #homeContent class="home-main-page">
+  <!-- Teacher homepage -->
+  <div
+    *ngIf="userDetail.isTeacher; else studentHomepage"
+    #homeContent
+    class="home-main-page"
+  >
     <!-- Home page content -->
     <div *ngIf="isHomePage">
       <!-- Avatar and greeting -->
       <div id="avatar-and-greeting">
+        <div *ngIf="!isLoaded.userPhoto" class="placeholder-img-glow"></div>
         <img
+          *ngIf="isLoaded.userPhoto"
           style="width: 90px !important; height: 90px !important"
           class="avatar"
-          [src]="photoUrl"
-          alt=""
+          [src]="userDetail.photoUrl"
         />
         <div style="display: flex; flex-direction: column">
-          <h3 class="mb-0">Вітаємо, {{ username }} ✨</h3>
+          <h3 class="mb-0">Вітаємо, {{ userDetail.username }} ✨</h3>
           <p
-            *ngIf="isTeacher; else studentP"
             style="font-size: 15px; color: rgb(92, 92, 92); font-family: nunito"
           >
             Зареєстровані як вчитель
           </p>
-          <ng-template #studentP>
-            <p
-              style="
-                font-size: 15px;
-                color: rgb(92, 92, 92);
-                font-family: nunito;
-              "
-            >
-              Зареєстровані як учень
-            </p>
-          </ng-template>
         </div>
       </div>
 
@@ -165,9 +160,21 @@
               <div>
                 <p>
                   Нових заявок:
-                  <span style="font-family: montserrat-bold"
-                    >&nbsp;{{ amountOfApplications$ | async }}</span
+                  <span
+                    *ngIf="
+                      !isLoaded.newApplications;
+                      else newApplicationsLoaded
+                    "
                   >
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </span>
+                  <ng-template #newApplicationsLoaded>
+                    <span style="font-family: montserrat-bold"
+                      >&nbsp;{{ amountOfNewApplications }}</span
+                    >
+                  </ng-template>
                 </p>
               </div>
             </div>
@@ -189,9 +196,21 @@
               <div>
                 <p>
                   Занять на цьому тижні:
-                  <span style="font-family: montserrat-bold"
-                    >&nbsp;{{ amountOfClassesForCurrentWeek$ | async }}</span
+                  <span
+                    *ngIf="
+                      !isLoaded.classesOnThisWeek;
+                      else classesOnThisWeekLoaded
+                    "
                   >
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </span>
+                  <ng-template #classesOnThisWeekLoaded>
+                    <span style="font-family: montserrat-bold"
+                      >&nbsp;{{ amountOfClassesForCurrentWeek }}</span
+                    >
+                  </ng-template>
                 </p>
               </div>
             </div>
@@ -213,9 +232,16 @@
               <div>
                 <p>
                   Невиконане ДЗ:
-                  <span style="font-family: montserrat-bold"
-                    >&nbsp;{{ amountOfClassesForCurrentWeek$ | async }}</span
-                  >
+                  <span *ngIf="!isLoaded.dueHomework; else dueHomeworkLoaded">
+                    <div class="spinner-border" role="status">
+                      <span class="sr-only">Loading...</span>
+                    </div>
+                  </span>
+                  <ng-template #dueHomeworkLoaded>
+                    <span style="font-family: montserrat-bold"
+                      >&nbsp; {{ amountOfUnfinishedHomework }}</span
+                    >
+                  </ng-template>
                 </p>
               </div>
             </div>
@@ -236,10 +262,184 @@
           </div>
         </div>
 
-        <full-calendar [options]="calendarOptions"></full-calendar>
+        <div class="d-flex flex-column align-items-center">
+          <p style="margin: 0; font-size: 10px; text-align: center">
+            <b>Згідно часу по: {{ userDetail.timezone }}</b>
+          </p>
+          <full-calendar
+            [events]="events$ | async"
+            [options]="calendarOptions"
+          ></full-calendar>
+        </div>
       </div>
     </div>
 
     <router-outlet></router-outlet>
   </div>
+
+  <!-- Student homepage -->
+  <ng-template #studentHomepage>
+    <div #homeContentStudent class="home-main-page">
+      <!-- Home page content -->
+      <div *ngIf="isHomePage">
+        <!-- Avatar and greeting -->
+        <div id="avatar-and-greeting">
+          <div *ngIf="!isLoaded.userPhoto" class="placeholder-img-glow"></div>
+          <img
+            *ngIf="isLoaded.userPhoto"
+            style="width: 90px !important; height: 90px !important"
+            class="avatar"
+            [src]="userDetail.photoUrl"
+          />
+          <div style="display: flex; flex-direction: column">
+            <h3 class="mb-0">Вітаємо, {{ userDetail.username }} ✨</h3>
+            <p
+              style="
+                font-size: 15px;
+                color: rgb(92, 92, 92);
+                font-family: nunito;
+              "
+            >
+              Зареєстровані як учень
+            </p>
+          </div>
+        </div>
+
+        <!-- Info cards, Chart, Calendar -->
+        <div id="main-content">
+          <div id="wrapper">
+            <div id="card-container">
+              <!-- Card 1 -->
+              <div
+                style="
+                  background-image: url('../../../assets/profile/teacher/blue-waves.svg');
+                "
+                class="info-card"
+                (click)="changePage('Заявки')"
+              >
+                <div>
+                  <img
+                    style="width: 30px"
+                    src="../../../assets/profile/teacher/dictionary.png"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <p>
+                    Слів у словнику:
+                    <span
+                      *ngIf="
+                        !isLoaded.dictionaryLength;
+                        else dictionaryLengthLoaded
+                      "
+                    >
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </span>
+                    <ng-template #dictionaryLengthLoaded>
+                      <span style="font-family: montserrat-bold"
+                        >&nbsp;{{ dictionaryLength }}</span
+                      >
+                    </ng-template>
+                  </p>
+                </div>
+              </div>
+              <!-- Card 2 -->
+              <div
+                style="
+                  background-image: url('../../../assets/profile/teacher/purple-waves.svg');
+                "
+                class="info-card"
+                (click)="changePage('Розклад')"
+              >
+                <div>
+                  <img
+                    style="width: 30px"
+                    src="../../../assets/profile/teacher/lesson.svg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <p>
+                    Занять на цьому тижні:
+                    <span
+                      *ngIf="
+                        !isLoaded.classesOnThisWeek;
+                        else classesOnThisWeekLoaded
+                      "
+                    >
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </span>
+                    <ng-template #classesOnThisWeekLoaded>
+                      <span style="font-family: montserrat-bold"
+                        >&nbsp;{{ amountOfClassesForCurrentWeek }}</span
+                      >
+                    </ng-template>
+                  </p>
+                </div>
+              </div>
+              <!-- Card 3 -->
+              <div
+                style="
+                  background-image: url('../../../assets/profile/teacher/yellow-waves.svg');
+                "
+                class="info-card"
+                (click)="changePage('Всі завдання')"
+              >
+                <div>
+                  <img
+                    style="width: 30px"
+                    src="../../../assets/profile/teacher/todo.svg"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <p>
+                    Невиконане ДЗ:
+                    <span *ngIf="!isLoaded.dueHomework; else dueHomeworkLoaded">
+                      <div class="spinner-border" role="status">
+                        <span class="sr-only">Loading...</span>
+                      </div>
+                    </span>
+                    <ng-template #dueHomeworkLoaded>
+                      <span style="font-family: montserrat-bold"
+                        >&nbsp; {{ amountOfUnfinishedHomework }}</span
+                      >
+                    </ng-template>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 student-greeting">
+              <div>
+                <h3>Час розпочинати вчитись сьогодні💪</h3>
+                <div class="student-links">
+                  <a routerLink="/home/schedule">👉Розклад</a>
+                  <a routerLink="/home/tasks">👉Завдання</a>
+                  <a routerLink="/home/dictionary">👉Словник</a>
+                </div>
+              </div>
+              <img src="../../../assets/profile/student-greeting.svg" alt="" />
+            </div>
+          </div>
+
+          <div class="d-flex flex-column align-items-center">
+            <p style="margin: 0; font-size: 10px; text-align: center">
+              <b>Згідно часу по: {{ userDetail.timezone }}</b>
+            </p>
+            <full-calendar
+              [events]="events$ | async"
+              [options]="calendarOptions"
+            ></full-calendar>
+          </div>
+        </div>
+      </div>
+
+      <router-outlet></router-outlet>
+    </div>
+  </ng-template>
 </mat-drawer-container>
