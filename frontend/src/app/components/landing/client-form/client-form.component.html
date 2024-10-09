@@ -80,10 +80,9 @@
           <!-- Language field -->
           <fieldset class="">
             <select
-              formControlName="language"
+              formControlName="course"
               [class.is-invalid]="
-                language.value == 'default' &&
-                (language.dirty || language.touched)
+                course.value == 'default' && (course.dirty || course.touched)
               "
               class="form-select"
             >
@@ -96,8 +95,7 @@
               <span
                 class="error-span"
                 *ngIf="
-                  language.value == 'default' &&
-                  (language.dirty || language.touched)
+                  course.value == 'default' && (course.dirty || course.touched)
                 "
                 >Це поле є обов'язковим</span
               >
@@ -108,12 +106,13 @@
           <fieldset class="input-group has-validation">
             <div
               [class.is-invalid]="
-                phone.invalid && (phone.dirty || phone.touched)
+                phoneNumber.invalid &&
+                (phoneNumber.dirty || phoneNumber.touched)
               "
               class="form-floating"
             >
               <ngx-intl-tel-input
-                [class.is-invalid]="phone.invalid && phone.touched"
+                [class.is-invalid]="phoneNumber.invalid && phoneNumber.touched"
                 [cssClass]="'form-control'"
                 [preferredCountries]="preferredCountries"
                 [enableAutoCountrySelect]="true"
@@ -123,15 +122,17 @@
                 [phoneValidation]="true"
                 [separateDialCode]="true"
                 name="phone1"
-                formControlName="phone"
+                formControlName="phoneNumber"
               >
               </ngx-intl-tel-input>
             </div>
             <div class="invalid-feedback">
-              <div *ngIf="phone.hasError('required') && phone.touched">
+              <div
+                *ngIf="phoneNumber.hasError('required') && phoneNumber.touched"
+              >
                 <span class="error-span">Номер телефону обов'язковий</span>
               </div>
-              <div *ngIf="phone.hasError('validatePhoneNumber')">
+              <div *ngIf="phoneNumber.hasError('validatePhoneNumber')">
                 <span class="error-span">Номер телефону недійсний</span>
               </div>
             </div>
@@ -140,10 +141,10 @@
           <!-- Contact field -->
           <fieldset>
             <select
-              formControlName="contactOption"
+              formControlName="howToConnect"
               [class.is-invalid]="
-                contactOption.value == 'default' &&
-                (contactOption.dirty || contactOption.touched)
+                howToConnect.value == 'default' &&
+                (howToConnect.dirty || howToConnect.touched)
               "
               class="form-select"
             >
@@ -159,8 +160,8 @@
               <span
                 class="error-span"
                 *ngIf="
-                  contactOption.value == 'default' &&
-                  (contactOption.dirty || contactOption.touched)
+                  howToConnect.value == 'default' &&
+                  (howToConnect.dirty || howToConnect.touched)
                 "
                 >Це поле є обов'язковим</span
               >
@@ -168,7 +169,11 @@
           </fieldset>
 
           <div class="w-100 d-flex justify-content-center">
-            <button type="submit" id="submit-btn">
+            <button
+              [class.disabled]="contactForm.invalid && contactForm.touched"
+              type="submit"
+              id="submit-btn"
+            >
               Залишити заявку
               <i class="bi bi-arrow-up-short"></i>
             </button>

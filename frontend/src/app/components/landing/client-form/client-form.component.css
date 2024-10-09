@@ -71,6 +71,12 @@ select {
   transition: 0.7s;
 }
 
+.disabled {
+  background-color: grey !important;
+  border: black !important;
+  pointer-events: none !important;
+}
+
 @media screen and (min-width: 1500px) {
   form {
     width: 40%;

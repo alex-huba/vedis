@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { CountryISO } from 'ngx-intl-tel-input';
-import { ContactInfo } from 'src/app/models/contact-info';
 import { preferredCountries } from 'src/app/models/preferredCountriesPhone';
 import { ContactService } from 'src/app/services/contact.service';
 
@@ -19,28 +19,45 @@ export class ClientFormComponent {
       [
         Validators.required,
         Validators.minLength(2),
-        Validators.pattern(/^[a-zA-Zа-яА-ЯїЇіІєЄґҐ']+$/),
+        Validators.pattern(/^[a-zA-Zа-яА-ЯїЇіІєЄґҐ' ]+$/),
       ],
     ],
     email: [
       '',
       [Validators.required, Validators.email, Validators.minLength(5)],
     ],
-    language: ['default', Validators.required],
-    phone: [undefined, Validators.required],
-    contactOption: 'default',
+    course: ['default', Validators.required],
+    phoneNumber: [undefined, Validators.required],
+    howToConnect: 'default',
   });
 
   isSubmitted = false;
   baseUrl: string;
 
-  constructor(private fb: FormBuilder, private cs: ContactService) {}
+  constructor(
+    private fb: FormBuilder,
+    private cs: ContactService,
+    private snackBar: MatSnackBar
+  ) {}
 
   onSubmit() {
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
     } else {
-      this.cs.sendData(this.contactForm.value as ContactInfo).subscribe();
+      this.cs.sendData(this.contactForm.value).subscribe({
+        next: () => {
+          this.contactForm.reset();
+          this.contactForm.patchValue({
+            course: 'default',
+            howToConnect: 'default',
+            phoneNumber: undefined,
+          });
+          this.snackBar.open('Дякуємо за заявку', '👍', { duration: 5000 });
+        },
+        error: (err) => {
+          this.snackBar.open(`${err.message}`, '👍', { duration: 5000 });
+        },
+      });
     }
   }
 
@@ -50,13 +67,13 @@ export class ClientFormComponent {
   get email() {
     return this.contactForm.get('email');
   }
-  get language() {
-    return this.contactForm.get('language');
+  get course() {
+    return this.contactForm.get('course');
   }
-  get phone() {
-    return this.contactForm.get('phone');
+  get phoneNumber() {
+    return this.contactForm.get('phoneNumber');
   }
-  get contactOption() {
-    return this.contactForm.get('contactOption');
+  get howToConnect() {
+    return this.contactForm.get('howToConnect');
   }
 }
