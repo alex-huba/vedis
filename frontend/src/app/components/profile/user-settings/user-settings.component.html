@@ -1,30 +1,46 @@
-<!-- Avatar -->
-<div id="avatar-setting">
-  <p class="text-center" style="font-family: montserrat-bold; font-size: 20px">
-    Ваше фото
-  </p>
-  <div *ngIf="!isLoaded.userPhoto" class="placeholder-img-glow"></div>
-  <img
-    *ngIf="isLoaded.userPhoto"
-    style="height: 150px !important; width: 150px !important"
-    class="avatar mb-3"
-    [src]="photoUrl"
-  />
-  <div id="avatar-actions">
-    <button (click)="deletePhoto()" class="delete-btn">
-      <fa-icon [icon]="icons.delete"></fa-icon>
-      &nbsp; Видалити
-    </button>
-    <label class="filled-btn" for="photo-input">
-      <fa-icon [icon]="icons.upload"></fa-icon>
-      &nbsp; Завантажити
-    </label>
-    <input
-      id="photo-input"
-      type="file"
-      accept="image/png"
-      (change)="onFileSelected($event)"
+<!-- Avatar & reset password -->
+<div>
+  <div id="avatar-setting">
+    <p
+      class="text-center"
+      style="font-family: montserrat-bold; font-size: 20px"
+    >
+      Ваше фото
+    </p>
+    <div *ngIf="!isLoaded.userPhoto" class="placeholder-img-glow"></div>
+    <img
+      *ngIf="isLoaded.userPhoto"
+      style="height: 150px !important; width: 150px !important"
+      class="avatar mb-3"
+      [src]="photoUrl"
     />
+    <div id="avatar-actions">
+      <button (click)="deletePhoto()" class="delete-btn">
+        <fa-icon [icon]="icons.delete"></fa-icon>
+        &nbsp; Видалити
+      </button>
+      <label class="filled-btn" for="photo-input">
+        <fa-icon [icon]="icons.upload"></fa-icon>
+        &nbsp; Завантажити
+      </label>
+      <input
+        id="photo-input"
+        type="file"
+        accept="image/png"
+        (change)="onFileSelected($event)"
+      />
+    </div>
+  </div>
+  <div id="pwd-setting">
+    <p
+      class="text-center"
+      style="font-family: montserrat-bold; font-size: 20px"
+    >
+      Ваш пароль
+    </p>
+    <button class="change-pwd-btn" (click)="changePassword()" type="button">
+      Змінити пароль
+    </button>
   </div>
 </div>
 

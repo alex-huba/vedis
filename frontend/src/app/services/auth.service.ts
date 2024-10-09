@@ -137,6 +137,16 @@ export class AuthService {
     );
   }
 
+  changePassword(id, password) {
+    return this.http.put<any>(
+      `${this.url}/change/password/${id}`,
+      {
+        password,
+      },
+      this.httpOptions
+    );
+  }
+
   private handleError(error: HttpErrorResponse) {
     let errorMessage = 'Unknown error occurred!';
     if (error.error instanceof ErrorEvent) {

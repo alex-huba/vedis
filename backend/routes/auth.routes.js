@@ -1,10 +1,10 @@
 const express = require("express");
 const { body, param } = require("express-validator");
 const authController = require("../controllers/auth.controller");
+const authMiddleware = require("../middleware/auth.middleware");
 
 const router = express.Router();
 
-// used
 router.post(
   "/signup",
   [
@@ -32,7 +32,6 @@ router.post(
   authController.signup
 );
 
-// used
 router.post(
   "/login",
   [
@@ -49,14 +48,12 @@ router.post(
   authController.login
 );
 
-// used
 router.post(
   "/verification",
   body("token").notEmpty(),
   authController.verifyToken
 );
 
-// used
 router.post(
   "/forgot/password",
   body("email").isEmail(),
@@ -71,6 +68,16 @@ router.post(
     body("password").notEmpty(),
   ],
   authController.resetPassword
+);
+
+router.put(
+  "/change/password/:userId",
+  [
+    authMiddleware,
+    param("userId").trim().notEmpty(),
+    body("password").trim().notEmpty(),
+  ],
+  authController.changePassword
 );
 
 module.exports = router;

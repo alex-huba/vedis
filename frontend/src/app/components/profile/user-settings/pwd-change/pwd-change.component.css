@@ -1,0 +1,32 @@
+.class-card {
+  padding: 10px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+form {
+  margin-top: 0;
+  width: 100%;
+  font-family: nunito !important;
+}
+
+h5 {
+  text-align: center;
+  font-family: montserrat-bold;
+}
+
+fieldset {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
+  margin: 10px;
+}
+
+.closeBtnModal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}

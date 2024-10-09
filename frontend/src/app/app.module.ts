@@ -73,6 +73,7 @@ import { UserSettingsComponent } from './components/profile/user-settings/user-s
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { PwdChangeComponent } from './components/profile/user-settings/pwd-change/pwd-change.component';
 
 @NgModule({
   declarations: [
@@ -111,6 +112,7 @@ import { QuizComponent } from './components/quiz/quiz.component';
     ResetPasswordComponent,
     ForgotPasswordComponent,
     QuizComponent,
+    PwdChangeComponent,
   ],
   imports: [
     BrowserModule,

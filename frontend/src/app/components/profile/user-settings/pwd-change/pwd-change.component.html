@@ -1,0 +1,96 @@
+<div class="class-card">
+  <h5 class="text-center my-0">Новий пароль</h5>
+  <hr />
+  <form [formGroup]="resetPwdForm" (ngSubmit)="onSubmit()">
+    <fieldset class="input-group has-validation">
+      <div class="input-container">
+        <div
+          [class.is-invalid]="pwd1.invalid && (pwd1.dirty || pwd1.touched)"
+          class="form-floating"
+        >
+          <input
+            [class.is-invalid]="pwd1.invalid && (pwd1.dirty || pwd1.touched)"
+            formControlName="pwd1"
+            type="password"
+            class="form-control"
+            placeholder="Ваш новий пароль"
+          />
+          <label>Ваш новий пароль</label>
+        </div>
+        <div class="invalid-feedback">
+          <div *ngIf="pwd1.hasError('required')">
+            <span>Пароль обов'язковий</span>
+          </div>
+          <div *ngIf="pwd1.hasError('minlength') || pwd1.hasError('pattern')">
+            <span
+              >Пароль повинен містити щонайменше 7 літер та один символ
+              (!&#64;#_$%^&*)</span
+            >
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="input-group has-validation">
+      <div class="input-container">
+        <div
+          [class.is-invalid]="pwd2.invalid && (pwd2.dirty || pwd2.touched)"
+          class="form-floating"
+        >
+          <input
+            [class.is-invalid]="pwd2.invalid && (pwd2.dirty || pwd2.touched)"
+            formControlName="pwd2"
+            type="password"
+            class="form-control"
+            placeholder="Підтвердіть пароль"
+          />
+          <label>Підтвердіть пароль</label>
+        </div>
+        <div class="invalid-feedback">
+          <div *ngIf="pwd2.hasError('required')">
+            <span>Пароль обов'язковий</span>
+          </div>
+          <div *ngIf="pwd2.hasError('minlength') || pwd2.hasError('pattern')">
+            <span
+              >Пароль повинен містити щонайменше 7 літер та один символ
+              (!&#64;#_$%^&*)</span
+            >
+          </div>
+        </div>
+      </div>
+    </fieldset>
+
+    <div
+      class="text-center"
+      *ngIf="resetPwdForm.errors?.['passwordMismatch'] && resetPwdForm.dirty"
+    >
+      <span style="color: red">Паролі не співпадають</span>
+    </div>
+    <hr />
+
+    <div class="text-center mt-3">
+      <button
+        *ngIf="!awaitingResponse; else loadingBtn"
+        [disabled]="
+          resetPwdForm.invalid && (resetPwdForm.dirty || resetPwdForm.touched)
+        "
+        type="submit"
+        class="cta"
+      >
+        Продовжити
+      </button>
+      <ng-template #loadingBtn>
+        <button class="cta" type="button" disabled>
+          <span class="spinner-grow spinner-grow-sm" aria-hidden="true"></span>
+          Зачекайте...
+        </button>
+      </ng-template>
+    </div>
+  </form>
+</div>
+<button
+  mat-dialog-close
+  type="button"
+  class="btn-close closeBtnModal"
+  aria-label="Close"
+></button>

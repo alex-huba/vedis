@@ -5,6 +5,7 @@
   padding: 20px;
 }
 
+#pwd-setting,
 #avatar-setting,
 #data-setting {
   background: #fff;
@@ -15,6 +16,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+#pwd-setting {
+  margin-top: 15px;
 }
 
 #avatar-setting {
@@ -76,6 +81,17 @@
   100% {
     background-color: #cccccc; /* Light gray */
   }
+}
+
+.change-pwd-btn {
+  background: transparent;
+  border: none;
+  text-decoration: underline;
+  color: blue;
+  transition: all .3s;
+}
+.change-pwd-btn:hover {
+  color: rgb(1, 1, 179);
 }
 
 @media screen and (max-width: 840px) {

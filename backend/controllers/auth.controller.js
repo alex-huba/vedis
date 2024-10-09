@@ -217,3 +217,18 @@ exports.resetPassword = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.changePassword = async (req, res, next) => {
+  if (!validationResult(req).isEmpty()) return res.status(400).end();
+
+  if (req.userId !== req.params.userId) return res.status(401).end();
+
+  try {
+    const hashedPassword = await bcrypt.hash(req.body.password, 12);
+    await User.changePassword(req.userId, hashedPassword);
+    return res.status(204).end();
+  } catch (err) {
+    if (!err.statusCode) err.statusCode = 500;
+    next(err);
+  }
+};

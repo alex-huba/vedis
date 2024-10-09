@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import {
@@ -12,6 +13,7 @@ import { preferredCountries } from 'src/app/models/preferredCountriesPhone';
 import { timezones } from 'src/app/models/timezones';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { PwdChangeComponent } from './pwd-change/pwd-change.component';
 
 @Component({
   selector: 'app-user-settings',
@@ -69,7 +71,8 @@ export class UserSettingsComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private matDialog: MatDialog
   ) {}
 
   ngOnInit() {
@@ -166,6 +169,12 @@ export class UserSettingsComponent implements OnInit {
           duration: 5000,
         });
       },
+    });
+  }
+
+  changePassword() {
+    this.matDialog.open(PwdChangeComponent, {
+      data: this.userId,
     });
   }
 
