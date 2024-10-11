@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DictionaryService {
-  private url = 'http://localhost:3001/api/dictionary';
+  // private url = 'http://localhost:3001/api/dictionary';
 
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -22,7 +23,7 @@ export class DictionaryService {
     translation
   ): Observable<any> {
     return this.http.post<any>(
-      `${this.url}`,
+      `${environment.apiUrl}/dictionary`,
       {
         studentId,
         dueDate,
@@ -37,24 +38,30 @@ export class DictionaryService {
   }
 
   getWholeDictionary(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/dictionary`,
+      this.httpOptions
+    );
   }
 
   getAmountById(studentId): Observable<any> {
     return this.http.get<any>(
-      `${this.url}/amount/${studentId}`,
+      `${environment.apiUrl}/dictionary/amount/${studentId}`,
       this.httpOptions
     );
   }
 
   deleteWord(id) {
-    return this.http.delete<any>(`${this.url}`, {
+    return this.http.delete<any>(`${environment.apiUrl}/dictionary`, {
       ...this.httpOptions,
       body: { id },
     });
   }
 
   getDictionaryById(id): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${id}`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/dictionary/${id}`,
+      this.httpOptions
+    );
   }
 }

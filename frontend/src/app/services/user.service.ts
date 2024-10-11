@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -12,21 +13,21 @@ export class UserService {
   private photoUrlSubject = new BehaviorSubject<any>(null);
   photoUrl$ = this.photoUrlSubject.asObservable();
 
-  url = 'http://localhost:3001/api/user';
+  // url = 'http://localhost:3001/api/user';
 
   // Update user data
   updateProfileData(data) {
     data.phoneNumber = data.phone.e164Number;
-    return this.http.put<any>(this.url, data);
+    return this.http.put<any>(`${environment.apiUrl}/user`, data);
   }
 
   uploadPhoto(photo) {
-    return this.http.post<any>(`${this.url}/photo`, photo);
+    return this.http.post<any>(`${environment.apiUrl}/user/photo`, photo);
   }
 
   getPhoto(userId) {
     return this.http
-      .get(`${this.url}/photo/${userId}`, {
+      .get(`${environment.apiUrl}/user/photo/${userId}`, {
         responseType: 'blob',
       })
       .subscribe({
@@ -41,6 +42,6 @@ export class UserService {
   }
 
   deletePhoto() {
-    return this.http.delete(`${this.url}/photo`);
+    return this.http.delete(`${environment.apiUrl}/user/photo`);
   }
 }

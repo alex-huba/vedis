@@ -7,6 +7,7 @@ import {
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, catchError, Observable, tap, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -27,7 +28,7 @@ export class AuthService {
   private userSubject = new BehaviorSubject<any>(this.userStub);
   currentUser$ = this.userSubject.asObservable();
 
-  private url = 'http://localhost:3001/auth';
+  // private url = 'http://localhost:3001/auth';
 
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -43,7 +44,7 @@ export class AuthService {
   login(email: string, password: string): Observable<any> {
     return this.http
       .post<any>(
-        `${this.url}/login`,
+        `${environment.apiUrl}/auth/login`,
         { email, password },
         {
           ...this.httpOptions,
@@ -70,7 +71,7 @@ export class AuthService {
   ): Observable<any> {
     const req = new HttpRequest(
       'POST',
-      `${this.url}/signup`,
+      `${environment.apiUrl}/auth/signup`,
       {
         name: name,
         email: email,
@@ -86,7 +87,7 @@ export class AuthService {
   verifyToken() {
     return this.http
       .post<any>(
-        `${this.url}/verification`,
+        `${environment.apiUrl}/auth/verification`,
         {
           token: localStorage.getItem('token'),
         },
@@ -115,7 +116,7 @@ export class AuthService {
 
   forgotPassword(email): Observable<any> {
     return this.http.post<any>(
-      `${this.url}/forgot/password`,
+      `${environment.apiUrl}/auth/forgot/password`,
       { email },
       {
         ...this.httpOptions,
@@ -126,7 +127,7 @@ export class AuthService {
 
   resetPassword(id, token, password) {
     return this.http.post<any>(
-      `${this.url}/reset/password/${id}/${token}`,
+      `${environment.apiUrl}/auth/reset/password/${id}/${token}`,
       {
         password,
       },
@@ -139,7 +140,7 @@ export class AuthService {
 
   changePassword(id, password) {
     return this.http.put<any>(
-      `${this.url}/change/password/${id}`,
+      `${environment.apiUrl}/auth/change/password/${id}`,
       {
         password,
       },

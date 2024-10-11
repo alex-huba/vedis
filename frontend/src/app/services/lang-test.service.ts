@@ -1,11 +1,12 @@
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LangTestService {
-  private url = 'http://localhost:3001/api/test';
+  // private url = 'http://localhost:3001/api/test';
   private httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -19,7 +20,7 @@ export class LangTestService {
   checkLvl(answers, lang) {
     const req = new HttpRequest(
       'POST',
-      `${this.url}/${lang}`,
+      `${environment.apiUrl}/test/${lang}`,
       { answers: answers },
       this.options
     );

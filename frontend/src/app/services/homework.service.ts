@@ -1,12 +1,13 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HomeworkService {
-  private url = 'http://localhost:3001/api/homework';
+  // private url = 'http://localhost:3001/api/homework';
   httpOptions: { headers: HttpHeaders } = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -15,7 +16,7 @@ export class HomeworkService {
 
   countUnfinishedHomework(userId) {
     return this.http.get<any>(
-      `${this.url}/unfinished/amount/${userId}`,
+      `${environment.apiUrl}/homework/unfinished/amount/${userId}`,
       this.httpOptions
     );
   }
@@ -24,7 +25,7 @@ export class HomeworkService {
     content = content.replace(/"/g, "'");
 
     return this.http.post<any>(
-      `${this.url}`,
+      `${environment.apiUrl}/homework`,
       {
         studentId,
         dueDate,
@@ -35,25 +36,28 @@ export class HomeworkService {
   }
 
   getAllHomework(): Observable<any> {
-    return this.http.get(`${this.url}`, this.httpOptions);
+    return this.http.get(`${environment.apiUrl}/homework`, this.httpOptions);
   }
 
   updateTaskStatus(id, done) {
     return this.http.put<any>(
-      `${this.url}/${id}`,
+      `${environment.apiUrl}/homework/${id}`,
       { done: done },
       this.httpOptions
     );
   }
 
   deleteHomework(id) {
-    return this.http.delete<any>(`${this.url}`, {
+    return this.http.delete<any>(`${environment.apiUrl}/homework`, {
       ...this.httpOptions,
       body: { id },
     });
   }
 
   getHomeworkById(id): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${id}`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/homework/${id}`,
+      this.httpOptions
+    );
   }
 }

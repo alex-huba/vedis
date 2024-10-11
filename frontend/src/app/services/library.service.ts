@@ -1,27 +1,33 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LibraryService {
-  baseUrl = 'http://localhost:3001/api/library';
+  // baseUrl = 'http://localhost:3001/api/library';
 
   constructor(private http: HttpClient) {}
 
   getCountOfFiles() {
-    return this.http.get(this.baseUrl);
+    return this.http.get(`${environment.apiUrl}/library`);
   }
 
   getFileNamesByStudentId(studentId) {
-    return this.http.get(`${this.baseUrl}/${studentId}`);
+    return this.http.get(`${environment.apiUrl}/library/${studentId}`);
   }
 
   deleteFileByName(fileName, studentId) {
-    return this.http.delete(`${this.baseUrl}/${studentId}/${fileName}`);
+    return this.http.delete(
+      `${environment.apiUrl}/library/${studentId}/${fileName}`
+    );
   }
 
   uploadFile(formData, studentId) {
-    return this.http.post<any>(`${this.baseUrl}/${studentId}`, formData);
+    return this.http.post<any>(
+      `${environment.apiUrl}/library/${studentId}`,
+      formData
+    );
   }
 }
