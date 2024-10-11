@@ -45,4 +45,4 @@ Thumbs.db
 frontend/.angular
 
 backend/.env
-backend/logs
+backend/logs/*

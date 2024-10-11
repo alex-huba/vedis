@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { catchError, map, Observable, of } from 'rxjs';
 import { StudentService } from 'src/app/services/student.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-students',
@@ -15,7 +16,7 @@ export class StudentsComponent implements OnInit {
 
   areStudentsLoaded = false;
 
-  url = 'http://localhost:3001/api/user';
+  // url = 'http://localhost:3001/api/user';
 
   constructor(
     private studentService: StudentService,
@@ -73,7 +74,7 @@ export class StudentsComponent implements OnInit {
 
   getPhoto(userId: string): Observable<any> {
     return this.http
-      .get(`${this.url}/photo/${userId}`, {
+      .get(`${environment.apiUrl}/user/photo/${userId}`, {
         responseType: 'blob',
       })
       .pipe(

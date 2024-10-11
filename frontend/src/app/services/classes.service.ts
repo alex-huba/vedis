@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClassesService {
-  private url = 'http://localhost:3001/api/classes';
+  // private url = 'http://localhost:3001/api/classes';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -16,40 +17,49 @@ export class ClassesService {
 
   countClassesForCurrentWeek(userId) {
     return this.http.get<any>(
-      `${this.url}/current/week/amount/${userId}`,
+      `${environment.apiUrl}/classes/current/week/amount/${userId}`,
       this.httpOptions
     );
   }
 
   getAllClasses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/classes`,
+      this.httpOptions
+    );
   }
 
   getAllRecentClasses(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/recent`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/classes/recent`,
+      this.httpOptions
+    );
   }
 
   getAllClassesForToday(userId): Observable<any[]> {
     return this.http.get<any[]>(
-      `${this.url}/today/${userId}`,
+      `${environment.apiUrl}/classes/today/${userId}`,
       this.httpOptions
     );
   }
 
   getClassesById(studentId): Observable<any[]> {
-    return this.http.get<any[]>(`${this.url}/${studentId}`, this.httpOptions);
+    return this.http.get<any[]>(
+      `${environment.apiUrl}/classes/${studentId}`,
+      this.httpOptions
+    );
   }
 
   createClass(studentId, start, end, price): Observable<any> {
     return this.http.post<any>(
-      `${this.url}`,
+      `${environment.apiUrl}/classes`,
       { studentId, start, end, price },
       this.httpOptions
     );
   }
 
   deleteClass(id) {
-    return this.http.delete<any>(`${this.url}`, {
+    return this.http.delete<any>(`${environment.apiUrl}/classes`, {
       ...this.httpOptions,
       body: { id },
     });
@@ -57,7 +67,7 @@ export class ClassesService {
 
   updateStatus(id, status) {
     return this.http.put<any>(
-      `${this.url}/${id}/cancellation`,
+      `${environment.apiUrl}/classes/${id}/cancellation`,
       {
         isCancelled: status,
       },
@@ -67,7 +77,7 @@ export class ClassesService {
 
   updatePaymentStatus(id, isPaid) {
     return this.http.put<any>(
-      `${this.url}/${id}/payment`,
+      `${environment.apiUrl}/classes/${id}/payment`,
       {
         isPaid,
       },

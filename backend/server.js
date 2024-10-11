@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const logger = require("./util/logger")
+const logger = require("./util/logger");
 
 // Routes
 const authRoutes = require("./routes/auth.routes");
@@ -20,6 +20,7 @@ const libraryRoutes = require("./routes/library.routes");
 const errorController = require("./controllers/error.controller");
 
 const port = process.env.PORT;
+const host = process.env.HOST;
 
 const app = express();
 app.use(bodyParser.json());
@@ -57,16 +58,16 @@ app.use(
 );
 
 app.use("/auth", authRoutes);
-app.use("/api/test", testRoutes);
-app.use("/api/students", studentRoutes);
-app.use("/api/classes", classRoutes);
-app.use("/api/homework", homeworkRoutes);
-app.use("/api/dictionary", dictionaryRoutes);
-app.use("/api/applications", applicationRoutes);
-app.use("/api/analytics", analyticsRoutes);
-app.use("/api/user", userRoutes);
-app.use("/api/library", libraryRoutes);
+app.use("/test", testRoutes);
+app.use("/students", studentRoutes);
+app.use("/classes", classRoutes);
+app.use("/homework", homeworkRoutes);
+app.use("/dictionary", dictionaryRoutes);
+app.use("/applications", applicationRoutes);
+app.use("/analytics", analyticsRoutes);
+app.use("/user", userRoutes);
+app.use("/library", libraryRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 
-app.listen(port, () => logger.info(`🚀 @ http://localhost:${port}`));
+app.listen(port, () => logger.info(`🚀 @ ${host}:${port}`));
