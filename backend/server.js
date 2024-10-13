@@ -21,6 +21,7 @@ const errorController = require("./controllers/error.controller");
 
 const port = process.env.PORT;
 const host = process.env.HOST;
+const host = process.env.HOST;
 
 const app = express();
 app.use(bodyParser.json());
@@ -70,4 +71,5 @@ app.use("/api/library", libraryRoutes);
 app.use(errorController.get404);
 app.use(errorController.get500);
 
+app.listen(port, () => logger.info(`🚀 @ ${host}:${port}`));
 app.listen(port, () => logger.info(`🚀 @ ${host}:${port}`));
